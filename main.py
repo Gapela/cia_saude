@@ -103,7 +103,7 @@ def tratamento():
         bd_tratamentos.insert_one(tratamento_dict)
 
         flash('Tratamento cadastrado com sucesso!', category='success')
-        return redirect('/consulta')
+        return redirect('/consulta-tratamentos')
 
     return render_template('tratamento.html')
 
@@ -129,7 +129,7 @@ def tratamento_paciente():
         bd_tratamentos.insert_one(tratamento_dict)
 
         flash('Tratamento cadastrado com sucesso!', category='success')
-        return redirect('/consulta')
+        return redirect('/consulta-tratamentos')
 
     return render_template('tratamento_sync_paciente.html')
 
