@@ -38,10 +38,12 @@ def logout():
     session.pop('username', None)
     return render_template('landing_page.html')
 
-# EDITAR
-@app.route('/editar', methods=['POST', 'GET'])
-def editar():
-    return render_template('editar.html')
+#######################################
+########### EDITAR PACIENTE ###########
+#######################################
+@app.route('/paciente-editar', methods=['POST', 'GET'])
+def paciente_editar():
+    return render_template('paciente_editar.html')
 
 #########################################
 ########### CONSULTA PACIENTE ###########
@@ -104,6 +106,13 @@ def tratamento():
         return redirect('/consulta')
 
     return render_template('tratamento.html')
+
+#########################################
+########### EDITAR TRATAMENTO ###########
+#########################################
+@app.route('/tratamento-editar', methods=['POST', 'GET'])
+def tratamento_editar():
+    return render_template('tratamento_editar.html')
 
 ###########################################
 ########### TRATAMENTO-PACIENTE ###########

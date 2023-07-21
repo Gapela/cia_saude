@@ -9,12 +9,13 @@
     }
     
     .pacientes_table td {
-        border: 1px solid black;
+        border: 0.5px solid black;
     }
     
     .pacientes_table th {
-        border: 1px solid black;
+        border: 0.5px solid black;
         background: #F0FFF0;
+        color: #fff;
     }
 
     body {
@@ -30,7 +31,7 @@
       color: #fff;
       padding: 10px 15px;
       text-decoration: none;
-      border: 2px solid #a9cf3c; /* Adiciona a borda do botão */
+      border: 1px solid #a9cf3c; /* Adiciona a borda do botão */
       border-radius: 5px; /* Borda arredondada para melhor aparência */
       display: inline-block; 
     }
@@ -65,6 +66,59 @@
       max-height: 400px;
       overflow-y: auto;
     }
+    .button-container {
+    display: flex;
+    align-items: center; /* Centralizar verticalmente os elementos */
+    gap: 10px; /* Espaçamento entre os elementos */
+    float: left; /* Alinhar os botões à direita */
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center; /* Centralizar verticalmente os elementos */
+    gap: 10px; /* Espaçamento entre os elementos */
+  }
+
+  #searchInput {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none; /* Remover a borda ao focar no input */
+    float: right; /* Alinhar a caixa de pesquisa à direita */
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center; /* Centralizar verticalmente os elementos */
+    gap: 5px; /* Espaçamento entre os elementos */
+    justify-content: flex-start; /* Alinhar os botões à esquerda */
+  }
+
+  #searchInput {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    outline: none; /* Remover a borda ao focar no input */
+    margin-left: auto; /* Alinhar a caixa de pesquisa à direita */
+  }
+
+  /* Estilos para os botões */
+  .button-container button {
+    background-color: #a9cf3c;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Estilo quando o mouse está sobre o botão */
+  .button-container button:hover {
+    background-color: #92b633;
+  }
 </style>
 
 {% endblock %}
@@ -74,15 +128,17 @@
   <h1>Consulta Pacientes</h1>
   <br>
   <a href="/paciente" class="btn btn-primary custom-btn">Novo</a> <!-- Swapped the positions of the buttons -->
-  <a href="/editar" class="btn btn-primary custom-btn">Editar</a> <!-- Swapped the positions of the buttons -->
+  <a href="/paciente-editar" class="btn btn-primary custom-btn">Editar</a> <!-- Swapped the positions of the buttons -->
 
 
 
 <br><br> <!-- Espaçamento antes da tabela -->
+<div class="button-container">
+  <button id="select-all-button">Selecionar Todos</button>
+  <button id="downloadCSV">Baixar</button>
+</div>
 
-<input type="text" id="searchInput" placeholder="Pesquisar...">
-
-<button id="downloadCSV">Baixar</button>
+<input type="text" id="searchInput" class="search-input" placeholder="Pesquisar...">
 
 <br><br> <!-- Espaçamento antes da tabela -->
 
@@ -117,6 +173,29 @@
     <!-- data -->
   </table>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Função para selecionar ou desmarcar todas as checkboxes
+    function selectAllCheckboxes() {
+      const checkboxes = document.querySelectorAll('.select-row');
+      const selectAllButton = document.getElementById('select-all-button');
+
+      const isSelectAll = selectAllButton.getAttribute('data-select') === 'true';
+
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = !isSelectAll;
+      });
+
+      selectAllButton.setAttribute('data-select', (!isSelectAll).toString());
+      selectAllButton.innerText = isSelectAll ? 'Selecionar Todos' : 'Desmarcar Todos';
+    }
+
+    // Evento de clique no botão "Selecionar Todos"
+    const selectAllButton = document.getElementById('select-all-button');
+    selectAllButton.addEventListener('click', selectAllCheckboxes);
+  });
+</script>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -156,6 +235,17 @@
       // Clique no link para iniciar o download do arquivo
       link.click();
     });
+  });
+</script>
+<script>
+  // JavaScript para selecionar todos os checkboxes quando o checkbox "select-all" for clicado
+  const selectAllCheckbox = document.getElementById("select-all");
+  const rowCheckboxes = document.getElementsByClassName("select-row");
+
+  selectAllCheckbox.addEventListener("change", function () {
+    for (let i = 0; i < rowCheckboxes.length; i++) {
+      rowCheckboxes[i].checked = this.checked;
+    }
   });
 </script>
 
