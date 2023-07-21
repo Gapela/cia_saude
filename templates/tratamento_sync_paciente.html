@@ -2,6 +2,12 @@
 {% block title %}Tratamento{% endblock %}
 
 {% block style_content %}
+<style>
+  .btn.btn-primary {
+    background-color: #a9cf3c;
+    border: 2px solid #a9cf3c;
+  }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -17,9 +23,9 @@
 </script>
 <!-- SCRIPT PARA RECUPERAR DADOS DO LOCAL STORAGE -->
 
-<form method="POST">
-  <h3 align="center">Tratamento</h3>
+<h3 align="center">Novo Tratamento</h3>
 
+<form method="POST">
     <div class="form-group">
       <label for="nome">Nome</label>
       <input
@@ -103,4 +109,5 @@
     <button type="submit" class="btn btn-primary">Cadastrar</button>
     <a href="/home" class="btn btn-primary">Cancelar</a>
 </form>
+<br>
 {% endblock %}
