@@ -105,7 +105,10 @@ def pacientes_tabela(bd_pacientes):
 # dados para a tabela na pagina Tratamentos
 def tratamentos_tabela(bd_tratamentos):
     tratamentos_df = pd.DataFrame([x for x in bd_tratamentos]) # tranforma o dados em uma lista
-    df = tratamentos_df.drop(columns=["_id"])
+    if len(tratamentos_df) > 0:
+        df = tratamentos_df.drop(columns=["_id"])
+    else:
+        df = tratamentos_df
 
     headings = list(df.columns.values) # pega a prieira linha para fazer uma lista Headings
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
