@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+{% block title %}Consulta{% endblock %}
+
+{% block style_content %}
+<style>
+    .pacientes_table {
+        border-collapse: collapse;
+        background: #FFFFF0;
+    }
+    
+    .pacientes_table td {
+        border: 1px solid black;
+    }
+    
+    .pacientes_table th {
+        border: 1px solid black;
+        background: #F0FFF0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .custom-btn {
+      background-color: #a9cf3c;
+      color: #fff;
+      padding: 10px 15px;
+      text-decoration: none;
+      border: 2px solid #a9cf3c; /* Adiciona a borda do botão */
+      border-radius: 5px; /* Borda arredondada para melhor aparência */
+      display: inline-block; 
+    }
+
+    .custom-btn:hover {
+      background-color: #7ca22b; /* Cor quando o botão é hover */
+    }
+
+    .pacientes_table {
+      width: 100%; /* Defina o valor adequado para a largura da tabela */
+      margin: 0 auto; /* Isso centralizará a tabela horizontalmente */
+      border-collapse: collapse; /* Para mesclar bordas de células */
+    }
+  
+    .pacientes_table th,
+    .pacientes_table td {
+      padding: 10px; /* Defina o espaçamento interno das células */
+      border: 1px solid black; /* Adicione bordas às células */
+      text-align: center; /* Centraliza o texto nas células */
+    }
+  
+    .pacientes_table tr:first-child th {
+      text-transform: capitalize; 
+    }
+
+    .pacientes_table th {
+      background-color: #a9cf3c;
+      position: sticky;
+      top: 0;
+    }
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+  <title>Consulta Pacientes</title>
+  <h1>Consulta Pacientes</h1>
+  <br>
+  <a href="/paciente" class="btn btn-primary custom-btn">Novo</a> <!-- Swapped the positions of the buttons -->
+  <a href="/editar" class="btn btn-primary custom-btn">Editar</a> <!-- Swapped the positions of the buttons -->
+
+
+
+<br><br> <!-- Espaçamento antes da tabela -->
+
+<input type="text" id="searchInput" placeholder="Pesquisar...">
+
+<button id="downloadCSV">Baixar</button>
+
+<br><br> <!-- Espaçamento antes da tabela -->
+
+<!-- Tabela de pacientes -->
+<div class="table-container">
+  <table class="pacientes_table">
+    <!-- headers -->
+    <thead>
+      <tr>
+        <th>Selecionar</th> <!-- Coluna para checkboxes -->
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Data nascimento</th>
+        <th>Pagamento</th>
+        <th>Empresa</th>
+        <th>Nº Carteirinha</th>
+        <th>Plano</th>
+      </tr>
+    </thead>
+    <!-- headers -->
+
+    <!-- data -->
+    {% for row in pacientes %}
+    <tr>
+      <td><input type="checkbox" class="select-row"></td> <!-- Checkbox para selecionar a linha -->
+      {% for cell in row %}
+      <td>{{ cell }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    <!-- data -->
+  </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    // Filtro de pesquisa
+    $("#searchInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("table.pacientes_table tbody tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+
+    // Download do CSV
+    $("#downloadCSV").on("click", function() {
+      // Obter todas as linhas selecionadas
+      var selectedRows = $("input.select-row:checked").closest("tr");
+
+      // Criar o conteúdo CSV com as linhas selecionadas
+      var csvContent = "data:text/csv;charset=utf-8,";
+      selectedRows.each(function(index) {
+        var rowData = [];
+        $(this).find("td").each(function() {
+          rowData.push($(this).text());
+        });
+        var rowString = rowData.join(",");
+        csvContent += index === 0 ? rowString : "\n" + rowString;
+      });
+
+      // Criar um elemento de link temporário para download
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "pacientes_selecionados.csv");
+      document.body.appendChild(link);
+
+      // Clique no link para iniciar o download do arquivo
+      link.click();
+    });
+  });
+</script>
+
+{% endblock %}

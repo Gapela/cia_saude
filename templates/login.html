@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+    <!-- BOOTSTRAP -->
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 500px; /* Define uma largura máxima para o contêiner */
+      padding: 40px;
+      background-color: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .container form {
+      display: flex;
+      flex-direction: column;
+      gap: 5px; /* Reduz o espaçamento entre os campos */
+    }
+
+    .container input,
+    .container button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .container input {
+      border: 1px solid black; /* Altera a espessura da borda para 1px */
+    }
+
+    .container button {
+      color: #ffffff;
+      background-color: #a9cf3c;
+      border: none;
+      cursor: pointer;
+    }
+
+    .container button:hover {
+      background-color: #afd34b;
+    }
+
+    .container img {
+      width: 350px; /* Aumenta o tamanho da imagem para 250px */
+      height: auto; /* Permite que a altura da imagem seja ajustada automaticamente */
+      margin: 0 auto 20px; /* Centraliza a imagem horizontalmente e adiciona espaçamento inferior */
+    }
+  </style>
+</head>
+<body>
+
+
+
+
+  <!-- FLASH MESSAGES -->
+
+  <div class="container">
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %} 
+            {% for category, message in messages %}
+                {% if category =='error' %}
+                    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                        {{ message }}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success alter-dismissable fade show" role="alert">
+                        {{ message }}
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    <form action="/login" method="POST">
+      <img src="https://ciasaude.s3.amazonaws.com/LOGO+CIA+.jpg" alt="Logo">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" value="Login">Login</button>
+    </form>
+  </div>
+</body>
+</html>

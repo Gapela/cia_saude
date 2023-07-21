@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block title %}Tratamento{% endblock %}
+
+{% block content %}
+<br>
+<form method="POST">
+    <h3 align="center">Tratamento</h3>
+
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input
+        type="text"
+        class="form-control"
+        id="cpf"
+        name="cpf"
+        required
+        />
+    </div>
+
+    <div class="form-group">
+      <label for="especialidade">Especialidade</label>
+      <input
+        type="text"
+        class="form-control"
+        id="especialidade"
+        name="especialidade"
+        placeholder="Insira a especialidade"
+        required
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="profissional_responsavel">Profissional Responsável</label>
+      <input
+        type="text"
+        class="form-control"
+        id="profissional_responsavel"
+        name="profissional_responsavel"
+        placeholder="Insira a especialidade"
+        required
+      />
+    </div>
+
+    <div class="container">
+      <div class="row">
+
+          
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="data_inicio">Data inicio</label>
+            <input
+            type="date"
+            class="form-control"
+            id="data_inicio"
+            name="data_inicio"
+            required
+            />
+          </div>
+        </div>
+        
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="data_fim">Data fim</label>
+            <input
+            type="date"
+            class="form-control"
+            id="data_fim"
+            name="data_fim"
+            />
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+    
+    <br />
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <a href="/home" class="btn btn-primary">Cancelar</a>
+</form>
+{% endblock %}

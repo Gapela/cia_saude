@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block title %}Consulta - Tratamentos{% endblock %}
+
+{% block style_content %}
+<style>
+    .pacientes_table {
+        border-collapse: collapse;
+        background: #FFFFF0;
+    }
+     
+    .pacientes_table td {
+        border: 1px solid black;
+    }
+     
+    .pacientes_table th {
+        border: 1px solid black;
+        background: #F0FFF0;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<br>
+<h1>Consulta Tratamentos</h1>
+<br>
+<a href="/editar" class="btn btn-primary">Editar</a>
+<a href="/tratamento" class="btn btn-primary">Novo</a>
+
+<br><br>
+
+<table class="pacientes_table">
+    <!-- headers -->
+    <tr>
+        {% for header in headings %}
+        <th>{{ header }}</th>
+        {% endfor %}
+    </tr>
+    <!-- headers -->
+
+    <!-- data -->
+    {% for row in tratamentos %}
+    <tr>
+        {% for cell in row %}
+            <td>{{ cell }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    <!-- data -->
+</table>
+
+{% endblock %}

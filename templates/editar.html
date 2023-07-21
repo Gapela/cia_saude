@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+
+<form method="POST">
+  <h3 align="center">Editar</h3>
+
+  <label for="nome">Nome</label>
+  <input type="text" class="form-control" id="nome" name="nome" placeholder="Insira o nome completo" required/>
+
+  <label for="endereco">Endereço</label>
+  <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o endereço" required/>
+
+  <label for="rg">RG</label>
+  <input type="text" class="form-control" id="rg" name="rg" placeholder="Insira o RG" required/>
+
+  <label for="cpf">CPF</label>
+  <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Insira o CPF" required/>
+
+  <label for="telefone">Telefone</label>
+  <input type="telefone" class="form-control" id="telefone" name="telefone" placeholder="(xx) 9xxxx-xxxx" required/>
+
+  <label for="email">Email</label>
+  <input type="text" class="form-control" id="email" name="email" placeholder="Insira um e-mail"/>
+
+  <label for="data_nascimento">Data de nascimento</label>
+  <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required/>
+
+  <label for="idade">Idade</label>
+  <input type="number" class="form-control" id="idade" name="idade" placeholder="Calculo automatico" required disabled/>
+
+  <!-- SCRIPT PARA CALCULAR IDADE -->
+  <script>
+    function calcularIdade() {
+      var data_nascimento = document.getElementById("data_nascimento").value;
+      var hoje = new Date();
+      var nascimento = new Date(data_nascimento);
+      var idade = hoje.getFullYear() - nascimento.getFullYear();
+      var meses = hoje.getMonth() - nascimento.getMonth();
+      if (meses < 0 || (meses === 0 && hoje.getDate() < nascimento.getDate())) {
+        idade--;
+      }
+      if (idade < 0 || idade > 100 || nascimento.getFullYear() < 1900 || nascimento.getFullYear() > 2300) {
+        document.getElementById("idade").value = "";
+      } else {
+        document.getElementById("idade").value = idade;
+        
+        var responsavelInput = document.getElementById("responsavel");
+        if (idade > 18) {
+          responsavelInput.disabled = true;
+          responsavelInput.value = ""; // Limpa o valor do campo responsável
+        } else {
+          responsavelInput.disabled = false;
+        }
+      }
+    }
+  
+    document.getElementById("data_nascimento").addEventListener("input", calcularIdade);
+  </script>
+  <!-- SCRIPT PARA CALCULAR IDADE -->
+
+  <label for="responsavel">Responsável</label>
+  <input type="text" class="form-control" id="responsavel" name="responsavel" placeholder="Insira o nome do responsável"/>
+
+  <label for="medico_solicitante">Médico solicitante</label>
+  <input type="text" class="form-control" id="medico_solicitante" name="medico_solicitante" placeholder="Nome do médico" required/>
+ 
+  <label for="crm">CRM</label>
+  <input type="text" class="form-control" id="crm" name="crm" required/>
+
+  <label for="ocupacao">Ocupação/CBO</label>
+  <input type="text" class="form-control" id="ocupacao" name="ocupacao"/>
+
+  <label for="cid">CID</label>
+  <input type="text" class="form-control" id="cid" name="cid" required/>
+
+  <label for="pagamento">Forma de pagamento:
+  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento" id="pagamento">
+    <option selected>Selecione uma opção</option>
+    <option value="plano">Plano</option>
+    <option value="particular">Particular</option>
+  </select>
+
+  <label for="empresa">Empresa:
+  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa">
+    <option selected>Selecione uma opção</option>
+    <option value="amil">Amil</option>
+    <option value="bradesco">Bradesco</option>
+    <option value="unimed">Unimed</option>
+    <option value="gamaSaude">Gama Saúde</option>
+    <option value="outro">Outro</option>
+  </select>
+
+  <label for="numero_carteirinha">N. carteirinha</label>
+  <input type="text" class="form-control" id="numero_carteirinha" name="numero_carteirinha"/>
+
+  <label for="plano">Plano</label>
+  <input type="text" class="form-control" id="plano" name="plano"/>
+  
+  <label for="anexo">Documento de encaminhamento</label>
+  <input type="file" class="form-control-file" id="anexo">
+
+  <button type="submit">Cadastrar</button>
+  <button><a href="/consulta">Cancelar</a></button>
+</form>
+
+</body>
+</html>
