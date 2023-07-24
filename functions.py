@@ -101,7 +101,6 @@ def pacientes_tabela(bd_pacientes):
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)
 
-
 # dados para a tabela na pagina Tratamentos
 def tratamentos_tabela(bd_tratamentos):
     tratamentos_df = pd.DataFrame([x for x in bd_tratamentos]) # tranforma o dados em uma lista

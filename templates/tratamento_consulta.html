@@ -3,16 +3,16 @@
 
 {% block style_content %}
 <style>
-    .pacientes_table {
+    .tratamento_table {
         border-collapse: collapse;
         background: #FFFFF0;
     }
     
-    .pacientes_table td {
+    .tratamento_table td {
         border: 0.5px solid black;
     }
     
-    .pacientes_table th {
+    .tratamento_table th {
         border: 0.5px solid black;
         background: #F0FFF0;
         color: #fff;
@@ -40,24 +40,24 @@
       background-color: #7ca22b; /* Cor quando o botão é hover */
     }
 
-    .pacientes_table {
+    .tratamento_table {
       width: 100%; /* Defina o valor adequado para a largura da tabela */
       margin: 0 auto; /* Isso centralizará a tabela horizontalmente */
       border-collapse: collapse; /* Para mesclar bordas de células */
     }
   
-    .pacientes_table th,
-    .pacientes_table td {
+    .tratamento_table th,
+    .tratamento_table td {
       padding: 10px; /* Defina o espaçamento interno das células */
       border: 1px solid black; /* Adicione bordas às células */
       text-align: center; /* Centraliza o texto nas células */
     }
   
-    .pacientes_table tr:first-child th {
+    .tratamento_table tr:first-child th {
       text-transform: capitalize; 
     }
 
-    .pacientes_table th {
+    .tratamento_table th {
       background-color: #a9cf3c;
       position: sticky;
       top: 0;
@@ -121,6 +121,7 @@
   }
 </style>
 {% endblock %}
+
 {% block content %}
 <title>Consulta Tratamentos</title>
   <h1>Consulta Tratamentos</h1>
@@ -136,41 +137,36 @@
   </div>
 
 <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar...">
+
 <br><br> <!-- Espaçamento antes da tabela -->
 
-<div class="table-container">
-    <table class="pacientes_table">
-      <!-- headers -->
-      <thead>
-        <tr>
-          <th>Selecionar</th> <!-- Coluna para checkboxes -->
-          <th>CPF</th>
-          <th>Especialidade</th>
-          <th>Médico Responsável</th>
-          <th>Data Início</th>
-          <th>Data Fim</th>
-        </tr>
-      </thead>
-      <!-- headers -->
+<!-- <div class="table-container"> -->
+  <table class="tratamento_table">
+    <!-- headers -->
+    <thead>
+      <tr>
+        <th>Selecionar</th> <!-- Coluna para checkboxes -->
+        <th>CPF</th>
+        <th>Especialidade</th>
+        <th>Médico Responsável</th>
+        <th>Data Início</th>
+        <th>Data Fim</th>
+      </tr>
+    </thead>
+    <!-- headers -->
 
     <!-- data -->
     {% for row in tratamentos %}
-    <tbody>
-        {% for row in tratamentos %}
-        <tr>
-          <td>
-            <input type="checkbox" class="select-row">
-          </td>
-          {% for cell in row %}
-          <td>{{ cell }}</td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-      
+    <tr>
+      <td><input type="checkbox" class="select-row"></td> <!-- Checkbox para selecionar a linha -->
+      {% for cell in row %}
+      <td>{{ cell }}</td>
+      {% endfor %}
+    </tr>
     {% endfor %}
     <!-- data -->
-</table>
+  </table>
+<!-- </div> -->
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
