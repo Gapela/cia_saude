@@ -1,41 +1,40 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 
-{% block content %}
-<html lang="en">
-<head>
+{% block head_content %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centered Cards</title>
+
   <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-    .container {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  .container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .row {
-      display: flex;
-      justify-content: start; /* Align cards to the left */
-      gap: 50px;
-      margin-top: -300px; /* Adjust the value as needed to move the cards up */
-    }
+  .row {
+    display: flex;
+    justify-content: start; /* Align cards to the left */
+    gap: 50px;
+    margin-top: -300px; /* Adjust the value as needed to move the cards up */
+  }
 
-    .btn-success {
-      background-color: #a9cf3c;
-      border-color: #a9cf3c;
-      color: #fff;
-    }
+  .btn-success {
+    background-color: #a9cf3c;
+    border-color: #a9cf3c;
+    color: #fff;
+  }
   </style>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
   <div class="container">
     <div class="row">
       <div class="col-sm">
@@ -52,12 +51,10 @@
           <div class="card-body">
             <h5 class="card-title">Tratamento</h5>
             <p class="card-text">Módulo para cadastro de novos tratamentos.</p>
-            <a href="/consulta-tratamentos" class="btn btn-success">Novo</a>
+            <a href="/consulta-tratamentos" class="btn btn-success">Consultar</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-</body>
-</html>
 {% endblock %}

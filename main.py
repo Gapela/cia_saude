@@ -1,7 +1,7 @@
 #################################################################################################
 ############################################ IMPORTS ############################################
 #################################################################################################
-from functions import login_func, paciente_novo, pacientes_tabela, tratamentos_tabela
+from functions import login_func, paciente_novo, tratamento_novo, pacientes_tabela, tratamentos_tabela
 from flask import Flask, render_template, request, redirect, session, flash
 from bd import bd_pacientes, bd_tratamentos
 import os
@@ -95,12 +95,10 @@ def consulta_tratamentos():
 def tratamento():
 
     if request.method == 'POST':
+        tratamento = request.form
 
-        # tranforma o retorno do post form em um dict
-        tratamento_dict = request.form.to_dict()
-        
-        # Inserir o novo usuário no banco de dados
-        bd_tratamentos.insert_one(tratamento_dict)
+        response = tratamento_novo(tratamento)
+        bd_tratamentos.insert_one(response)    
 
         flash('Tratamento cadastrado com sucesso!', category='success')
         return redirect('/consulta-tratamentos')
@@ -119,6 +117,10 @@ def tratamento_editar():
 ###########################################
 @app.route('/tratamento-paciente', methods = ['GET','POST'])
 def tratamento_paciente():
+    '''
+    este é o tratamento que é carregado logo após o cadastro de um novo paciente.
+    pois um tratamento é requerido caso um paciente seja cadastrado.
+    '''
 
     if request.method == 'POST':
 

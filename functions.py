@@ -101,6 +101,26 @@ def pacientes_tabela(bd_pacientes):
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)
 
+# tratamento novo
+def tratamento_novo(tratamento):
+
+    # variaveis do form
+    cpf = tratamento.get('cpf')
+    especialidade = tratamento.get('especialidade')
+    medico_responsavel = tratamento.get('medico_responsavel')
+    data_inicio = tratamento.get('data_inicio')
+    data_fim = tratamento.get('data_fim')
+
+    response = {
+        'cpf': cpf,
+        'especialidade': especialidade,
+        'medico_responsavel': medico_responsavel,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim
+    }
+
+    return response
+
 # dados para a tabela na pagina Tratamentos
 def tratamentos_tabela(bd_tratamentos):
     tratamentos_df = pd.DataFrame([x for x in bd_tratamentos]) # tranforma o dados em uma lista

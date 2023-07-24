@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Consulta - Tratamentos{% endblock %}
 
-{% block style_content %}
+{% block head_content %}
 <style>
     .tratamento_table {
         border-collapse: collapse;
@@ -224,7 +224,7 @@
         var encodedUri = encodeURI(csvContent);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "pacientes_selecionados.csv");
+        link.setAttribute("download", "tratamentos_selecionados.csv");
         document.body.appendChild(link);
   
         // Clique no link para iniciar o download do arquivo
