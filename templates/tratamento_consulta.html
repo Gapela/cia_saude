@@ -169,6 +169,7 @@
 <!-- </div> -->
 
 <script>
+
     document.addEventListener("DOMContentLoaded", function () {
       // Função para selecionar ou desmarcar todas as checkboxes
       function selectAllCheckboxes() {
@@ -199,7 +200,7 @@
       // Filtro de pesquisa
       $("#searchInput").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("table.pacientes_table tbody tr").filter(function() {
+        $("table.tratamento_table tbody tr").filter(function() {
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
       });
