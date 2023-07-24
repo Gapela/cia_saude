@@ -107,14 +107,14 @@ def tratamento_novo(tratamento):
     # variaveis do form
     cpf = tratamento.get('cpf')
     especialidade = tratamento.get('especialidade')
-    medico_responsavel = tratamento.get('medico_responsavel')
+    profissional_responsavel = tratamento.get('profissional_responsavel')
     data_inicio = tratamento.get('data_inicio')
     data_fim = tratamento.get('data_fim')
 
     response = {
         'cpf': cpf,
         'especialidade': especialidade,
-        'medico_responsavel': medico_responsavel,
+        'profissional_responsavel': profissional_responsavel,
         'data_inicio': data_inicio,
         'data_fim': data_fim
     }
