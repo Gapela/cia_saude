@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Cadastro - Paciente{% endblock %}
+{% block title %}Editar - Paciente{% endblock %}
 
 {% block head_content %}
 <style>
@@ -67,9 +67,52 @@
 }
 
 </style>
+
+<!-- SCRIPT PARA RESGATAR OS PARAMETROS NA URL -->
+<script>
+  window.onload = function() {
+      const queryParams = new URLSearchParams(window.location.search);
+      const nome = queryParams.get("nome");
+      const endereco = queryParams.get("endereco");
+      const rg = queryParams.get("rg");
+      const cpf = queryParams.get("cpf");
+      const telefone = queryParams.get("telefone");
+      const email = queryParams.get("email");
+      const data_nascimento = queryParams.get("data_nascimento");
+      const responsavel = queryParams.get("responsavel");
+      const medico_solicitante = queryParams.get("medico_solicitante");
+      const crm = queryParams.get("crm");
+      const cbo = queryParams.get("cbo");
+      const cid = queryParams.get("cid");
+      const pagamento = queryParams.get("pagamento");
+      const empresa = queryParams.get("empresa");
+      const numero_carteirinha = queryParams.get("numero_carteirinha");
+      const plano = queryParams.get("plano");
+
+
+      document.getElementById("nome").value = nome;
+      document.getElementById("endereco").value = endereco;
+      document.getElementById("rg").value = rg;
+      document.getElementById("cpf").value = cpf;
+      document.getElementById("telefone").value = telefone;
+      document.getElementById("email").value = email;
+      document.getElementById("data_nascimento").value = data_nascimento;
+      document.getElementById("responsavel").value = responsavel;
+      document.getElementById("medico_solicitante").value = medico_solicitante;
+      document.getElementById("crm").value = crm;
+      document.getElementById("cbo").value = cbo;
+      document.getElementById("cid").value = cid;
+      document.getElementById("pagamento").value = pagamento;
+      document.getElementById("empresa").value = empresa;
+      document.getElementById("numero_carteirinha").value = numero_carteirinha;
+      document.getElementById("plano").value = plano;
+  };
+</script>
+
 {% endblock %}
 
 {% block content %}
+
 
 <br><br> <!-- Espaçamento antes de paciente -->
 
@@ -524,11 +567,12 @@
 
   <div class="container">
     <div class="col-sm">
-      <button type="submit" class="btn btn-primary custom-button">Cadastrar</button>
+      <button type="submit" class="btn btn-primary custom-button">Editar</button>
       <a href="/consulta-pacientes" class="btn btn-primary custom-button">Cancelar</a>
     </div>
   </div>
     
   <br><br>
 </form>
+
 {% endblock %}

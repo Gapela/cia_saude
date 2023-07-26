@@ -6,12 +6,17 @@ from flask import Flask, render_template, request, redirect, session, flash
 from bd import bd_pacientes, bd_tratamentos
 import os
 
+
+
+
 ##################
 #### FLASK APP ###
 ##################
 
 app = Flask(__name__)
 app.secret_key = "sua_chave_secreta"
+
+
 
 #############
 ### ROTAS ###
@@ -38,12 +43,9 @@ def logout():
     session.pop('username', None)
     return render_template('landing_page.html')
 
-#######################################
-########### EDITAR PACIENTE ###########
-#######################################
-@app.route('/paciente-editar', methods=['POST', 'GET'])
-def paciente_editar():
-    return render_template('paciente_editar.html')
+
+
+
 
 #########################################
 ########### CONSULTA PACIENTE ###########
@@ -74,6 +76,19 @@ def paciente():
         return redirect('/tratamento-paciente')
     
     return render_template('paciente.html')
+
+#######################################
+########### EDITAR PACIENTE ###########
+#######################################
+@app.route('/paciente-editar', methods=['POST', 'GET'])
+def paciente_editar():
+    return render_template('paciente_editar.html')
+
+
+
+
+
+
 
 ###########################################
 ########### CONSULTA TRATAMENTO ###########
@@ -135,8 +150,12 @@ def tratamento_paciente():
 
     return render_template('tratamento_sync_paciente.html')
 
+
+
+
+
 #################################
 ############## RUN ##############
 #################################
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 

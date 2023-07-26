@@ -92,11 +92,13 @@ def paciente_novo(paciente):
 def pacientes_tabela(bd_pacientes):
     pacientes_df = pd.DataFrame([x for x in bd_pacientes]) # tranforma o dados em uma lista
     
+
     if len(pacientes_df) > 0:
-        df = pacientes_df.drop(columns=["_id", "endereco", "rg", "email", "responsavel", "medico_solicitante", "crm", "ocupacao", "cid"])
+        # df = pacientes_df.drop(columns=["_id", "endereco", "rg", "email", "responsavel", "medico_solicitante", "crm", "ocupacao", "cid"])
+        df = pacientes_df.drop(columns=["_id"])
     else:
         df = pacientes_df
-        
+
     headings = list(df.columns.values) # pega a prieira linha para fazer uma lista Headings
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)

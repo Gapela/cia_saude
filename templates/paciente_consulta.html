@@ -127,8 +127,9 @@
   <title>Consulta Pacientes</title>
   <h1>Consulta Pacientes</h1>
   <br>
-  <a href="/paciente" class="btn btn-primary custom-btn">Novo</a> <!-- Swapped the positions of the buttons -->
-  <!-- <a href="/paciente-editar" class="btn btn-primary custom-btn">Editar</a> Swapped the positions of the buttons -->
+  <a href="/paciente" class="btn btn-primary custom-btn">Novo</a>
+  <!-- <a href="/paciente-editar" class="btn btn-primary custom-btn" id="editar_paciente" onclick="verificarSelecao()">Editar</a>  -->
+  <!-- <button id="editar-paciente" class="btn btn-primary custom-btn" onclick="redirecionar()">Editar</button> -->
 
 
 
@@ -150,13 +151,22 @@
       <tr>
         <th>Selecionar</th> <!-- Coluna para checkboxes -->
         <th>Nome</th>
+        <th>Endereço</th>
+        <th>RG</th>
         <th>CPF</th>
         <th>Telefone</th>
+        <th>Email</th>
         <th>Data nascimento</th>
+        <th>Responsável</th>
+        <th>Médico solicitante</th>
+        <th>CRM</th>
+        <th>CBO</th>
+        <th>CID</th>
         <th>Pagamento</th>
         <th>Empresa</th>
         <th>Nº Carteirinha</th>
         <th>Plano</th>
+        <th>Editar</th> <!-- Coluna para o botão "Transformar" -->
       </tr>
     </thead>
     <!-- headers -->
@@ -164,15 +174,76 @@
     <!-- data -->
     {% for row in pacientes %}
     <tr>
-      <td><input type="checkbox" class="select-row"></td> <!-- Checkbox para selecionar a linha -->
+      <td>
+        <input type="checkbox" class="select-row" name="item">
+      </td> <!-- Checkbox para selecionar a linha -->
       {% for cell in row %}
       <td>{{ cell }}</td>
       {% endfor %}
+      <td>
+        <!-- Botão "Transformar" que chama a função transformarParaParametros() -->
+        <button onclick="transformarParaParametros(this)" class="btn btn-primary custom-btn">Editar</button>
+      </td>
     </tr>
     {% endfor %}
     <!-- data -->
   </table>
 </div>
+
+
+<!-- SCRIPT PARA REDIRECIONAR PARA PAGINA DE EDITAR COM PARAMETROS NA URL -->
+<script>
+  function transformarParaParametros(button) {
+    const row = button.closest("tr");
+    const cells = row.querySelectorAll("td");
+    
+    // Extrair os valores das células da linha
+    const nome = cells[1].textContent;
+    const endereco = cells[2].textContent;
+    const rg = cells[3].textContent;
+    const cpf = cells[4].textContent;
+    const telefone = cells[5].textContent;
+    const email = cells[6].textContent;
+    const data_nascimento = cells[7].textContent;
+    const responsavel = cells[8].textContent;
+    const medico_solicitante = cells[9].textContent;
+    const crm = cells[10].textContent;
+    const cbo = cells[11].textContent;
+    const cid = cells[12].textContent;
+    const pagamento = cells[13].textContent;
+    const empresa = cells[14].textContent;
+    const numero_carteirinha = cells[15].textContent;
+    const plano = cells[16].textContent;
+    
+    // Construir os parâmetros da URL
+    const params = new URLSearchParams();
+    params.append("nome", nome);
+    params.append("endereco", endereco);
+    params.append("rg", rg);
+    params.append("cpf", cpf);
+    params.append("telefone", telefone);
+    params.append("email", email);
+    params.append("data_nascimento", data_nascimento);
+    params.append("responsavel", responsavel);
+    params.append("medico_solicitante", medico_solicitante);
+    params.append("crm", crm);
+    params.append("cbo", cbo);
+    params.append("cid", cid);
+    params.append("pagamento", pagamento);
+    params.append("empresa", empresa);
+    params.append("numero_carteirinha", numero_carteirinha);
+    params.append("plano", plano);
+    
+    // Gerar a URL com os parâmetros
+    const url = `paciente-editar?${params.toString()}`;
+    
+    // Redirecionar para a outra página
+    window.location.href = url;
+  }
+</script>
+
+
+<!-- SCRIPT SELECIONAR OU DESMARCAR TODAS AS CHECKBOXES -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Função para selecionar ou desmarcar todas as checkboxes
@@ -195,7 +266,6 @@
     selectAllButton.addEventListener('click', selectAllCheckboxes);
   });
 </script>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
