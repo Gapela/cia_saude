@@ -1,32 +1,48 @@
 {% extends "layout.html" %}
-{% block title %}Tratamento{% endblock %}
 
 {% block head_content %}
-<style>
-  .btn.btn-primary {
-    background-color: #a9cf3c;
-    border: 2px solid #a9cf3c;
-  }
-  </style>
+  <!-- INLINE CSS -->
+    <style>
+      .btn.btn-primary {
+        background-color: #a9cf3c;
+        border: 2px solid #a9cf3c;
+      }
+    </style>
+
+  <!-- SCRIPTS -->
+    
+    <!-- CARREGAR DADOS DA URL -->
+      <script>
+        window.onload = function() {
+            const queryParams = new URLSearchParams(window.location.search);
+            const nome = queryParams.get("nome");
+            const cpf = queryParams.get("cpf");
+
+            document.getElementById("nome").value = nome;
+            document.getElementById("cpf").value = cpf;
+        };
+      </script>
 {% endblock %}
 
-{% block content %}
+{% block body_content %}
 <br>
-<!-- SCRIPT PARA RECUPERAR DADOS DO LOCAL STORAGE -->
-<script>
-  // check
-  if ( localStorage.getItem('dados_pacientes_form') ) {
-      // parse (transforme a string para um objeto javascript)
-      let object = JSON.parse(localStorage.getItem('dados_pacientes_form'));
-      // use...
-  }
-</script>
-<!-- SCRIPT PARA RECUPERAR DADOS DO LOCAL STORAGE -->
+<h3>Novo Tratamento</h3>
+<br>
 
-<h3 align="center">Novo Tratamento</h3>
-
-<form method="POST">
-  
+  <form method="POST">
+    
+    <!-- CAMPO: CPF -->
+    <div class="form-group">
+      <label for="cpf">Nome</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        name="nome"
+        />
+    </div>
+    
+    <!-- CAMPO: CPF -->
     <div class="form-group">
       <label for="cpf">CPF</label>
       <input
@@ -37,6 +53,7 @@
         />
     </div>
 
+    <!-- CAMPO: ESPECIALIDADE -->
     <div class="form-group">
       <label for="especialidade">Especialidade</label>
       <input
@@ -49,6 +66,7 @@
       />
     </div>
     
+    <!-- CAMPO: PROFISSIONAL RESPONSÁVELS -->
     <div class="form-group">
       <label for="profissional_responsavel">Profissional Responsável</label>
       <input
@@ -61,42 +79,44 @@
       />
     </div>
 
-    <div class="container">
-      <div class="row">
+    <!-- LINHA: DATA INICIO, DATA FIM -->
+    <div class="row">
 
-          
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="data_inicio">Data inicio</label>
-            <input
-            type="date"
-            class="form-control"
-            id="data_inicio"
-            name="data_inicio"
-            required
-            />
-          </div>
+        
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="data_inicio">Data inicio</label>
+          <input
+          type="date"
+          class="form-control"
+          id="data_inicio"
+          name="data_inicio"
+          required
+          />
         </div>
-        
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="data_fim">Data fim</label>
-            <input
-            type="date"
-            class="form-control"
-            id="data_fim"
-            name="data_fim"
-            />
-          </div>
-        </div>
-        
-        
       </div>
+      
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="data_fim">Data fim</label>
+          <input
+          type="date"
+          class="form-control"
+          id="data_fim"
+          name="data_fim"
+          />
+        </div>
+      </div>
+      
+      
     </div>
     
-    <br />
+    <br>
+
+    <!-- BOTOES: CADASTRAR, CANCELAR -->
     <button type="submit" class="btn btn-primary">Cadastrar</button>
     <a href="/consulta-tratamentos" class="btn btn-primary">Cancelar</a>
-</form>
-<br>
+
+  </form>
+  <br>
 {% endblock %}

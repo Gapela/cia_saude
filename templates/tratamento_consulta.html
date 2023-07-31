@@ -1,249 +1,354 @@
 {% extends "layout.html" %}
-{% block title %}Consulta - Tratamentos{% endblock %}
 
 {% block head_content %}
-<style>
-    .tratamento_table {
-        border-collapse: collapse;
-        background: #FFFFF0;
-    }
-    
-    .tratamento_table td {
-        border: 0.5px solid black;
-    }
-    
-    .tratamento_table th {
-        border: 0.5px solid black;
-        background: #F0FFF0;
-        color: #fff;
-    }
 
-    body {
-      font-family: Arial, sans-serif;
-    }
+  <!-- CONTEÚDO DA PÁGINA -->
+    <!-- titulo da page -->
+      <title>Consulta Tratamentos</title> 
 
-    h1 {
-      margin-top: 20px;
-    }
+  <!-- CSS -->
+    <style>
+      .imagem-esquerda {
+       float: left;
+       margin-right: 120px;
+       width: 250px; /* Defina o tamanho desejado para a imagem */
+      }   
+        .tratamento_table {
+            border-collapse: collapse;
+            background: #FFFFF0;
+        }
+        
+        .tratamento_table td {
+            border: 0.5px solid black;
+        }
+        
+        .tratamento_table th {
+            border: 0.5px solid black;
+            background: #F0FFF0;
+            color: #fff;
+        }
+
+        body {
+          font-family: Arial, sans-serif;
+        }
+
+        h1 {
+          margin-top: 20px;
+        }
 
     .custom-btn {
-      background-color: #a9cf3c;
-      color: #fff;
-      padding: 10px 15px;
-      text-decoration: none;
-      border: 1px solid #a9cf3c; /* Adiciona a borda do botão */
-      border-radius: 5px; /* Borda arredondada para melhor aparência */
-      display: inline-block; 
+          background-color: #a9cf3c;
+          color: #fff;
+          padding: 10px 15px;
+          text-decoration: none;
+          border: 1px solid #a9cf3c; /* Adiciona a borda do botão */
+          border-radius: 5px; /* Borda arredondada para melhor aparência */
+          display: inline-block; 
+    }
+        .custom-btn.align-right {
+      float: right;
     }
 
     .custom-btn:hover {
-      background-color: #7ca22b; /* Cor quando o botão é hover */
+          background-color: #7ca22b; /* Cor quando o botão é hover */
     }
 
-    .tratamento_table {
-      width: 100%; /* Defina o valor adequado para a largura da tabela */
-      margin: 0 auto; /* Isso centralizará a tabela horizontalmente */
-      border-collapse: collapse; /* Para mesclar bordas de células */
-    }
-  
-    .tratamento_table th,
-    .tratamento_table td {
-      padding: 10px; /* Defina o espaçamento interno das células */
-      border: 1px solid black; /* Adicione bordas às células */
-      text-align: center; /* Centraliza o texto nas células */
-    }
-  
-    .tratamento_table tr:first-child th {
-      text-transform: capitalize; 
-    }
+        .tratamento_table {
+          width: 100%; /* Defina o valor adequado para a largura da tabela */
+          margin: 0 auto; /* Isso centralizará a tabela horizontalmente */
+          border-collapse: collapse; /* Para mesclar bordas de células */
+        }
+      
+        .tratamento_table th,
+        .tratamento_table td {
+          padding: 10px; /* Defina o espaçamento interno das células */
+          border: 1px solid black; /* Adicione bordas às células */
+          text-align: center; /* Centraliza o texto nas células */
+        }
+      
+        .tratamento_table tr:first-child th {
+          text-transform: capitalize; 
+        }
 
-    .tratamento_table th {
-      background-color: #a9cf3c;
-      position: sticky;
-      top: 0;
-    }
-    .table-container {
-      max-height: 400px;
-      overflow-y: auto;
-    }
+        .tratamento_table th {
+          background-color: #a9cf3c;
+          position: sticky;
+          top: 0;
+        }
+        .table-container {
+          max-height: 400px;
+          overflow-y: auto;
+        }
     .button-container {
-    display: flex;
-    align-items: center; /* Centralizar verticalmente os elementos */
-    gap: 10px; /* Espaçamento entre os elementos */
-    float: left; /* Alinhar os botões à direita */
-  }
+      display: flex;
+      align-items: right;
+      gap: 10px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .button-container button:hover {
+      background-color: #92b633;
+    }
 
-  .button-container {
-    display: flex;
-    align-items: center; /* Centralizar verticalmente os elementos */
-    gap: 10px; /* Espaçamento entre os elementos */
-  }
+    .button-container2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end; /* Alinhar os botões à direita */
+    }
 
-  #searchInput {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    outline: none; /* Remover a borda ao focar no input */
-    float: right; /* Alinhar a caixa de pesquisa à direita */
-  }
+    .button-container2 button:hover {
+      background-color: #92b633;
+    }
 
-  .button-container {
-    display: flex;
-    align-items: center; /* Centralizar verticalmente os elementos */
-    gap: 5px; /* Espaçamento entre os elementos */
-    justify-content: flex-start; /* Alinhar os botões à esquerda */
-  }
+    #searchInput {
+      padding: 8px 12px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
 
-  #searchInput {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    outline: none; /* Remover a borda ao focar no input */
-    margin-left: auto; /* Alinhar a caixa de pesquisa à direita */
-  }
+    /* Estilos para os botões */
+    .button-container button {
+      background-color: #a9cf3c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
 
-  /* Estilos para os botões */
-  .button-container button {
-    background-color: #a9cf3c;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  }
+    /* Estilo quando o mouse está sobre o botão */
+    .button-container button:hover {
+      background-color: #92b633;
+    }
 
-  /* Estilo quando o mouse está sobre o botão */
-  .button-container button:hover {
-    background-color: #92b633;
-  }
-</style>
+    #downloadCSV {
+      background-color: #a9cf3c;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      float: right; /* Alinhar o botão à direita */
+    }
+
+    #downloadCSV:hover {
+      background-color: #92b633;
+    }
+
+    #select-all-button {
+      background-color: #a9cf3c;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      float: left; /* Alinhar o botão à direita */
+    }
+
+    #select-all-button:hover {
+      background-color: #92b633;
+    }
+            /* Defina a cor de fundo padrão do botão */
+            .btn-primary.custom-btn {
+                background-color: #92b633;
+                color: #fff; /* Define a cor do texto como branco para melhor contraste */
+                padding: 10px 20px;
+                text-decoration: none;
+                border: none;
+                border-radius: 4px;
+                transition: background-color 0.3s ease; /* Adiciona uma transição suave para a mudança de cor */
+            }
+
+            /* Quando o mouse estiver em cima do botão, aplique a cor #92b633 */
+            .btn-primary.custom-btn:hover {
+                background-color: #92b633;
+            }
+    </style>
+
+  <!-- TODOS OS SCRIPTS -->
+    <!-- jquery -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SCRIPT PARA REDIRECIONAR PARA PAGINA DE EDITAR COM PARAMETROS NA URL -->
+      <script>
+        function transformarParaParametros(button) {
+          const row = button.closest("tr");
+          const cells = row.querySelectorAll("td");
+          
+          // Extrair os valores das células da linha
+          const nome = cells[1].textContent;
+          const cpf = cells[2].textContent;
+          const especialidade = cells[3].textContent;
+          const profissional_responsavel = cells[4].textContent;
+          const data_inicio = cells[5].textContent;
+          const data_fim = cells[6].textContent;
+          
+          // Construir os parâmetros da URL
+          const params = new URLSearchParams();
+          params.append("nome", nome);
+          params.append("cpf", cpf);
+          params.append("especialidade", especialidade);
+          params.append("profissional_responsavel", profissional_responsavel);
+          params.append("data_inicio", data_inicio);
+          params.append("data_fim", data_fim);
+          
+          // Gerar a URL com os parâmetros
+          const url = `tratamento-editar?${params.toString()}`;
+          
+          // Redirecionar para a outra página
+          window.location.href = url;
+        }
+      </script>
+
+    <!-- monte de script juntos -->
+      <script>
+        $(document).ready(function() {
+          // Filtro de pesquisa
+          $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("table.tratamento_table tbody tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+          });
+
+          // Download do CSV
+          $("#downloadCSV").on("click", function() {
+            // Obter todas as linhas selecionadas
+            var selectedRows = $("input.select-row:checked").closest("tr");
+
+            // Criar o conteúdo CSV com as linhas selecionadas
+            var csvContent = "data:text/csv;charset=utf-8,";
+            selectedRows.each(function(index) {
+              var rowData = [];
+              $(this).find("td").each(function() {
+                rowData.push($(this).text());
+              });
+              var rowString = rowData.join(",");
+              csvContent += index === 0 ? rowString : "\n" + rowString;
+            });
+
+            // Criar um elemento de link temporário para download
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "tratamentos_selecionados.csv");
+            document.body.appendChild(link);
+
+            // Clique no link para iniciar o download do arquivo
+            link.click();
+          });
+        });
+      </script>
+
+    <!-- selecionar todos os checkboxes -->
+      <script>
+        // JavaScript para selecionar todos os checkboxes quando o checkbox "select-all" for clicado
+        const selectAllCheckbox = document.getElementById("select-all");
+        const rowCheckboxes = document.getElementsByClassName("select-row");
+
+        selectAllCheckbox.addEventListener("change", function () {
+          for (let i = 0; i < rowCheckboxes.length; i++) {
+            rowCheckboxes[i].checked = this.checked;
+          }
+        });
+      </script>
+
+    <!-- script sem anotações -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Função para selecionar ou desmarcar todas as checkboxes
+          function selectAllCheckboxes() {
+            const checkboxes = document.querySelectorAll('.select-row');
+            const selectAllButton = document.getElementById('select-all-button');
+
+            const isSelectAll = selectAllButton.getAttribute('data-select') === 'true';
+
+            checkboxes.forEach((checkbox) => {
+              checkbox.checked = !isSelectAll;
+            });
+
+            selectAllButton.setAttribute('data-select', (!isSelectAll).toString());
+            selectAllButton.innerText = isSelectAll ? 'Selecionar Todos' : 'Desmarcar Todos';
+          }
+
+          // Evento de clique no botão "Selecionar Todos"
+          const selectAllButton = document.getElementById('select-all-button');
+          selectAllButton.addEventListener('click', selectAllCheckboxes);
+        });
+      </script>
+
 {% endblock %}
 
-{% block content %}
-<title>Consulta Tratamentos</title>
-  <h1>Consulta Tratamentos</h1>
+{% block body_content %}
   <br>
-  <a href="/tratamento" class="btn btn-primary custom-btn">Novo</a> <!-- Swapped the positions of the buttons -->
-  <!-- <a href="/tratamento-editar" class="btn btn-primary custom-btn">Editar</a> Swapped the positions of the buttons -->
 
-  <br><br> <!-- Espaçamento antes da tabela -->
+  <div style="display: flex; align-items: center;">
+    <img class="imagem-esquerda" src="https://ciasaude.s3.amazonaws.com/LOGO+CIA+.jpg" alt="Logo da CIA Saúde">
+    <h3 style="font-size: 40px;">Lista de Tratamentos</h3>
+  </div>
+  
+  <br>
 
-  <div class="button-container">
-    <button id="select-all-button">Selecionar Todos</button>
-    <button id="downloadCSV">Baixar</button>
+  <!-- FILTRO DE PESQUISA -->
+  <div class="search-container">
+      <a href="/tratamento" class="btn btn-primary custom-btn align-right">Novo</a>
+      <label for="searchInput">Busque por dados do paciente:</label>
+      <br>
+      <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar...">
   </div>
 
-<input type="text" id="searchInput" class="search-input" placeholder="Pesquisar...">
+  <br>
 
-<br><br> <!-- Espaçamento antes da tabela -->
+  <!-- BOTOES DIREITA DA PAGINA -->
+  <button id="select-all-button">Selecionar Todos</button>
+  <button id="downloadCSV">Baixar</button>
 
-<!-- <div class="table-container"> -->
+  <br><br> <!-- Espaçamento -->
+
+  <!-- TABELA TRATAMENTOS -->
   <table class="tratamento_table">
-    <!-- headers -->
+
+    <!-- CABEÇALHOS DA TABELA -->
     <thead>
       <tr>
-        <th>Selecionar</th> <!-- Coluna para checkboxes -->
+        <th>Selecionar</th>
+        <th>Nome</th>
         <th>CPF</th>
         <th>Especialidade</th>
-        <th>Profissional Responsavel</th>
+        <th>Profissional Responsável</th>
         <th>Data Início</th>
         <th>Data Fim</th>
+        <th>Editar</th>
       </tr>
     </thead>
-    <!-- headers -->
 
-    <!-- data -->
+    <!-- DADOS DA TABELA -->
     {% for row in tratamentos %}
     <tr>
-      <td><input type="checkbox" class="select-row"></td> <!-- Checkbox para selecionar a linha -->
-      {% for cell in row %}
-      <td>{{ cell }}</td>
-      {% endfor %}
+      <!-- Checkbox para selecionar a linha -->
+      <td><input type="checkbox" class="select-row"></td> 
+        {% for cell in row %}
+          <td>{{ cell }}</td>
+        {% endfor %}
+      <td>
+        <!-- Botão "EDITAR" que chama a função transformarParaParametros() -->
+        <button onclick="transformarParaParametros(this)" class="btn btn-primary custom-btn">Editar</button>
+      </td>
     </tr>
     {% endfor %}
-    <!-- data -->
+
   </table>
-<!-- </div> -->
 
-<script>
+  <br><br>
 
-    document.addEventListener("DOMContentLoaded", function () {
-      // Função para selecionar ou desmarcar todas as checkboxes
-      function selectAllCheckboxes() {
-        const checkboxes = document.querySelectorAll('.select-row');
-        const selectAllButton = document.getElementById('select-all-button');
-  
-        const isSelectAll = selectAllButton.getAttribute('data-select') === 'true';
-  
-        checkboxes.forEach((checkbox) => {
-          checkbox.checked = !isSelectAll;
-        });
-  
-        selectAllButton.setAttribute('data-select', (!isSelectAll).toString());
-        selectAllButton.innerText = isSelectAll ? 'Selecionar Todos' : 'Desmarcar Todos';
-      }
-  
-      // Evento de clique no botão "Selecionar Todos"
-      const selectAllButton = document.getElementById('select-all-button');
-      selectAllButton.addEventListener('click', selectAllCheckboxes);
-    });
-  </script>
-  
-  
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  
-  <script>
-    $(document).ready(function() {
-      // Filtro de pesquisa
-      $("#searchInput").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("table.tratamento_table tbody tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-      });
-  
-      // Download do CSV
-      $("#downloadCSV").on("click", function() {
-        // Obter todas as linhas selecionadas
-        var selectedRows = $("input.select-row:checked").closest("tr");
-  
-        // Criar o conteúdo CSV com as linhas selecionadas
-        var csvContent = "data:text/csv;charset=utf-8,";
-        selectedRows.each(function(index) {
-          var rowData = [];
-          $(this).find("td").each(function() {
-            rowData.push($(this).text());
-          });
-          var rowString = rowData.join(",");
-          csvContent += index === 0 ? rowString : "\n" + rowString;
-        });
-  
-        // Criar um elemento de link temporário para download
-        var encodedUri = encodeURI(csvContent);
-        var link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "tratamentos_selecionados.csv");
-        document.body.appendChild(link);
-  
-        // Clique no link para iniciar o download do arquivo
-        link.click();
-      });
-    });
-  </script>
-  <script>
-    // JavaScript para selecionar todos os checkboxes quando o checkbox "select-all" for clicado
-    const selectAllCheckbox = document.getElementById("select-all");
-    const rowCheckboxes = document.getElementsByClassName("select-row");
-  
-    selectAllCheckbox.addEventListener("change", function () {
-      for (let i = 0; i < rowCheckboxes.length; i++) {
-        rowCheckboxes[i].checked = this.checked;
-      }
-    });
-  </script>
+  <!-- "Voltar" button -->
+  <a href="/home" class="btn btn-primary custom-btn">Voltar</a>
 
   <br><br>
 

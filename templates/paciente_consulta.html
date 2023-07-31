@@ -1,60 +1,75 @@
 {% extends "layout.html" %}
-{% block title %}Consulta{% endblock %}
 
+<!-- JINJA2 - CONTEÚDO HEAD -->
 {% block head_content %}
-<style>
-    .pacientes_table {
-        border-collapse: collapse;
-        background: #FFFFF0;
-    }
-    
-    .pacientes_table td {
-        border: 0.5px solid black;
-    }
-    
-    .pacientes_table th {
-        border: 0.5px solid black;
-        background: #F0FFF0;
-        color: #fff;
-    }
 
-    body {
-      font-family: Arial, sans-serif;
-    }
+  <!-- CONTEÚDO DA PÁGINA -->
+    <title>Consulta Pacientes</title>
 
-    h1 {
-      margin-top: 20px;
-    }
+  <!-- CSS -->
+    <style>
+       .imagem-esquerda {
+       float: left;
+       margin-right: 120px;
+       width: 250px; /* Defina o tamanho desejado para a imagem */
+      }   
+        .pacientes_table {
+            border-collapse: collapse;
+            background: #FFFFF0;
+        }
+        
+        .pacientes_table td {
+            border: 0.5px solid black;
+        }
+        
+        .pacientes_table th {
+            border: 0.5px solid black;
+            background: #F0FFF0;
+            color: #fff;
+        }
 
-    .custom-btn {
+        body {
+          font-family: Arial, sans-serif;
+        }
+
+        h1 {
+          margin-top: 20px;
+        }
+
+        .custom-btn {
       background-color: #a9cf3c;
       color: #fff;
       padding: 10px 15px;
       text-decoration: none;
-      border: 1px solid #a9cf3c; /* Adiciona a borda do botão */
-      border-radius: 5px; /* Borda arredondada para melhor aparência */
-      display: inline-block; 
+      border: 1px solid #a9cf3c;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .custom-btn.align-right {
+      float: right;
     }
 
     .custom-btn:hover {
-      background-color: #7ca22b; /* Cor quando o botão é hover */
+      background-color: #7ca22b;
     }
 
     .pacientes_table {
-      width: 100%; /* Defina o valor adequado para a largura da tabela */
-      margin: 0 auto; /* Isso centralizará a tabela horizontalmente */
-      border-collapse: collapse; /* Para mesclar bordas de células */
+      width: 100%;
+      margin: auto;
+      border-collapse: collapse;
     }
-  
+
+
     .pacientes_table th,
     .pacientes_table td {
-      padding: 10px; /* Defina o espaçamento interno das células */
-      border: 1px solid black; /* Adicione bordas às células */
-      text-align: center; /* Centraliza o texto nas células */
+      padding: 5px;
+      border: 1px solid black;
+      text-align: center;
     }
-  
+
     .pacientes_table tr:first-child th {
-      text-transform: capitalize; 
+      text-transform: capitalize;
     }
 
     .pacientes_table th {
@@ -62,264 +77,313 @@
       position: sticky;
       top: 0;
     }
+
     .table-container {
       max-height: 400px;
       overflow-y: auto;
     }
+
     .button-container {
-    display: flex;
-    align-items: center; /* Centralizar verticalmente os elementos */
-    gap: 10px; /* Espaçamento entre os elementos */
-    float: left; /* Alinhar os botões à direita */
-  }
+      display: flex;
+      align-items: right;
+      gap: 10px;
+      text-align: center;
+      margin-top: 10px;
+    }
 
-  .button-container {
-    display: flex;
-    align-items: center; /* Centralizar verticalmente os elementos */
-    gap: 10px; /* Espaçamento entre os elementos */
-  }
+    .button-container2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end; /* Alinhar os botões à direita */
+    }
 
-  #searchInput {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    outline: none; /* Remover a borda ao focar no input */
-    float: right; /* Alinhar a caixa de pesquisa à direita */
-  }
+    #searchInput {
+      padding: 8px 12px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
 
-  .button-container {
-    display: flex;
-    align-items: center; /* Centralizar verticalmente os elementos */
-    gap: 5px; /* Espaçamento entre os elementos */
-    justify-content: flex-start; /* Alinhar os botões à esquerda */
-  }
+    /* Estilos para os botões */
+    .button-container button {
+      background-color: #a9cf3c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
 
-  #searchInput {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    outline: none; /* Remover a borda ao focar no input */
-    margin-left: auto; /* Alinhar a caixa de pesquisa à direita */
-  }
+    /* Estilo quando o mouse está sobre o botão */
+    .button-container button:hover {
+      background-color: #92b633;
+    }
 
-  /* Estilos para os botões */
-  .button-container button {
-    background-color: #a9cf3c;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  }
+    #downloadCSV {
+      background-color: #a9cf3c;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      float: right; /* Alinhar o botão à direita */
+    }
 
-  /* Estilo quando o mouse está sobre o botão */
-  .button-container button:hover {
-    background-color: #92b633;
-  }
-</style>
+    #downloadCSV:hover {
+      background-color: #92b633;
+    }
 
+    #select-all-button {
+      background-color: #a9cf3c;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      float: left; /* Alinhar o botão à direita */
+    }
+
+    #select-all-button:hover {
+      background-color: #92b633;
+    }
+
+    </style>
+
+  <!-- TODOS OS SCRIPTS -->
+
+    <!-- JQUERY -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- SCRIPT PARA REDIRECIONAR PARA PAGINA DE EDITAR COM PARAMETROS NA URL -->
+      <script>
+        function transformarParaParametros(button) {
+          const row = button.closest("tr");
+          const cells = row.querySelectorAll("td");
+          
+          // Extrair os valores das células da linha
+          const nome = cells[1].textContent;
+          const endereco = cells[2].textContent;
+          const rg = cells[3].textContent;
+          const cpf = cells[4].textContent;
+          const telefone = cells[5].textContent;
+          const email = cells[6].textContent;
+          const data_nascimento = cells[7].textContent;
+          const responsavel = cells[8].textContent;
+          const medico_solicitante = cells[9].textContent;
+          const crm = cells[10].textContent;
+          const ocupacao = cells[11].textContent;
+          const cid = cells[12].textContent;
+          const pagamento = cells[13].textContent;
+          const empresa = cells[14].textContent;
+          const numero_carteirinha = cells[15].textContent;
+          const plano = cells[16].textContent;
+          
+          // Construir os parâmetros da URL
+          const params = new URLSearchParams();
+          params.append("nome", nome);
+          params.append("endereco", endereco);
+          params.append("rg", rg);
+          params.append("cpf", cpf);
+          params.append("telefone", telefone);
+          params.append("email", email);
+          params.append("data_nascimento", data_nascimento);
+          params.append("responsavel", responsavel);
+          params.append("medico_solicitante", medico_solicitante);
+          params.append("crm", crm);
+          params.append("ocupacao", ocupacao);
+          params.append("cid", cid);
+          params.append("pagamento", pagamento);
+          params.append("empresa", empresa);
+          params.append("numero_carteirinha", numero_carteirinha);
+          params.append("plano", plano);
+          
+          // Gerar a URL com os parâmetros
+          const url = `paciente-editar?${params.toString()}`;
+          
+          // Redirecionar para a outra página
+          window.location.href = url;
+        }
+      </script>
+
+    <!-- SCRIPT SELECIONAR OU DESMARCAR TODAS AS CHECKBOXES -->
+      <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Função para selecionar ou desmarcar todas as checkboxes
+        function selectAllCheckboxes() {
+          const checkboxes = document.querySelectorAll('.select-row');
+          const selectAllButton = document.getElementById('select-all-button');
+
+          const isSelectAll = selectAllButton.getAttribute('data-select') === 'true';
+
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = !isSelectAll;
+          });
+
+          selectAllButton.setAttribute('data-select', (!isSelectAll).toString());
+          selectAllButton.innerText = isSelectAll ? 'Selecionar Todos' : 'Desmarcar Todos';
+        }
+
+        // Evento de clique no botão "Selecionar Todos"
+        const selectAllButton = document.getElementById('select-all-button');
+        selectAllButton.addEventListener('click', selectAllCheckboxes);
+      });
+      </script>
+
+    <!-- MONTE DE SCRIPT JUNTO -->
+      <script>
+        $(document).ready(function() {
+          // Filtro de pesquisa
+          $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("table.pacientes_table tbody tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+          });
+
+          // Download do CSV
+          $("#downloadCSV").on("click", function() {
+            // Obter todas as linhas selecionadas
+            var selectedRows = $("input.select-row:checked").closest("tr");
+            
+            // Criar o conteúdo CSV com as linhas selecionadas
+            var csvContent = "data:text/csv;charset=utf-8,";
+            selectedRows.each(function(index) {
+              var rowData = [];
+              $(this).find("td").each(function() {
+                rowData.push($(this).text());
+              });
+              var rowString = rowData.join(",");
+              csvContent += index === 0 ? rowString : "\n" + rowString;
+            });
+            
+            // Criar um elemento de link temporário para download
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "pacientes_selecionados.csv");
+            document.body.appendChild(link);
+            
+            // Clique no link para iniciar o download do arquivo
+            link.click();
+          });
+        });
+      </script>
+
+    <!-- MONTE DE SCRIPT SEM DESCRIÇÃO -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const selectAllCheckbox = document.getElementById("select-all");
+          const rowCheckboxes = document.getElementsByClassName("select-row");
+          const tableRows = document.querySelectorAll("#myTable tr");
+
+          // Adiciona um manipulador de eventos a cada linha
+          for (let i = 0; i < tableRows.length; i++) {
+            tableRows[i].addEventListener("click", function (event) {
+              // Se o clique foi no checkbox "select-all", não faz nada
+              if (event.target === selectAllCheckbox) return;
+
+              // Obtém o checkbox da linha clicada
+              const checkbox = this.querySelector("input[type=checkbox]");
+
+              // Inverte o estado do checkbox (seleciona/deseleciona)
+              checkbox.checked = !checkbox.checked;
+            });
+          }
+
+          // Manipulador de eventos para o checkbox "select-all"
+          selectAllCheckbox.addEventListener("change", function () {
+            for (let i = 0; i < rowCheckboxes.length; i++) {
+              rowCheckboxes[i].checked = this.checked;
+            }
+          });
+        });
+      </script>
 {% endblock %}
 
-{% block content %}
-  <title>Consulta Pacientes</title>
-  <h1>Consulta Pacientes</h1>
+
+<!-- JINJA 2 - CONTEÚDO BODY -->
+{% block body_content %}
+<br>
+<div style="display: flex; align-items: center;">
+  <img class="imagem-esquerda" src="https://ciasaude.s3.amazonaws.com/LOGO+CIA+.jpg" alt="Logo da CIA Saúde">
+  <h3 style="font-size: 40px;">Lista de Paciente</h3>
+</div>
   <br>
-  <a href="/paciente" class="btn btn-primary custom-btn">Novo</a>
-  <!-- <a href="/paciente-editar" class="btn btn-primary custom-btn" id="editar_paciente" onclick="verificarSelecao()">Editar</a>  -->
-  <!-- <button id="editar-paciente" class="btn btn-primary custom-btn" onclick="redirecionar()">Editar</button> -->
+  
+  <!-- BOTÃO: NOVO -->
+  <a href="/paciente" class="btn btn-primary custom-btn align-right">Novo</a>
 
+  <!-- FILTRO PESQUISA -->
+  <div class="search-container">
+    <label for="searchInput">Busque por dados do paciente:</label>
+    <br>
+    <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar...">
+  </div>
 
-
-<br><br> <!-- Espaçamento antes da tabela -->
-<div class="button-container">
+  <!-- BOTOES DIREITA DA PAGINA -->
+  <div class="button-container"></div>
   <button id="select-all-button">Selecionar Todos</button>
   <button id="downloadCSV">Baixar</button>
-</div>
 
-<input type="text" id="searchInput" class="search-input" placeholder="Pesquisar...">
+  <br><br> <!-- Espaçamento duplo -->
 
-<br><br> <!-- Espaçamento antes da tabela -->
+  <!-- Tabela de pacientes -->
 
-<!-- Tabela de pacientes -->
-<div class="table-container">
-  <table class="pacientes_table">
-    <!-- headers -->
-    <thead>
+  <div class="table-container">
+    <table class="pacientes_table">
+
+      <!-- CABEÇALHOS DA TABELA -->
+      <thead>
+        <tr>
+          <th>Selecionar</th>
+          <th>Nome</th>
+          <th>Endereço</th>
+          <th>RG</th>
+          <th>CPF</th>
+          <th>Telefone</th>
+          <th>Email</th>
+          <th>Data nascimento</th>
+          <th>Responsável</th>
+          <th>Médico solicitante</th>
+          <th>CRM</th>
+          <th>Ocupação</th>
+          <th>CID</th>
+          <th>Pagamento</th>
+          <th>Empresa</th>
+          <th>Nº Carteirinha</th>
+          <th>Plano</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+
+      <!-- DADOS DA TABELA -->
+      {% for row in pacientes %}
       <tr>
-        <th>Selecionar</th> <!-- Coluna para checkboxes -->
-        <th>Nome</th>
-        <th>Endereço</th>
-        <th>RG</th>
-        <th>CPF</th>
-        <th>Telefone</th>
-        <th>Email</th>
-        <th>Data nascimento</th>
-        <th>Responsável</th>
-        <th>Médico solicitante</th>
-        <th>CRM</th>
-        <th>Ocupação</th>
-        <th>CID</th>
-        <th>Pagamento</th>
-        <th>Empresa</th>
-        <th>Nº Carteirinha</th>
-        <th>Plano</th>
-        <th>Editar</th> <!-- Coluna para o botão "Transformar" -->
+        <!-- Checkbox para selecionar a linha -->
+        <td><input type="checkbox" class="select-row" name="item"></td> 
+          {% for cell in row %}
+            <td>{{ cell }}</td>
+          {% endfor %}
+        <td>
+          <!-- Botão "EDITAR" que chama a função transformarParaParametros() -->
+          <button onclick="transformarParaParametros(this)" class="btn btn-primary custom-btn">Editar</button>
+        </td>
       </tr>
-    </thead>
-    <!-- headers -->
-
-    <!-- data -->
-    {% for row in pacientes %}
-    <tr>
-      <td>
-        <input type="checkbox" class="select-row" name="item">
-      </td> <!-- Checkbox para selecionar a linha -->
-      {% for cell in row %}
-      <td>{{ cell }}</td>
       {% endfor %}
-      <td>
-        <!-- Botão "Transformar" que chama a função transformarParaParametros() -->
-        <button onclick="transformarParaParametros(this)" class="btn btn-primary custom-btn">Editar</button>
-      </td>
-    </tr>
-    {% endfor %}
-    <!-- data -->
-  </table>
-</div>
+      
+    </table>
+  </div>
 
+  <br><br>
 
-<!-- SCRIPT PARA REDIRECIONAR PARA PAGINA DE EDITAR COM PARAMETROS NA URL -->
-<script>
-  function transformarParaParametros(button) {
-    const row = button.closest("tr");
-    const cells = row.querySelectorAll("td");
-    
-    // Extrair os valores das células da linha
-    const nome = cells[1].textContent;
-    const endereco = cells[2].textContent;
-    const rg = cells[3].textContent;
-    const cpf = cells[4].textContent;
-    const telefone = cells[5].textContent;
-    const email = cells[6].textContent;
-    const data_nascimento = cells[7].textContent;
-    const responsavel = cells[8].textContent;
-    const medico_solicitante = cells[9].textContent;
-    const crm = cells[10].textContent;
-    const ocupacao = cells[11].textContent;
-    const cid = cells[12].textContent;
-    const pagamento = cells[13].textContent;
-    const empresa = cells[14].textContent;
-    const numero_carteirinha = cells[15].textContent;
-    const plano = cells[16].textContent;
-    
-    // Construir os parâmetros da URL
-    const params = new URLSearchParams();
-    params.append("nome", nome);
-    params.append("endereco", endereco);
-    params.append("rg", rg);
-    params.append("cpf", cpf);
-    params.append("telefone", telefone);
-    params.append("email", email);
-    params.append("data_nascimento", data_nascimento);
-    params.append("responsavel", responsavel);
-    params.append("medico_solicitante", medico_solicitante);
-    params.append("crm", crm);
-    params.append("ocupacao", ocupacao);
-    params.append("cid", cid);
-    params.append("pagamento", pagamento);
-    params.append("empresa", empresa);
-    params.append("numero_carteirinha", numero_carteirinha);
-    params.append("plano", plano);
-    
-    // Gerar a URL com os parâmetros
-    const url = `paciente-editar?${params.toString()}`;
-    
-    // Redirecionar para a outra página
-    window.location.href = url;
-  }
-</script>
+  <!-- "Voltar" button -->
+  <a href="/home" class="btn btn-primary custom-btn">Voltar</a>
 
-
-<!-- SCRIPT SELECIONAR OU DESMARCAR TODAS AS CHECKBOXES -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Função para selecionar ou desmarcar todas as checkboxes
-    function selectAllCheckboxes() {
-      const checkboxes = document.querySelectorAll('.select-row');
-      const selectAllButton = document.getElementById('select-all-button');
-
-      const isSelectAll = selectAllButton.getAttribute('data-select') === 'true';
-
-      checkboxes.forEach((checkbox) => {
-        checkbox.checked = !isSelectAll;
-      });
-
-      selectAllButton.setAttribute('data-select', (!isSelectAll).toString());
-      selectAllButton.innerText = isSelectAll ? 'Selecionar Todos' : 'Desmarcar Todos';
-    }
-
-    // Evento de clique no botão "Selecionar Todos"
-    const selectAllButton = document.getElementById('select-all-button');
-    selectAllButton.addEventListener('click', selectAllCheckboxes);
-  });
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-  $(document).ready(function() {
-    // Filtro de pesquisa
-    $("#searchInput").on("keyup", function() {
-      var value = $(this).val().toLowerCase();
-      $("table.pacientes_table tbody tr").filter(function() {
-        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-      });
-    });
-
-    // Download do CSV
-    $("#downloadCSV").on("click", function() {
-      // Obter todas as linhas selecionadas
-      var selectedRows = $("input.select-row:checked").closest("tr");
-
-      // Criar o conteúdo CSV com as linhas selecionadas
-      var csvContent = "data:text/csv;charset=utf-8,";
-      selectedRows.each(function(index) {
-        var rowData = [];
-        $(this).find("td").each(function() {
-          rowData.push($(this).text());
-        });
-        var rowString = rowData.join(",");
-        csvContent += index === 0 ? rowString : "\n" + rowString;
-      });
-
-      // Criar um elemento de link temporário para download
-      var encodedUri = encodeURI(csvContent);
-      var link = document.createElement("a");
-      link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "pacientes_selecionados.csv");
-      document.body.appendChild(link);
-
-      // Clique no link para iniciar o download do arquivo
-      link.click();
-    });
-  });
-</script>
-
-<script>
-  // JavaScript para selecionar todos os checkboxes quando o checkbox "select-all" for clicado
-  const selectAllCheckbox = document.getElementById("select-all");
-  const rowCheckboxes = document.getElementsByClassName("select-row");
-
-  selectAllCheckbox.addEventListener("change", function () {
-    for (let i = 0; i < rowCheckboxes.length; i++) {
-      rowCheckboxes[i].checked = this.checked;
-    }
-  });
-</script>
-
-<br><br>
+  <br><br>
 
 {% endblock %}

@@ -1,578 +1,758 @@
 {% extends "layout.html" %}
-{% block title %}Editar - Paciente{% endblock %}
 
 {% block head_content %}
-<style>
-  .pacientes_table th {
-    background-color: #a9cf3c;
-    position: sticky;
-    top: 0;
-  }
-  .table-container {
-    max-height: 400px;
-    overflow-y: auto;
+  <style>
+      .imagem-esquerda {
+       float: left;
+       margin-right: 150px;
+       width: 250px; /* Defina o tamanho desejado para a imagem */
+      }
+
+    .pacientes_table th {
+      background-color: #a9cf3c;
+      position: sticky;
+      top: 0;
+    }
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .custom-button {
+      background-color: #a9cf3c;
+      border-color: #a9cf3c;
+    }
+      /* Estilize o rótulo (label) */
+      label {
+      font-weight: bold;
+      font-size: 18px;
+      color: #333; /* cor do texto */
+    }
+
+    /* Estilize o select (lista de opções) */
+    select {
+      width: 100%; /* largura do elemento */
+      padding: 10px; /* espaço interno */
+      font-size: 16px;
+      border: 1px solid #ccc; /* borda */
+      border-radius: 5px; /* bordas arredondadas */
+      background-color: #f7f7f7; /* cor de fundo */
+    }
+
+    /* Estilize as opções dentro do select */
+    option {
+      font-size: 16px;
+      color: #333; /* cor do texto */
+    }
+    /* Style for the custom-div */
+  .custom-div {
+    max-width: 400px; /* Adjust this value based on your design */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
 
-  .custom-button {
-    background-color: #a9cf3c;
-    border-color: #a9cf3c;
-  }
-    /* Estilize o rótulo (label) */
-    label {
+  /* Style for the label */
+  .custom-div label {
     font-weight: bold;
-    font-size: 18px;
-    color: #333; /* cor do texto */
+    margin-bottom: 5px;
   }
 
-  /* Estilize o select (lista de opções) */
-  select {
-    width: 100%; /* largura do elemento */
-    padding: 10px; /* espaço interno */
-    font-size: 16px;
-    border: 1px solid #ccc; /* borda */
-    border-radius: 5px; /* bordas arredondadas */
-    background-color: #f7f7f7; /* cor de fundo */
+  /* Style for the input file */
+  .custom-div .form-control-file {
+    width: 100%;
+    padding: 5px;
   }
 
-  /* Estilize as opções dentro do select */
-  option {
-    font-size: 16px;
-    color: #333; /* cor do texto */
+  /* Additional style for the input file when focused */
+  .custom-div .form-control-file:focus {
+    outline: none;
+    box-shadow: 0 0 5px #007bff; /* Change color as per your design */
   }
-  /* Style for the custom-div */
-.custom-div {
-  max-width: 400px; /* Adjust this value based on your design */
-  padding: 20px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+    /* Estilos para o botão "Cadastrar" */
+    .cadastrar-button {
+      background-color: #a9cf3c;
+      border-color: #a9cf3c;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .cadastrar-button:hover {
+      background-color: #92b633;
+      border-color: #92b633;
+      color: #fff;
+    }
+
+    /* Estilos para o botão "Cancelar" */
+    .cancelar-button {
+      background-color: #a9cf3c;
+      border-color: #a9cf3c;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .cancelar-button:hover {
+      background-color: #92b633;
+      border-color: #92b633;
+      color: #fff;
+    }
+
+    /* Posicionamento dos botões */
+    .custom-button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+
+  <!-- SCRIPT PARA RESGATAR OS PARAMETROS NA URL -->
+    <script>
+      window.onload = function() {
+          const queryParams = new URLSearchParams(window.location.search);
+          const nome = queryParams.get("nome");
+          const endereco = queryParams.get("endereco");
+          const rg = queryParams.get("rg");
+          const cpf = queryParams.get("cpf");
+          const telefone = queryParams.get("telefone");
+          const email = queryParams.get("email");
+          const data_nascimento = queryParams.get("data_nascimento");
+          const responsavel = queryParams.get("responsavel");
+          const medico_solicitante = queryParams.get("medico_solicitante");
+          const crm = queryParams.get("crm");
+          const ocupacao = queryParams.get("ocupacao");
+          const cid = queryParams.get("cid");
+          const pagamento = queryParams.get("pagamento");
+          const empresa = queryParams.get("empresa");
+          const numero_carteirinha = queryParams.get("numero_carteirinha");
+          const plano = queryParams.get("plano");
+
+
+          document.getElementById("nome").value = nome;
+          document.getElementById("endereco").value = endereco;
+          document.getElementById("rg").value = rg;
+          document.getElementById("cpf").value = cpf;
+          document.getElementById("telefone").value = telefone;
+          document.getElementById("email").value = email;
+          document.getElementById("data_nascimento").value = data_nascimento;
+          document.getElementById("responsavel").value = responsavel;
+          document.getElementById("medico_solicitante").value = medico_solicitante;
+          document.getElementById("crm").value = crm;
+          document.getElementById("ocupacao").value = ocupacao;
+          document.getElementById("cid").value = cid;
+          document.getElementById("pagamento").value = pagamento;
+          document.getElementById("empresa").value = empresa;
+          document.getElementById("numero_carteirinha").value = numero_carteirinha;
+          document.getElementById("plano").value = plano;
+      };
+    </script>
+
+    <!-- CPF -->
+    <script>
+      function formatAndValidateRG(input) {
+        let rg = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+      
+        // Check if the input is empty, in which case we clear the value and return
+        if (!rg) {
+          input.value = '';
+          hideRGErrorMessage();
+          return;
+        }
+      
+        // Format the RG
+        const formattedRG = rg.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,1}).*/, '$1.$2.$3-$4');
+        input.value = formattedRG;
+      
+        // Check if the RG has 9 digits and is not a sequence of the same number
+        if (rg.length !== 9) {
+          showRGErrorMessage('RG deve conter 9 dígitos.');
+        } else if (/^(\d)\1+$/.test(rg)) {
+          showRGErrorMessage('RG não pode ser uma sequência de números iguais.');
+        } else {
+          hideRGErrorMessage();
+        }
+      }
+      
+      function showRGErrorMessage(message) {
+        const errorDiv = document.getElementById('rg-error');
+        errorDiv.innerText = message;
+      }
+      
+      function hideRGErrorMessage() {
+        const errorDiv = document.getElementById('rg-error');
+        errorDiv.innerText = '';
+      }
+    </script>
+
+    <script>
+      function formatCPF(input) {
+        let cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+    
+        // Format the CPF as "000.000.000-00" when it's valid and complete
+        if (/^\d{11}$/.test(cpf)) {
+          cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        }
+    
+        input.value = cpf;
+        validateCPF(input);
+      }
+    
+      function validateCPF(input) {
+        const cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+    
+        // Check if the CPF has 11 digits
+        if (cpf.length !== 11) {
+          showErrorMessage('CPF deve conter 11 dígitos.');
+        } else if (/^(\d)\1+$/.test(cpf)) {
+          // Check if it's a sequence of the same number
+          showErrorMessage('CPF não pode ser uma sequência de números iguais.');
+        } else {
+          hideErrorMessage();
+        }
+      }
+    
+      function showErrorMessage(message) {
+        const errorDiv = document.getElementById('cpf-error');
+        errorDiv.innerText = message;
+      }
+    
+      function hideErrorMessage() {
+        const errorDiv = document.getElementById('cpf-error');
+        errorDiv.innerText = '';
+      }
+    </script>
+  
+  <!-- TELEFONE -->
+    <script>
+      function formatarTelefone(input) {
+        // Remove todos os caracteres não numéricos do número de telefone
+        let numero = input.value.replace(/\D/g, '');
+    
+        // Limita o número a 11 dígitos
+        numero = numero.slice(0, 11);
+    
+        // Verifica se o número tem menos de 11 dígitos e formata
+        if (numero.length < 11) {
+          input.value = numero.replace(/^(\d{2})(\d{1,5})/, '($1) $2');
+        } else {
+          input.value = numero.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        }
+      }
+    
+      function validarTelefone(input) {
+        let numero = input.value.replace(/\D/g, '');
+    
+        // Verifica se o telefone tem pelo menos um dígito antes de validar
+        if (numero.length > 0) {
+          // Verifica se o número tem menos de 11 dígitos ou se é sequencial
+          if (numero.length < 11 || ehSequencial(numero)) {
+            document.getElementById('telefoneErro').style.display = 'block';
+            input.focus();
+          } else {
+            document.getElementById('telefoneErro').style.display = 'none';
+          }
+        } else {
+          document.getElementById('telefoneErro').style.display = 'none';
+        }
+      }
+    
+      function ehSequencial(numero) {
+        // Verifica se o número é sequencial (ex: 1234567890 ou 0987654321)
+        let sequencial = true;
+        for (let i = 0; i < numero.length - 1; i++) {
+          if (parseInt(numero[i]) + 1 !== parseInt(numero[i + 1])) {
+            sequencial = false;
+            break;
+          }
+        }
+        return sequencial;
+      }
+    </script>
+  
+  <!-- IDADE -->
+    <script>
+      function calcularIdade() {
+        var data_nascimento = document.getElementById("data_nascimento").value;
+        var hoje = new Date();
+        var nascimento = new Date(data_nascimento);
+        var idade = hoje.getFullYear() - nascimento.getFullYear();
+        var meses = hoje.getMonth() - nascimento.getMonth();
+        if (meses < 0 || (meses === 0 && hoje.getDate() < nascimento.getDate())) {
+          idade--;
+        }
+        if (idade < 0 || idade > 100 || nascimento.getFullYear() < 1900 || nascimento.getFullYear() > 2300) {
+          document.getElementById("idade").value = "";
+        } else {
+          document.getElementById("idade").value = idade;
+        }
+      }
+    
+      document.getElementById("data_nascimento").addEventListener("input", calcularIdade);
+    </script>
+
+
+<!-- Responsável -->
+<!-- <script>
+function validarFormulario1() {
+  var idade = parseInt(document.getElementById('idade').value);
+  var responsavel = document.getElementById('responsavel').value;
+
+  if (isNaN(idade) || idade < 18) {
+    if (responsavel.trim() === "") {
+      alert('Menores de 18 anos precisam ter um responsável');
+      return false; // Impede o envio do formulário
+    }
+  }
+  // Se tudo estiver válido, o formulário será enviado
+  return true;
 }
+</script> -->
 
-/* Style for the label */
-.custom-div label {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
 
-/* Style for the input file */
-.custom-div .form-control-file {
-  width: 100%;
-  padding: 5px;
-}
-
-/* Additional style for the input file when focused */
-.custom-div .form-control-file:focus {
-  outline: none;
-  box-shadow: 0 0 5px #007bff; /* Change color as per your design */
-}
-
-</style>
-
-<!-- SCRIPT PARA RESGATAR OS PARAMETROS NA URL -->
+<!-- PLANO OBRIGATÓRIO -->
 <script>
-  window.onload = function() {
-      const queryParams = new URLSearchParams(window.location.search);
-      const nome = queryParams.get("nome");
-      const endereco = queryParams.get("endereco");
-      const rg = queryParams.get("rg");
-      const cpf = queryParams.get("cpf");
-      const telefone = queryParams.get("telefone");
-      const email = queryParams.get("email");
-      const data_nascimento = queryParams.get("data_nascimento");
-      const responsavel = queryParams.get("responsavel");
-      const medico_solicitante = queryParams.get("medico_solicitante");
-      const crm = queryParams.get("crm");
-      const ocupacao = queryParams.get("ocupacao");
-      const cid = queryParams.get("cid");
-      const pagamento = queryParams.get("pagamento");
-      const empresa = queryParams.get("empresa");
-      const numero_carteirinha = queryParams.get("numero_carteirinha");
-      const plano = queryParams.get("plano");
+  function checkPaymentMethod(event) {
+    event.preventDefault(); // Prevent form submission
 
+    const pagamentoSelect = document.getElementById('pagamento');
+    const empresaField = document.getElementById('empresa');
+    const carteirinhaField = document.getElementById('numero_carteirinha');
+    const planoField = document.getElementById('plano');
+    const errorMessage = document.getElementById('error-message');
 
-      document.getElementById("nome").value = nome;
-      document.getElementById("endereco").value = endereco;
-      document.getElementById("rg").value = rg;
-      document.getElementById("cpf").value = cpf;
-      document.getElementById("telefone").value = telefone;
-      document.getElementById("email").value = email;
-      document.getElementById("data_nascimento").value = data_nascimento;
-      document.getElementById("responsavel").value = responsavel;
-      document.getElementById("medico_solicitante").value = medico_solicitante;
-      document.getElementById("crm").value = crm;
-      document.getElementById("ocupacao").value = ocupacao;
-      document.getElementById("cid").value = cid;
-      document.getElementById("pagamento").value = pagamento;
-      document.getElementById("empresa").value = empresa;
-      document.getElementById("numero_carteirinha").value = numero_carteirinha;
-      document.getElementById("plano").value = plano;
-  };
+    if (pagamentoSelect.value === 'plano') {
+      empresaField.required = true;
+      carteirinhaField.required = true;
+      planoField.required = true;
+      errorMessage.style.display = 'none';
+    } else if (pagamentoSelect.value === 'selecione') {
+      empresaField.required = false;
+      carteirinhaField.required = false;
+      planoField.required = false;
+      errorMessage.style.display = 'block';
+    } else {
+      empresaField.required = false;
+      carteirinhaField.required = false;
+      planoField.required = false;
+      errorMessage.style.display = 'none';
+      // If needed, you can reset the form here: event.target.reset();
+    }
+  }
 </script>
 
+<!-- PLANO OBRIGATÓRIO -->
+<script>
+  function checkPaymentMethod(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const pagamentoSelect = document.getElementById('pagamento');
+    const empresaField = document.getElementById('empresa');
+    const carteirinhaField = document.getElementById('numero_carteirinha');
+    const planoField = document.getElementById('plano');
+    const errorMessage = document.getElementById('error-message');
+
+    if (pagamentoSelect.value === 'plano') {
+      empresaField.required = true;
+      carteirinhaField.required = true;
+      planoField.required = true;
+      errorMessage.style.display = 'none';
+    } else if (pagamentoSelect.value === 'selecione') {
+      empresaField.required = false;
+      carteirinhaField.required = false;
+      planoField.required = false;
+      errorMessage.style.display = 'block';
+    } else {
+      empresaField.required = false;
+      carteirinhaField.required = false;
+      planoField.required = false;
+      errorMessage.style.display = 'none';
+      // If needed, you can reset the form here: event.target.reset();
+    }
+  }
+</script>
 {% endblock %}
 
-{% block content %}
+{% block body_content %}
+<br>
+<div style="display: flex; align-items: center;">
+  <img class="imagem-esquerda" src="https://ciasaude.s3.amazonaws.com/LOGO+CIA+.jpg" alt="Logo da CIA Saúde">
+  <h3>Editar Paciente</h3>
+</div>
+<br>
 
+<form onsubmit="return validarFormulario1(); checkPaymentMethod()" method="post">
+  <!-- CAMPO: NOME -->
+  <div class="form-group">
+    <label for="nome">Nome</label>
+    <input
+      type="text"
+      class="form-control"
+      id="nome"
+      name="nome"
+      placeholder="Insira o nome completo"
+    />
+  </div>
 
-<br><br> <!-- Espaçamento antes de paciente -->
+  <!-- CAMPO: ENDEREÇO -->
+  <div class="form-group">
+    <label for="endereco">Endereço</label>
+    <input
+      type="text"
+      class="form-control"
+      id="endereco"
+      name="endereco"
+      placeholder="Insira o endereço"
+    />
+  </div>
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
-        <h3 align="center">Editar Paciente</h3>
+  <!-- LINHA: RG, CPF, TELEFONE, EMAIL -->
+  <div class="row">
+    
+    <div class="col-sm-3">
+      <label for="rg">RG</label>
+      <input
+      type="text"
+      class="form-control"
+      id="rg"
+      name="rg"
+      placeholder="Insira o RG"
+      oninput="formatAndValidateRG(this)"
+      maxlength="14"
+      pattern="^\d{2}\.\d{3}\.\d{3}-\d$"
+    />
+    <div id="rg-error" style="color: red;"></div>
+    </div>
 
-  <form method="POST">
-    <div class="form-group">
-      <label for="nome">Nome</label>
+    <script>
+    function formatAndValidateRG(input) {
+      let rg = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+
+      // Check if the input is empty, in which case we clear the value and return
+      if (!rg) {
+        input.value = '';
+        hideRGErrorMessage();
+        return;
+      }
+
+      // Format the RG
+      const formattedRG = rg.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,1}).*/, '$1.$2.$3-$4');
+      input.value = formattedRG;
+
+      // Check if the RG has 9 digits and is not a sequence of the same number
+      if (rg.length !== 9) {
+        showRGErrorMessage('RG deve conter 9 dígitos.');
+      } else if (/^(\d)\1+$/.test(rg)) {
+        showRGErrorMessage('RG não pode ser uma sequência de números iguais.');
+      } else {
+        hideRGErrorMessage();
+      }
+    }
+
+    function showRGErrorMessage(message) {
+      const errorDiv = document.getElementById('rg-error');
+      errorDiv.innerText = message;
+    }
+
+    function hideRGErrorMessage() {
+      const errorDiv = document.getElementById('rg-error');
+      errorDiv.innerText = '';
+    }
+    </script>
+              
+    <div class="col-sm-3">
+      <label for="cpf">CPF/CPF do Responsável</label>
       <input
         type="text"
         class="form-control"
-        id="nome"
-        name="nome"
-        placeholder="Insira o nome completo"
-        required
+        id="cpf"
+        name="cpf"
+        placeholder="Insira o CPF"
+        oninput="formatCPF(this)"
+        maxlength="14"
+        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
       />
+      <div id="cpf-error" style="color: red;"></div> <!-- Error message will be displayed here -->
     </div>
+              
+    <script>
+    function formatCPF(input) {
+      let cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
 
-    <div class="form-group">
-      <label for="endereco">Endereço</label>
+      // Format the CPF as "000.000.000-00" when it's valid and complete
+      if (/^\d{11}$/.test(cpf)) {
+        cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      }
+
+      input.value = cpf;
+      validateCPF(input);
+    }
+
+    function validateCPF(input) {
+      const cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+
+      // Check if the CPF has 11 digits
+      if (cpf.length !== 11) {
+        showErrorMessage('CPF deve conter 11 dígitos.');
+      } else if (/^(\d)\1+$/.test(cpf)) {
+        // Check if it's a sequence of the same number
+        showErrorMessage('CPF não pode ser uma sequência de números iguais.');
+      } else {
+        hideErrorMessage();
+      }
+    }
+
+    function showErrorMessage(message) {
+      const errorDiv = document.getElementById('cpf-error');
+      errorDiv.innerText = message;
+    }
+
+    function hideErrorMessage() {
+      const errorDiv = document.getElementById('cpf-error');
+      errorDiv.innerText = '';
+    }
+    </script>
+
+    <div class="col-sm-3">
+      <label for="telefone">Telefone</label>
       <input
-        type="text"
-        class="form-control"
-        id="endereco"
-        name="endereco"
-        placeholder="Insira o endereço"
-        required
+      type="text"
+      class="form-control"
+      id="telefone"
+      name="telefone"
+      placeholder="(xx) xxxxx-xxxx"
+      oninput="formatarTelefone(this)"
+      onblur="validarTelefone(this)"
       />
+      <div id="telefoneErro" style="color: red; display: none;">Número de telefone inválido.</div>
     </div>
 
-    <div class="row">
-      <div class="col-sm-3">
-        <label for="rg">RG</label>
+    <script>
+      function formatarTelefone(input) {
+        // Remove todos os caracteres não numéricos do número de telefone
+        let numero = input.value.replace(/\D/g, '');
+
+        // Limita o número a 11 dígitos
+        numero = numero.slice(0, 11);
+
+        // Verifica se o número tem menos de 11 dígitos e formata
+        if (numero.length < 11) {
+          input.value = numero.replace(/^(\d{2})(\d{1,5})/, '($1) $2');
+        } else {
+          input.value = numero.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        }
+      }
+
+      function validarTelefone(input) {
+        let numero = input.value.replace(/\D/g, '');
+
+        // Verifica se o telefone tem pelo menos um dígito antes de validar
+        if (numero.length > 0) {
+          // Verifica se o número tem menos de 11 dígitos ou se é sequencial
+          if (numero.length < 11 || ehSequencial(numero)) {
+            document.getElementById('telefoneErro').style.display = 'block';
+            input.focus();
+          } else {
+            document.getElementById('telefoneErro').style.display = 'none';
+          }
+        } else {
+          document.getElementById('telefoneErro').style.display = 'none';
+        }
+      }
+
+      function ehSequencial(numero) {
+        // Verifica se o número é sequencial (ex: 1234567890 ou 0987654321)
+        let sequencial = true;
+        for (let i = 0; i < numero.length - 1; i++) {
+          if (parseInt(numero[i]) + 1 !== parseInt(numero[i + 1])) {
+            sequencial = false;
+            break;
+          }
+        }
+        return sequencial;
+      }
+    </script>
+
+    <div class="col-sm-3">
+      <label for="email">Email</label>
+      <input
+      type="text"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Insira um e-mail"
+      />
+      <div id="emailError" style="color: red;"></div>
+    </div>
+
+  </div>
+
+  <br> <!-- break row -->
+  <hr> <!-- horizontal line -->
+
+  <!-- LINHA: DATA NASCIMENTO, IDADE, RESPONSÁVEL -->
+  <div class="row">
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="data_nascimento">Data de nascimento</label>
+        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" oninput="calcularIdade()"/>
+      </div>
+    </div>
+
+    <!-- <div class="col-sm">
+      <div class="form-group">
+        <label for="idade">Idade</label>
+        <input type="number" class="form-control" id="idade" name="idade" placeholder="Cálculo Idade" disabled />
+      </div>
+    </div> -->
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="responsavel">Responsável</label>
         <input
         type="text"
         class="form-control"
-        id="rg"
-        name="rg"
-        placeholder="Insira o RG"
-        required
-        oninput="formatAndValidateRG(this)"
-        maxlength="14"
-        pattern="^\d{2}\.\d{3}\.\d{3}-\d$"
-      />
-      <div id="rg-error" style="color: red;"></div>
-      </div>
-
-            <script>
-              function formatAndValidateRG(input) {
-                let rg = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
-              
-                // Check if the input is empty, in which case we clear the value and return
-                if (!rg) {
-                  input.value = '';
-                  hideRGErrorMessage();
-                  return;
-                }
-              
-                // Format the RG
-                const formattedRG = rg.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,1}).*/, '$1.$2.$3-$4');
-                input.value = formattedRG;
-              
-                // Check if the RG has 9 digits and is not a sequence of the same number
-                if (rg.length !== 9) {
-                  showRGErrorMessage('RG deve conter 9 dígitos.');
-                } else if (/^(\d)\1+$/.test(rg)) {
-                  showRGErrorMessage('RG não pode ser uma sequência de números iguais.');
-                } else {
-                  hideRGErrorMessage();
-                }
-              }
-              
-              function showRGErrorMessage(message) {
-                const errorDiv = document.getElementById('rg-error');
-                errorDiv.innerText = message;
-              }
-              
-              function hideRGErrorMessage() {
-                const errorDiv = document.getElementById('rg-error');
-                errorDiv.innerText = '';
-              }
-              </script>
-              
-              <div class="col-sm-3">
-                <label for="cpf">CPF</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="cpf"
-                  name="cpf"
-                  placeholder="Insira o CPF"
-                  required
-                  oninput="formatCPF(this)"
-                  maxlength="14"
-                  pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-                />
-                <div id="cpf-error" style="color: red;"></div> <!-- Error message will be displayed here -->
-              </div>
-              
-              <script>
-                function formatCPF(input) {
-                  let cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
-              
-                  // Format the CPF as "000.000.000-00" when it's valid and complete
-                  if (/^\d{11}$/.test(cpf)) {
-                    cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-                  }
-              
-                  input.value = cpf;
-                  validateCPF(input);
-                }
-              
-                function validateCPF(input) {
-                  const cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
-              
-                  // Check if the CPF has 11 digits
-                  if (cpf.length !== 11) {
-                    showErrorMessage('CPF deve conter 11 dígitos.');
-                  } else if (/^(\d)\1+$/.test(cpf)) {
-                    // Check if it's a sequence of the same number
-                    showErrorMessage('CPF não pode ser uma sequência de números iguais.');
-                  } else {
-                    hideErrorMessage();
-                  }
-                }
-              
-                function showErrorMessage(message) {
-                  const errorDiv = document.getElementById('cpf-error');
-                  errorDiv.innerText = message;
-                }
-              
-                function hideErrorMessage() {
-                  const errorDiv = document.getElementById('cpf-error');
-                  errorDiv.innerText = '';
-                }
-              </script>
-              
-
-            <div class="col-sm-3">
-              <label for="telefone">Telefone</label>
-              <input
-              type="text"
-              class="form-control"
-              id="telefone"
-              name="telefone"
-              placeholder="(xx) xxxxx-xxxx"
-              required
-              oninput="formatarTelefone(this)"
-              onblur="validarTelefone(this)"
-              />
-              <div id="telefoneErro" style="color: red; display: none;">Número de telefone inválido.</div>
-            </div>
-
-            <script>
-              function formatarTelefone(input) {
-                // Remove todos os caracteres não numéricos do número de telefone
-                let numero = input.value.replace(/\D/g, '');
-            
-                // Limita o número a 11 dígitos
-                numero = numero.slice(0, 11);
-            
-                // Verifica se o número tem menos de 11 dígitos e formata
-                if (numero.length < 11) {
-                  input.value = numero.replace(/^(\d{2})(\d{1,5})/, '($1) $2');
-                } else {
-                  input.value = numero.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-                }
-              }
-            
-              function validarTelefone(input) {
-                let numero = input.value.replace(/\D/g, '');
-            
-                // Verifica se o telefone tem pelo menos um dígito antes de validar
-                if (numero.length > 0) {
-                  // Verifica se o número tem menos de 11 dígitos ou se é sequencial
-                  if (numero.length < 11 || ehSequencial(numero)) {
-                    document.getElementById('telefoneErro').style.display = 'block';
-                    input.focus();
-                  } else {
-                    document.getElementById('telefoneErro').style.display = 'none';
-                  }
-                } else {
-                  document.getElementById('telefoneErro').style.display = 'none';
-                }
-              }
-            
-              function ehSequencial(numero) {
-                // Verifica se o número é sequencial (ex: 1234567890 ou 0987654321)
-                let sequencial = true;
-                for (let i = 0; i < numero.length - 1; i++) {
-                  if (parseInt(numero[i]) + 1 !== parseInt(numero[i + 1])) {
-                    sequencial = false;
-                    break;
-                  }
-                }
-                return sequencial;
-              }
-            </script>
-            
-
-            <div class="col-sm-3">
-              <label for="email">Email</label>
-              <input
-              type="text"
-              class="form-control"
-              id="email"
-              name="email"
-              placeholder="Insira um e-mail"
-              />
-              <div id="emailError" style="color: red;"></div>
-            </div>
+        id="responsavel"
+        name="responsavel"
+        placeholder="Insira o nome do responsável"
+        />
     </div>
 
-    <!-- <script>
-      // Get the form and email input element
-      const form = document.querySelector('form');
-      const emailInput = document.getElementById('email');
-      const emailError = document.getElementById('emailError');
-    
-      // Function to validate email format
-      function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-      }
-    
-      // Event listener for form submission
-      form.addEventListener('submit', function (event) {
-        // Prevent form submission if email is invalid
-        if (!validateEmail(emailInput.value)) {
-          emailError.textContent = 'O email deve conter "@" em algum lugar.';
-          event.preventDefault();
-        } else {
-          emailError.textContent = ''; // Clear the error message if valid
-        }
-      });
-    
-      // Event listener for input changes to clear the error message
-      emailInput.addEventListener('input', function () {
-        emailError.textContent = '';
-      });
-    </script>         -->
-
-  <br>
-  <hr>
-
-    <div class="container">
-      <div class="row">
-        
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="data_nascimento">Data de nascimento</label>
-            <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required/>
-          </div>
-        </div>
-        
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="idade">Idade</label>
-            <input type="number" class="form-control" id="idade" name="idade" placeholder="Cálculo Idade" required disabled />
-          </div>
-        </div>
-
-        <!-- SCRIPT PARA CALCULAR IDADE -->
-        <script>
-          function calcularIdade() {
-            var data_nascimento = document.getElementById("data_nascimento").value;
-            var hoje = new Date();
-            var nascimento = new Date(data_nascimento);
-            var idade = hoje.getFullYear() - nascimento.getFullYear();
-            var meses = hoje.getMonth() - nascimento.getMonth();
-            if (meses < 0 || (meses === 0 && hoje.getDate() < nascimento.getDate())) {
-              idade--;
-            }
-            if (idade < 0 || idade > 100 || nascimento.getFullYear() < 1900 || nascimento.getFullYear() > 2300) {
-              document.getElementById("idade").value = "";
-            } else {
-              document.getElementById("idade").value = idade;
-              
-              var responsavelInput = document.getElementById("responsavel");
-              if (idade > 18) {
-                responsavelInput.disabled = true;
-                responsavelInput.value = ""; // Limpa o valor do campo responsável
-              } else {
-                responsavelInput.disabled = false;
-              }
-            }
-          }
-        
-          document.getElementById("data_nascimento").addEventListener("input", calcularIdade);
-        </script>
-        <!-- SCRIPT PARA CALCULAR IDADE -->
-
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="responsavel">Responsável</label>
-            <input
-            type="text"
-            class="form-control"
-            id="responsavel"
-            name="responsavel"
-            placeholder="Insira o nome do responsável"
-            />
-        </div>
-
-      </div>
     </div>
+
   </div>
     
-  <hr>
-  <div class="container">
-    <div class="row">
+  <hr> <!-- horizontal line -->
 
+  <!-- LINHA: MEDICO SOLICITANTE, CRM, OCUPAÇÃO/CBO -->
+  <div class="row">
+
+    <div class="col-sm">
+      
+      <div class="form-group">
+        <label for="medico_solicitante">Médico solicitante</label>
+        <input
+        type="text"
+        class="form-control"
+        id="medico_solicitante"
+        name="medico_solicitante"
+        placeholder="Nome do médico"
+        /></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="crm">CRM</label>
+        <input
+          type="text"
+          class="form-control"
+          id="crm"
+          name="crm"
+          maxlength="6"
+          pattern="[0-9]*"
+          oninput="validateCRM(this)"
+        />
+        <div id="crm-error" style="color: red;"></div>
+      </div>
+              
       <div class="col-sm">
-        
         <div class="form-group">
-          <label for="medico_solicitante">Médico solicitante</label>
+          <label for="ocupacao">Ocupação/CBO</label>
           <input
           type="text"
           class="form-control"
-          id="medico_solicitante"
-          name="medico_solicitante"
-          placeholder="Nome do médico"
-          required
+          id="ocupacao"
+          name="ocupacao"
           /></div>
-        </div>
-        
-        <div class="form-group">
-          <label for="crm">CRM</label>
-          <input
-            type="text"
-            class="form-control"
-            id="crm"
-            name="crm"
-            required
-            maxlength="6"
-            pattern="[0-9]*"
-            oninput="validateCRM(this)"
-          />
-          <div id="crm-error" style="color: red;"></div>
-        </div>
-                
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="ocupacao">Ocupação/CBO</label>
-            <input
-            type="text"
-            class="form-control"
-            id="ocupacao"
-            name="ocupacao"
-            /></div>
-        </div>
-
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-
-          <div class="form-group">
-            <label for="cid">CID</label>
-            <textarea
-              type="text"
-              class="form-control"
-              id="cid"
-              name="cid"
-              required
-              style="height: 100px;"
-            ></textarea>
-          </div>
-
       </div>
-    </div>
+
   </div>
 
-  <hr>
-  <br>
+  <!-- CAMPO: CID -->
+  <div class="form-group">
+    <label for="cid">CID</label>
+    <textarea
+      type="text"
+      class="form-control"
+      id="cid"
+      name="cid"
+      style="height: 100px;"
+    ></textarea>
+  </div>
 
-  <div class="container">
+  <br> <!-- break row -->
+  <hr> <!-- horizontal line -->
+
+    <!-- LINHA: FORMA DE PAGAMENTO, EMPRESA, N.CARTEIRINHA, PLANO -->
     <div class="row">
-      
       <div class="col-sm">
         <div class="form-group">
           <label for="pagamento">Forma de pagamento:</label>
           <br>
-          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento" id="pagamento">
+          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento" id="pagamento" onchange="checkPaymentMethod()">
             <option selected>Selecione uma opção</option>
             <option value="plano">Plano</option>
             <option value="particular">Particular</option>
           </select>
+          </div>
+          </div>
+            
+          <div class="col-sm">
+          <div class="form-group">
+            <label for="empresa">Empresa:</label>
+            <br>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa" required>
+              <option selected>Selecione uma opção</option>
+              <option value="amil">Amil</option>
+              <option value="bradesco">Bradesco</option>
+              <option value="unimed">Unimed</option>
+              <option value="gamaSaude">Gama Saúde</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
         </div>
-      </div>
-      
-      <div class="col-sm">
-        <div class="form-group">
-          <label for="empresa">Empresa:</label>
-          <br>
-          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa">
-            <option selected>Selecione uma opção</option>
-            <option value="amil">Amil</option>
-            <option value="bradesco">Bradesco</option>
-            <option value="unimed">Unimed</option>
-            <option value="gamaSaude">Gama Saúde</option>
-            <option value="outro">Outro</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="col-sm">
-        <div class="form-group">
-          <label for="numero_carteirinha">N. carteirinha</label>
-          <input
-          type="text"
-          class="form-control"
-          id="numero_carteirinha"
-          name="numero_carteirinha"
-          /></div>
-      </div>
-
-      <div class="col-sm">
-        <div class="form-group">
-          <label for="plano">Plano</label>
-          <input
-          type="text"
-          class="form-control"
-          id="plano"
-          name="plano"
-          /></div>
-      </div>
-
-    </div>
-  </div>
-
-  <hr>
-  <br>
-
-  <div class="container">
-    <div class="col-sm custom-div">
-      <div class="form-group">
-        <label for="anexo">Documento de encaminhamento</label>
-        <input type="file" class="form-control-file" id="anexo">
-      </div>
-    </div>  
-  </div>
-  
-
-  <br>
-  <br>
-
-  <div class="container">
     <div class="col-sm">
-      <button type="submit" class="btn btn-primary custom-button">Editar</button>
-      <a href="/consulta-pacientes" class="btn btn-primary custom-button">Cancelar</a>
+      <div class="form-group">
+        <label for="numero_carteirinha">N. carteirinha</label>
+        <input
+        type="text"
+        class="form-control"
+        id="numero_carteirinha"
+        name="numero_carteirinha"
+        /></div>
     </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="plano">Plano</label>
+        <input
+        type="text"
+        class="form-control"
+        id="plano"
+        name="plano"
+        /></div>
+    </div>
+
   </div>
-    
-  <br><br>
-</form>
+
+  <hr> <!-- horizontal line -->
+
+  <!-- CAMPO: DOCUMENTO DE ENCAMINHAMENTO
+  <div class="col-sm custom-div">
+    <div class="form-group">
+      <label for="anexo">Documento de encaminhamento</label>
+      <input type="file" class="form-control-file" id="anexo">
+    </div>
+  </div> -->
+
+  <br> <!-- break row -->
+  
+  <div class="col-sm custom-button-container">
+    <a href="/consulta-pacientes" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
+    <button type="submit" class="btn btn-primary custom-button cadastrar-button">Salvar</button>
+  </div>  
+
+
+<br> <!-- break row -->
+<br> <!-- break row -->
 
 {% endblock %}

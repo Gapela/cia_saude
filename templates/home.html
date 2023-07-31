@@ -1,5 +1,4 @@
 {% extends "layout.html" %}
-{% block title %}Home{% endblock %}
 
 {% block head_content %}
   <meta charset="UTF-8">
@@ -10,7 +9,17 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif; /* Change the font family for a more modern look */
   }
+
+  body {
+  background-image: url("https://ciasaude.s3.amazonaws.com/LOGO+CIA+.jpg");
+  background-repeat: no-repeat;
+  background-size: 350px 100px;
+  background-attachment: fixed;
+  background-position: center 15%;
+  background-color: rgba(255, 255, 255, 0.3); /* Define a cor de fundo com transparência */
+}
 
   .container {
     height: 100%;
@@ -21,40 +30,77 @@
 
   .row {
     display: flex;
-    justify-content: start; /* Align cards to the left */
-    gap: 50px;
-    margin-top: -300px; /* Adjust the value as needed to move the cards up */
+    justify-content: center; /* Centralizar os cards horizontalmente */
+    gap: 30px;
+    margin-top: -100px; /* Ajuste conforme necessário para mover os cards para cima */
+  }
+
+  .card {
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo dos cards com opacidade ajustada */
+    color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    width: 300px;
+    max-width: 100%;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    text-decoration: none;
   }
 
   .btn-success {
     background-color: #a9cf3c;
     border-color: #a9cf3c;
     color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-success:hover {
+    background-color: #8ab82f;
+  }
+
+  /* Text color changes */
+  .module-title,
+  .module-text {
+    color: #f2832c; /* Altere a cor do texto para laranja */
+  }
+
+  /* Remover estilos padrão de link */
+  a  {
+    text-decoration: none;
+    color: inherit;
   }
   </style>
 {% endblock %}
 
-{% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">Paciente</h5>
-            <p class="card-text">Pacientes que usufruem dos serviços da clínica.</p>
-            <a href="/consulta-pacientes" class="btn btn-success">Consultar</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">Tratamento</h5>
-            <p class="card-text">Módulo para cadastro de novos tratamentos.</p>
-            <a href="/consulta-tratamentos" class="btn btn-success">Consultar</a>
-          </div>
-        </div>
-      </div>
+{% block body_content %}
+
+  <div class="row">
+
+    <div class="col-sm">
+      <a href="/consulta-pacientes" class="card">
+        <h5 class="card-title module-title">Paciente</h5>
+        <p class="card-text module-text">Pacientes que usufruem dos serviços da clínica.</p>
+        <div class="btn-success">Consultar</div>
+      </a>
     </div>
+
+    <div class="col-sm">
+      <a href="/consulta-tratamentos" class="card">
+        <h5 class="card-title module-title">Tratamento</h5>
+        <p class="card-text module-text">Módulo para cadastro de novos tratamentos.</p>
+        <div class="btn-success">Consultar</div>
+      </a>
+    </div>
+
   </div>
+
 {% endblock %}

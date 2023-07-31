@@ -103,10 +103,11 @@ def pacientes_tabela(bd_pacientes):
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)
 
-# tratamento novo
+# tratamento novo (muda todos os dados)
 def tratamento_novo(tratamento):
 
     # variaveis do form
+    nome = tratamento.get('nome')
     cpf = tratamento.get('cpf')
     especialidade = tratamento.get('especialidade')
     profissional_responsavel = tratamento.get('profissional_responsavel')
@@ -114,10 +115,23 @@ def tratamento_novo(tratamento):
     data_fim = tratamento.get('data_fim')
 
     response = {
-        'cpf': cpf,
+        'nome': nome,
+        'cpf': cpf, 
         'especialidade': especialidade,
         'profissional_responsavel': profissional_responsavel,
         'data_inicio': data_inicio,
+        'data_fim': data_fim
+    }
+
+    return response
+
+# tratamento novo (muda todos os dados)
+def tratamento_edit(tratamento):
+
+    # variaveis do form
+    data_fim = tratamento.get('data_fim')
+
+    response = {
         'data_fim': data_fim
     }
 
@@ -134,3 +148,33 @@ def tratamentos_tabela(bd_tratamentos):
     headings = list(df.columns.values) # pega a prieira linha para fazer uma lista Headings
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)
+
+def duplicidade_cpf(cpf):
+    '''
+    Procura o CPF no banco de dados mongodb e retorna o valor boleano para o resultado.
+    '''
+
+    user = bd_pacientes.find_one({'cpf': cpf})
+
+    if user:
+        cpf_status = True
+    else:
+        cpf_status = False
+
+    # return cpf_status
+    return cpf_status
+
+def duplicidade_cpf_e_nome(cpf, nome):
+    '''
+    Procura o CPF e NOME no banco de dados mongodb e retorna o valor boleano para o resultado.
+    '''
+
+    user = bd_pacientes.find_one({'$and': [{'cpf': cpf}, {'nome': nome}]})
+
+    if user:
+        status = True
+    else:
+        status = False
+
+    # return cpf_status
+    return status
