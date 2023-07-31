@@ -4,7 +4,6 @@
 from functions import login_func, paciente_novo, tratamento_novo, pacientes_tabela, tratamentos_tabela, tratamento_edit, duplicidade_cpf, duplicidade_cpf_e_nome
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 from bd import bd_pacientes, bd_tratamentos
-import jsonify
 import os
 
 
