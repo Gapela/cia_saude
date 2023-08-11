@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
 {% block head_content %}
-
   <!-- INLINE CSS -->
-    <style>
+  <style>
     .imagem-esquerda {
        float: left;
        margin-right: 150px;
@@ -48,6 +47,19 @@
   }
     </style>
 
+  <!-- SCRIPTS -->
+    
+    <!-- CARREGAR DADOS DA URL -->
+      <script>
+        window.onload = function() {
+            const queryParams = new URLSearchParams(window.location.search);
+            const nome = queryParams.get("nome");
+            const cpf = queryParams.get("cpf");
+
+            document.getElementById("nome").value = nome;
+            document.getElementById("cpf").value = cpf;
+        };
+      </script>
 {% endblock %}
 
 {% block body_content %}
@@ -69,7 +81,7 @@
         id="nome"
         name="nome"
         placeholder="Insira o nome completo"
-        required
+        disabled
       />
     </div>
 
@@ -82,7 +94,7 @@
       id="cpf"
       name="cpf"
       placeholder="Insira o CPF"
-      required
+      disabled
       />
     </div>
     
@@ -148,7 +160,7 @@
     
     <!-- BOTOES: CANCELAR, CADASTRAR -->
     <div class="col-sm custom-button-container">
-      <a href="/consulta-tratamentos" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
+      <a href="/tratamento-consulta" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
       <button type="submit" class="btn btn-primary custom-button cadastrar-button">Cadastrar</button>
     </div>
       

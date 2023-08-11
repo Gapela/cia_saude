@@ -1,0 +1,377 @@
+{% extends "layout.html" %}
+
+{% block head_content %}
+  <style>
+      .imagem-esquerda {
+       float: left;
+       margin-right: 150px;
+       width: 250px; /* Defina o tamanho desejado para a imagem */
+      }
+
+    .pacientes_table th {
+      background-color: #a9cf3c;
+      position: sticky;
+      top: 0;
+    }
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .custom-button {
+      background-color: #a9cf3c;
+      border-color: #a9cf3c;
+    }
+      /* Estilize o rótulo (label) */
+      label {
+      font-weight: bold;
+      font-size: 18px;
+      color: #333; /* cor do texto */
+    }
+
+    /* Estilize o select (lista de opções) */
+    select {
+      width: 100%; /* largura do elemento */
+      padding: 10px; /* espaço interno */
+      font-size: 16px;
+      border: 1px solid #ccc; /* borda */
+      border-radius: 5px; /* bordas arredondadas */
+      background-color: #f7f7f7; /* cor de fundo */
+    }
+
+    /* Estilize as opções dentro do select */
+    option {
+      font-size: 16px;
+      color: #333; /* cor do texto */
+    }
+    /* Style for the custom-div */
+  .custom-div {
+    max-width: 400px; /* Adjust this value based on your design */
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  /* Style for the label */
+  .custom-div label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  /* Style for the input file */
+  .custom-div .form-control-file {
+    width: 100%;
+    padding: 5px;
+  }
+
+  /* Additional style for the input file when focused */
+  .custom-div .form-control-file:focus {
+    outline: none;
+    box-shadow: 0 0 5px #007bff; /* Change color as per your design */
+  }
+    /* Estilos para o botão "Cadastrar" */
+    .cadastrar-button {
+      background-color: #a9cf3c;
+      border-color: #a9cf3c;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .cadastrar-button:hover {
+      background-color: #92b633;
+      border-color: #92b633;
+      color: #fff;
+    }
+
+    /* Estilos para o botão "Cancelar" */
+    .cancelar-button {
+      background-color: #a9cf3c;
+      border-color: #a9cf3c;
+      color: #fff;
+      transition: background-color 0.3s;
+    }
+
+    .cancelar-button:hover {
+      background-color: #92b633;
+      border-color: #92b633;
+      color: #fff;
+    }
+
+    /* Posicionamento dos botões */
+    .custom-button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+
+  <!-- SCRIPTS -->
+    <!-- SCRIPT PARA RESGATAR OS PARAMETROS NA URL -->
+      <script>
+        // Função para carregar os dados da URL e preencher os campos do formulário
+        function carregarDadosDaURL() {
+          const nome = queryParams.get("nome");
+          const endereco = queryParams.get("endereco");
+          const rg = queryParams.get("rg");
+          const cpf = queryParams.get("cpf");
+          const telefone = queryParams.get("telefone");
+          const especialidade = queryParams.get("especialidade");
+          const obs_especializacao = queryParams.get("obs_especializacao");
+          const crm = queryParams.get("crm");
+          const pagamento = queryParams.get("pagamento");
+          const empresa = queryParams.get("empresa");
+          const numero_carteirinha = queryParams.get("numero_carteirinha");
+          const plano = queryParams.get("plano");
+          const pix = queryParams.get("pix");
+          const banco = queryParams.get("banco");
+          const agencia = queryParams.get("agencia");
+          const conta = queryParams.get("conta");
+      
+          document.getElementById("nome").value = nome;
+          document.getElementById("endereco").value = endereco;
+          document.getElementById("rg").value = rg;
+          document.getElementById("cpf").value = cpf;
+          document.getElementById("telefone").value = telefone;
+          document.getElementById("especialidade").value = especialidade;
+          document.getElementById("obs_especializacao").value = obs_especializacao;
+          document.getElementById("crm").value = crm;
+          document.getElementById("pagamento").value = pagamento;
+          document.getElementById("empresa").value = empresa;
+          document.getElementById("numero_carteirinha").value = numero_carteirinha;
+          document.getElementById("plano").value = plano;
+          document.getElementById("pix").value = pix;
+          document.getElementById("banco").value = banco;
+          document.getElementById("agencia").value = agencia;
+          document.getElementById("conta").value = conta;
+      
+          // Chama a função para definir as regras de pagamento após o carregamento dos dados
+          regras_pagamento();
+        }
+      
+        // Chama a função para carregar os dados da URL e preencher os campos do formulário quando a página for carregada
+        window.onload = carregarDadosDaURL;
+      
+        // Adiciona eventos onchange para os campos que precisam ter ações imediatas
+        <!-- document.getElementById("rg").onchange = formatAndValidateRG;
+        document.getElementById("cpf").onchange = formatCPF;
+        document.getElementById("telefone").onchange = validarTelefone; -->
+      </script>
+{% endblock %}
+
+{% block body_content %}
+<br>
+<div style="display: flex; align-items: center;">
+  <img class="imagem-esquerda" src="https://ciasaude.s3.amazonaws.com/LOGO+CIA+.jpg" alt="Logo da CIA Saúde">
+  <h3>Editar Profissional</h3>
+</div>
+<br>
+
+<form onsubmit="return" method="post">
+  <!-- CAMPO: NOME -->
+  <div class="form-group">
+    <label for="nome">Nome</label>
+    <input
+      type="text"
+      class="form-control"
+      id="nome"
+      name="nome"
+      placeholder="Insira o nome completo"
+    />
+  </div>
+
+  <!-- CAMPO: ENDEREÇO -->
+  <div class="form-group">
+    <label for="endereco">Endereço</label>
+    <input
+      type="text"
+      class="form-control"
+      id="endereco"
+      name="endereco"
+      placeholder="Insira o endereço"
+    />
+  </div>
+
+  <!-- LINHA: RG, CPF, TELEFONE, EMAIL -->
+  <div class="row">
+    
+    <div class="col-sm-3">
+      <label for="rg">RG</label>
+      <input
+      type="text"
+      class="form-control"
+      id="rg"
+      name="rg"
+      placeholder="Insira o RG"
+      maxlength="14"
+      pattern="^\d{2}\.\d{3}\.\d{3}-\d$"
+    />
+    <div id="rg-error" style="color: red;"></div>
+    </div>
+
+    <div class="col-sm-3">
+      <label for="email">Email</label>
+      <input
+      type="text"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Insira um e-mail"
+      />
+      <div id="emailError" style="color: red;"></div>
+    </div>
+
+  </div>
+
+  <br> <!-- break row -->
+  <hr> <!-- horizontal line -->
+
+  <!-- LINHA: DATA NASCIMENTO, IDADE, RESPONSÁVEL -->
+  <div class="row">
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="data_nascimento">Data de nascimento</label>
+        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" oninput="calcularIdade()" required/>
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="responsavel">Responsável</label>
+        <input
+        type="text"
+        class="form-control"
+        id="responsavel"
+        name="responsavel"
+        placeholder="Insira o nome do responsável"
+        />
+    </div>
+
+    </div>
+
+  </div>
+    
+  <hr> <!-- horizontal line -->
+
+  <!-- LINHA: MEDICO SOLICITANTE, CRM, OCUPAÇÃO/CBO -->
+  <div class="row">
+
+    <div class="col-sm">
+      
+      <div class="form-group">
+        <label for="medico_solicitante">Médico solicitante</label>
+        <input
+        type="text"
+        class="form-control"
+        id="medico_solicitante"
+        name="medico_solicitante"
+        placeholder="Nome do médico"
+        /></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="crm">CRM</label>
+        <input
+          type="text"
+          class="form-control"
+          id="crm"
+          name="crm"
+          maxlength="6"
+          pattern="[0-9]*"
+        />
+        <div id="crm-error" style="color: red;"></div>
+      </div>
+              
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="ocupacao">Ocupação/CBO</label>
+          <input
+          type="text"
+          class="form-control"
+          id="ocupacao"
+          name="ocupacao"
+          /></div>
+      </div>
+
+  </div>
+
+  <!-- CAMPO: CID -->
+  <div class="form-group">
+    <label for="cid">CID</label>
+    <textarea
+      type="text"
+      class="form-control"
+      id="cid"
+      name="cid"
+      style="height: 100px;"
+    ></textarea>
+  </div>
+
+  <br> <!-- break row -->
+  <hr> <!-- horizontal line -->
+
+    <!-- LINHA: FORMA DE PAGAMENTO, EMPRESA, N.CARTEIRINHA, PLANO -->
+    <div class="row">
+      <div class="col-sm">
+        <div class="form-group">
+          <label for="pagamento">Forma de pagamento:</label>
+          <br>
+          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento" id="pagamento" oninput="regras_pagamento()">
+            <option selected>Selecione uma opção</option>
+            <option value="plano">Plano</option>
+            <option value="particular">Particular</option>
+          </select>
+          </div>
+          </div>
+            
+          <div class="col-sm">
+          <div class="form-group">
+            <label for="empresa">Empresa:</label>
+            <br>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa" required>
+              <option selected>Selecione uma opção</option>
+              <option value="amil">Amil</option>
+              <option value="bradesco">Bradesco</option>
+              <option value="unimed">Unimed</option>
+              <option value="gamaSaude">Gama Saúde</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="numero_carteirinha">N. carteirinha</label>
+        <input
+        type="text"
+        class="form-control"
+        id="numero_carteirinha"
+        name="numero_carteirinha"
+        /></div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="plano">Plano</label>
+        <input
+        type="text"
+        class="form-control"
+        id="plano"
+        name="plano"
+        /></div>
+    </div>
+
+  </div>
+
+  <hr>
+  
+  <div class="col-sm custom-button-container">
+    <a href="/profissional-consulta" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
+    <button type="submit" class="btn btn-primary custom-button cadastrar-button">Salvar</button>
+  </div>  
+
+
+<br> <!-- break row -->
+<br> <!-- break row -->
+
+{% endblock %}

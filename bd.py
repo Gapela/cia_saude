@@ -17,3 +17,4 @@ bd = client.clinica
 bd_usuarios = bd.usuarios
 bd_pacientes = bd.pacientes
 bd_tratamentos = bd.tratamentos
+bd_profissional = bd.profissional
