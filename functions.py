@@ -45,6 +45,10 @@ def duplicidade_cpf_e_nome(cpf, nome):
     # return cpf_status
     return status
 
+
+
+
+
 ########################################### PACIENTE ##############################
 
 # paciente novo
@@ -53,6 +57,7 @@ def paciente_format(paciente_form):
     # variaveis do form
     nome = paciente_form.get('nome')
     endereco = paciente_form.get('endereco')
+    cep = paciente_form.get('cep')
     rg = paciente_form.get('rg')
     cpf = paciente_form.get('cpf')
     telefone = paciente_form.get('telefone')
@@ -87,6 +92,7 @@ def paciente_format(paciente_form):
     response = {
         'nome': nome,
         'endereco': endereco,
+        'cep': cep,
         'rg': rg,
         'cpf': cpf,
         'telefone': telefone,
@@ -219,6 +225,9 @@ def tratamentos_tabela(bd_tratamentos):
     headings = list(df.columns.values) # pega a prieira linha para fazer uma lista Headings
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)
+
+
+
 
 ########################################### PROFISSISONAL ##############################
 

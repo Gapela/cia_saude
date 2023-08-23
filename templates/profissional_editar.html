@@ -1,52 +1,64 @@
 {% extends "layout.html" %}
 
 {% block head_content %}
-  <style>
-      .imagem-esquerda {
-       float: left;
-       margin-right: 150px;
-       width: 250px; /* Defina o tamanho desejado para a imagem */
-      }
+<style>
+  .imagem-esquerda {
+    float: left;
+    margin-right: 150px;
+    width: 250px;
+    /* Defina o tamanho desejado para a imagem */
+  }
 
-    .pacientes_table th {
-      background-color: #a9cf3c;
-      position: sticky;
-      top: 0;
-    }
-    .table-container {
-      max-height: 400px;
-      overflow-y: auto;
-    }
+  .pacientes_table th {
+    background-color: #a9cf3c;
+    position: sticky;
+    top: 0;
+  }
 
-    .custom-button {
-      background-color: #a9cf3c;
-      border-color: #a9cf3c;
-    }
-      /* Estilize o rótulo (label) */
-      label {
-      font-weight: bold;
-      font-size: 18px;
-      color: #333; /* cor do texto */
-    }
+  .table-container {
+    max-height: 400px;
+    overflow-y: auto;
+  }
 
-    /* Estilize o select (lista de opções) */
-    select {
-      width: 100%; /* largura do elemento */
-      padding: 10px; /* espaço interno */
-      font-size: 16px;
-      border: 1px solid #ccc; /* borda */
-      border-radius: 5px; /* bordas arredondadas */
-      background-color: #f7f7f7; /* cor de fundo */
-    }
+  .custom-button {
+    background-color: #a9cf3c;
+    border-color: #a9cf3c;
+  }
 
-    /* Estilize as opções dentro do select */
-    option {
-      font-size: 16px;
-      color: #333; /* cor do texto */
-    }
-    /* Style for the custom-div */
+  /* Estilize o rótulo (label) */
+  label {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    /* cor do texto */
+  }
+
+  /* Estilize o select (lista de opções) */
+  select {
+    width: 100%;
+    /* largura do elemento */
+    padding: 10px;
+    /* espaço interno */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    /* borda */
+    border-radius: 5px;
+    /* bordas arredondadas */
+    background-color: #f7f7f7;
+    /* cor de fundo */
+  }
+
+  /* Estilize as opções dentro do select */
+  option {
+    font-size: 16px;
+    color: #333;
+    /* cor do texto */
+  }
+
+  /* Style for the custom-div */
   .custom-div {
-    max-width: 400px; /* Adjust this value based on your design */
+    max-width: 400px;
+    /* Adjust this value based on your design */
     padding: 20px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -68,94 +80,44 @@
   /* Additional style for the input file when focused */
   .custom-div .form-control-file:focus {
     outline: none;
-    box-shadow: 0 0 5px #007bff; /* Change color as per your design */
+    box-shadow: 0 0 5px #007bff;
+    /* Change color as per your design */
   }
-    /* Estilos para o botão "Cadastrar" */
-    .cadastrar-button {
-      background-color: #a9cf3c;
-      border-color: #a9cf3c;
-      color: #fff;
-      transition: background-color 0.3s;
-    }
 
-    .cadastrar-button:hover {
-      background-color: #92b633;
-      border-color: #92b633;
-      color: #fff;
-    }
+  /* Estilos para o botão "Cadastrar" */
+  .cadastrar-button {
+    background-color: #a9cf3c;
+    border-color: #a9cf3c;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
 
-    /* Estilos para o botão "Cancelar" */
-    .cancelar-button {
-      background-color: #a9cf3c;
-      border-color: #a9cf3c;
-      color: #fff;
-      transition: background-color 0.3s;
-    }
+  .cadastrar-button:hover {
+    background-color: #92b633;
+    border-color: #92b633;
+    color: #fff;
+  }
 
-    .cancelar-button:hover {
-      background-color: #92b633;
-      border-color: #92b633;
-      color: #fff;
-    }
+  /* Estilos para o botão "Cancelar" */
+  .cancelar-button {
+    background-color: #a9cf3c;
+    border-color: #a9cf3c;
+    color: #fff;
+    transition: background-color 0.3s;
+  }
 
-    /* Posicionamento dos botões */
-    .custom-button-container {
-      display: flex;
-      justify-content: space-between;
-    }
-  </style>
+  .cancelar-button:hover {
+    background-color: #92b633;
+    border-color: #92b633;
+    color: #fff;
+  }
 
-  <!-- SCRIPTS -->
-    <!-- SCRIPT PARA RESGATAR OS PARAMETROS NA URL -->
-      <script>
-        // Função para carregar os dados da URL e preencher os campos do formulário
-        function carregarDadosDaURL() {
-          const nome = queryParams.get("nome");
-          const endereco = queryParams.get("endereco");
-          const rg = queryParams.get("rg");
-          const cpf = queryParams.get("cpf");
-          const telefone = queryParams.get("telefone");
-          const especialidade = queryParams.get("especialidade");
-          const obs_especializacao = queryParams.get("obs_especializacao");
-          const crm = queryParams.get("crm");
-          const pagamento = queryParams.get("pagamento");
-          const empresa = queryParams.get("empresa");
-          const numero_carteirinha = queryParams.get("numero_carteirinha");
-          const plano = queryParams.get("plano");
-          const pix = queryParams.get("pix");
-          const banco = queryParams.get("banco");
-          const agencia = queryParams.get("agencia");
-          const conta = queryParams.get("conta");
-      
-          document.getElementById("nome").value = nome;
-          document.getElementById("endereco").value = endereco;
-          document.getElementById("rg").value = rg;
-          document.getElementById("cpf").value = cpf;
-          document.getElementById("telefone").value = telefone;
-          document.getElementById("especialidade").value = especialidade;
-          document.getElementById("obs_especializacao").value = obs_especializacao;
-          document.getElementById("crm").value = crm;
-          document.getElementById("pagamento").value = pagamento;
-          document.getElementById("empresa").value = empresa;
-          document.getElementById("numero_carteirinha").value = numero_carteirinha;
-          document.getElementById("plano").value = plano;
-          document.getElementById("pix").value = pix;
-          document.getElementById("banco").value = banco;
-          document.getElementById("agencia").value = agencia;
-          document.getElementById("conta").value = conta;
-      
-          // Chama a função para definir as regras de pagamento após o carregamento dos dados
-          regras_pagamento();
-        }
-      
-        // Chama a função para carregar os dados da URL e preencher os campos do formulário quando a página for carregada
-        window.onload = carregarDadosDaURL;
-      
-        // Adiciona eventos onchange para os campos que precisam ter ações imediatas
-        <!-- document.getElementById("rg").onchange = formatAndValidateRG;
-        document.getElementById("cpf").onchange = formatCPF;
-        document.getElementById("telefone").onchange = validarTelefone; -->
-      </script>
+  /* Posicionamento dos botões */
+  .custom-button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
 {% endblock %}
 
 {% block body_content %}
@@ -166,58 +128,42 @@
 </div>
 <br>
 
-<form onsubmit="return" method="post">
+<!-- FOMULARIO -->
+<form id="form" method="post">
+
   <!-- CAMPO: NOME -->
   <div class="form-group">
     <label for="nome">Nome</label>
-    <input
-      type="text"
-      class="form-control"
-      id="nome"
-      name="nome"
-      placeholder="Insira o nome completo"
-    />
+    <input type="text" class="form-control" id="nome" name="nome" placeholder="Insira o nome completo" required />
   </div>
 
   <!-- CAMPO: ENDEREÇO -->
   <div class="form-group">
     <label for="endereco">Endereço</label>
-    <input
-      type="text"
-      class="form-control"
-      id="endereco"
-      name="endereco"
-      placeholder="Insira o endereço"
-    />
+    <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o endereço" required />
   </div>
 
-  <!-- LINHA: RG, CPF, TELEFONE, EMAIL -->
+  <!-- LINHA: RG, CPF, TELEFONE -->
   <div class="row">
-    
-    <div class="col-sm-3">
+
+    <div class="col-sm">
       <label for="rg">RG</label>
-      <input
-      type="text"
-      class="form-control"
-      id="rg"
-      name="rg"
-      placeholder="Insira o RG"
-      maxlength="14"
-      pattern="^\d{2}\.\d{3}\.\d{3}-\d$"
-    />
-    <div id="rg-error" style="color: red;"></div>
+      <input type="text" class="form-control" id="rg" name="rg" placeholder="Insira o RG" required maxlength="14"
+        pattern="^\d{2}\.\d{3}\.\d{3}-\d$" oninput="formatAndValidateRG(this)" />
+      <div id="rg-error" style="color: red;"></div>
     </div>
 
-    <div class="col-sm-3">
-      <label for="email">Email</label>
-      <input
-      type="text"
-      class="form-control"
-      id="email"
-      name="email"
-      placeholder="Insira um e-mail"
-      />
-      <div id="emailError" style="color: red;"></div>
+    <div class="col-sm">
+      <label for="cpf">CPF</label>
+      <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Insira o CPF" maxlength="14"
+        pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" oninput="formatCPF(this)" required />
+      <div id="cpf-error" style="color: red;"></div> <!-- Error message will be displayed here -->
+    </div>
+
+    <div class="col-sm">
+      <label for="telefone">Telefone</label>
+      <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(xx) xxxxx-xxxx" required />
+      <div id="telefoneErro" style="color: red; display: none;">Número de telefone inválido.</div>
     </div>
 
   </div>
@@ -225,153 +171,370 @@
   <br> <!-- break row -->
   <hr> <!-- horizontal line -->
 
-  <!-- LINHA: DATA NASCIMENTO, IDADE, RESPONSÁVEL -->
+  <!-- LINHA: ESPECIALIDADE,  -->
+
+  <!-- ROW: ESPECIALIDADE, OBS.ESPECIALIZAÇÃO, CRM -->
   <div class="row">
 
+    <!-- especialidade -->
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="especialidade">Especialidade:</label>
+        <br>
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="especialidade"
+          id="especialidade" required>
+          <option disabled selected>Selecione uma opção</option>
+          <option value="psicologia">Psicologia</option>
+          <option value="nutrição">Nutrição</option>
+          <option value="fisioterapia">Fisioterapia</option>
+        </select>
+      </div>
+    </div>
+    <div id="error-message" style="color: red; display: none;">Selecione uma especialização.</div>
+
+    <!-- Observação especialidade -->
     <div class="col-sm">
       <div class="form-group">
-        <label for="data_nascimento">Data de nascimento</label>
-        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" oninput="calcularIdade()" required/>
+        <label for="obs_especializacao">Obs. Especialização</label>
+        <input type="text" class="form-control" id="obs_especializacao" name="obs_especializacao"
+          placeholder="Insira uma observação sobre a especialização caso necessário" />
+        <div id="responsavel-error" style="color: red;"></div> <!-- Div para exibir o erro -->
       </div>
     </div>
 
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="responsavel">Responsável</label>
-        <input
-        type="text"
-        class="form-control"
-        id="responsavel"
-        name="responsavel"
-        placeholder="Insira o nome do responsável"
-        />
-    </div>
-
-    </div>
-
-  </div>
-    
-  <hr> <!-- horizontal line -->
-
-  <!-- LINHA: MEDICO SOLICITANTE, CRM, OCUPAÇÃO/CBO -->
-  <div class="row">
-
-    <div class="col-sm">
-      
-      <div class="form-group">
-        <label for="medico_solicitante">Médico solicitante</label>
-        <input
-        type="text"
-        class="form-control"
-        id="medico_solicitante"
-        name="medico_solicitante"
-        placeholder="Nome do médico"
-        /></div>
-      </div>
-      
+    <!-- CRM -->
+    <div class="col-sm-3">
       <div class="form-group">
         <label for="crm">CRM</label>
-        <input
-          type="text"
-          class="form-control"
-          id="crm"
-          name="crm"
-          maxlength="6"
-          pattern="[0-9]*"
-        />
+        <input type="text" class="form-control" id="crm" name="crm" required maxlength="6" pattern="[0-9]*" />
         <div id="crm-error" style="color: red;"></div>
       </div>
-              
-      <div class="col-sm">
-        <div class="form-group">
-          <label for="ocupacao">Ocupação/CBO</label>
-          <input
-          type="text"
-          class="form-control"
-          id="ocupacao"
-          name="ocupacao"
-          /></div>
-      </div>
+    </div>
 
   </div>
 
-  <!-- CAMPO: CID -->
-  <div class="form-group">
-    <label for="cid">CID</label>
-    <textarea
-      type="text"
-      class="form-control"
-      id="cid"
-      name="cid"
-      style="height: 100px;"
-    ></textarea>
-  </div>
-
-  <br> <!-- break row -->
   <hr> <!-- horizontal line -->
+  <br> <!-- break row -->
 
-    <!-- LINHA: FORMA DE PAGAMENTO, EMPRESA, N.CARTEIRINHA, PLANO -->
-    <div class="row">
-      <div class="col-sm">
-        <div class="form-group">
-          <label for="pagamento">Forma de pagamento:</label>
-          <br>
-          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento" id="pagamento" oninput="regras_pagamento()">
-            <option selected>Selecione uma opção</option>
-            <option value="plano">Plano</option>
-            <option value="particular">Particular</option>
-          </select>
-          </div>
-          </div>
-            
-          <div class="col-sm">
-          <div class="form-group">
-            <label for="empresa">Empresa:</label>
-            <br>
-            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa" required>
-              <option selected>Selecione uma opção</option>
-              <option value="amil">Amil</option>
-              <option value="bradesco">Bradesco</option>
-              <option value="unimed">Unimed</option>
-              <option value="gamaSaude">Gama Saúde</option>
-              <option value="outro">Outro</option>
-            </select>
-          </div>
-        </div>
+
+  <!-- ROW PARA DEIXAR O CAMPO "FORMA DE PAGAMENTO" ALINHADO NO MEIO DA TELA -->
+  <div class="row justify-content-center">
+    <div class="col-3">
+      <div class="form-group">
+        <label for="pagamento">Forma de pagamento:</label>
+        <br>
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento"
+          id="pagamento" onchange="regras_pagamento()">
+          <option disabled selected>Selecione uma opção</option>
+          <option value="plano">Plano</option>
+          <option value="particular">Particular</option>
+        </select>
+      </div>
+    </div>
+    <div id="error-message" style="color: red; display: none;">Selecione uma forma de pagamento válida.</div>
+  </div>
+
+
+  <!-- LINHA: EMPRESA, N.CARTEIRINHA, PLANO -->
+  <div class="row">
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="empresa">Empresa:</label>
+        <br>
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa"
+          disabled>
+          <option disabled selected>Selecione uma opção</option>
+          <option value="amil">Amil</option>
+          <option value="bradesco">Bradesco</option>
+          <option value="unimed">Unimed</option>
+          <option value="gamaSaude">Gama Saúde</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+    </div>
 
     <div class="col-sm">
       <div class="form-group">
         <label for="numero_carteirinha">N. carteirinha</label>
-        <input
-        type="text"
-        class="form-control"
-        id="numero_carteirinha"
-        name="numero_carteirinha"
-        /></div>
+        <input type="text" class="form-control" id="numero_carteirinha" name="numero_carteirinha" disabled />
+      </div>
     </div>
 
     <div class="col-sm">
       <div class="form-group">
         <label for="plano">Plano</label>
-        <input
-        type="text"
-        class="form-control"
-        id="plano"
-        name="plano"
-        /></div>
+        <input type="text" class="form-control" id="plano" name="plano" disabled />
+      </div>
     </div>
+  </div>
+
+  <!-- ROW: PIX, BANCO, AGENCIA, CONTA -->
+  <div class="row">
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="pix">PIX</label>
+        <input type="text" class="form-control" id="pix" name="pix" disabled />
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="banco">Banco</label>
+        <input type="text" class="form-control" id="banco" name="banco" disabled />
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="agencia">Agência</label>
+        <input type="text" class="form-control" id="agencia" name="agencia" disabled />
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-group">
+        <label for="conta">Conta</label>
+        <input type="text" class="form-control" id="conta" name="conta" disabled />
+      </div>
+    </div>
+
 
   </div>
 
-  <hr>
-  
+  <hr> <!-- horizontal line -->
+  <br> <!-- break row -->
+
+  <!-- BOTÕES: CANCELAR E CADASTRAR -->
   <div class="col-sm custom-button-container">
     <a href="/profissional-consulta" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
-    <button type="submit" class="btn btn-primary custom-button cadastrar-button">Salvar</button>
-  </div>  
+    <button type="submit" class="btn btn-primary custom-button cadastrar-button">Avançar</button>
+  </div>
 
+  <br><br>
+
+</form>
 
 <br> <!-- break row -->
 <br> <!-- break row -->
+
+<!-- SCRIPTS -->
+
+<!-- RESGATAR OS PARAMETROS NA URL -->
+  <script>
+    // Função para carregar os dados da URL e preencher os campos do formulário
+    function carregarDadosDaURL() {
+      const queryParams = new URLSearchParams(window.location.search);
+
+      const nome = queryParams.get("nome");
+      const endereco = queryParams.get("endereco");
+      const rg = queryParams.get("rg");
+      const cpf = queryParams.get("cpf");
+      const telefone = queryParams.get("telefone");
+      const especialidade = queryParams.get("especialidade");
+      const obs_especializacao = queryParams.get("obs_especializacao");
+      const crm = queryParams.get("crm");
+      const pagamento = queryParams.get("pagamento");
+      const empresa = queryParams.get("empresa");
+      const numero_carteirinha = queryParams.get("numero_carteirinha");
+      const plano = queryParams.get("plano");
+      const pix = queryParams.get("pix");
+      const banco = queryParams.get("banco");
+      const agencia = queryParams.get("agencia");
+      const conta = queryParams.get("conta");
+
+      document.getElementById("nome").value = nome;
+      document.getElementById("endereco").value = endereco;
+      document.getElementById("rg").value = rg;
+      document.getElementById("cpf").value = cpf;
+      document.getElementById("telefone").value = telefone;
+      document.getElementById("especialidade").value = especialidade;
+      document.getElementById("obs_especializacao").value = obs_especializacao;
+      document.getElementById("crm").value = crm;
+      document.getElementById("pagamento").value = pagamento;
+      document.getElementById("empresa").value = empresa;
+      document.getElementById("numero_carteirinha").value = numero_carteirinha;
+      document.getElementById("plano").value = plano;
+      document.getElementById("pix").value = pix;
+      document.getElementById("banco").value = banco;
+      document.getElementById("agencia").value = agencia;
+      document.getElementById("conta").value = conta;
+    }
+
+    // Chama a função para carregar os dados da URL e preencher os campos do formulário quando a página for carregada
+    window.onload = carregarDadosDaURL;
+  </script>
+
+  <!-- FORMA DE PAGAMENTO -->
+  <script>
+    function regras_pagamento() {
+      const pagamento_select = document.getElementById('pagamento');
+      const empresa_select = document.getElementById('empresa');
+      const numero_carteirinha = document.getElementById('numero_carteirinha');
+      const plano = document.getElementById('plano');
+
+      // Get the selected value from the select field
+      const pagamentoValue = pagamento_select.value;
+
+      // Get msg field
+      const errorMessage = document.getElementById('error-message');
+
+
+      // Depending on the selected value, enable specific fields and set their values
+      if (pagamentoValue === 'plano') {
+
+        //EMPRESA, N.CARTEIRINHA, PLANO
+        empresa_select.value = 'Selecione uma opção';
+        numero_carteirinha.value = '';
+        plano.value = '';
+
+        empresa_select.disabled = false;
+        numero_carteirinha.disabled = false;
+        plano.disabled = false;
+
+        empresa_select.required = true;
+        numero_carteirinha.required = true;
+        plano.required = true;
+
+        //PIX, BANCO, AGENCIA, CONTA
+        pix.value = '';
+        banco.value = '';
+        agencia.value = '';
+        conta.value = '';
+
+        pix.disabled = true;
+        banco.disabled = true;
+        agencia.disabled = true;
+        conta.disabled = true;
+
+        pix.required = false;
+        banco.required = false;
+        agencia.required = false;
+        conta.required = false;
+
+      } else if (pagamentoValue === 'particular') {
+
+        //EMPRESA, N.CARTEIRINHA, PLANO
+        empresa_select.value = '';
+        numero_carteirinha.value = '';
+        plano.value = '';
+
+        empresa_select.disabled = true;
+        numero_carteirinha.disabled = true;
+        plano.disabled = true;
+
+        empresa_select.required = false;
+        numero_carteirinha.required = false;
+        plano.required = false;
+
+        //PIX, BANCO, AGENCIA, CONTA
+        pix.value = '';
+        banco.value = '';
+        agencia.value = '';
+        conta.value = '';
+
+        pix.disabled = false;
+        banco.disabled = false;
+        agencia.disabled = false;
+        conta.disabled = false;
+
+        pix.required = true;
+        banco.required = true;
+        agencia.required = true;
+        conta.required = true;
+      }
+    }
+  </script>
+
+  <!-- RG -->
+  <script>
+    function formatAndValidateRG(input) {
+      let rg = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+
+      // Check if the input is empty, in which case we clear the value and return
+      if (!rg) {
+        input.value = '';
+        hideRGErrorMessage();
+        return;
+      }
+
+      // Format the RG
+      const formattedRG = rg.replace(/^(\d{2})(\d{3})(\d{3})(\d{0,1}).*/, '$1.$2.$3-$4');
+      input.value = formattedRG;
+
+      // Check if the RG has 9 digits and is not a sequence of the same number
+      if (rg.length !== 9) {
+        showRGErrorMessage('RG deve conter 9 dígitos.');
+      } else if (/^(\d)\1+$/.test(rg)) {
+        showRGErrorMessage('RG não pode ser uma sequência de números iguais.');
+      } else {
+        hideRGErrorMessage();
+      }
+    }
+  </script>
+
+  <!-- CPF -->
+  <script>
+    function formatCPF(input) {
+      let cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+
+      // Format the CPF as "000.000.000-00" when it's valid and complete
+      if (/^\d{11}$/.test(cpf)) {
+        cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+      }
+
+      input.value = cpf;
+      validateCPF(input);
+    }
+  </script>
+
+  <script>
+    function validateCPF(input) {
+      const cpf = input.value.replace(/\D/g, ''); // Remove non-digit characters from input
+
+      // Check if the CPF has 11 digits
+      if (cpf.length !== 11) {
+        showErrorMessage('CPF deve conter 11 dígitos.');
+      } else if (/^(\d)\1+$/.test(cpf)) {
+        // Check if it's a sequence of the same number
+        showErrorMessage('CPF não pode ser uma sequência de números iguais.');
+      } else {
+        hideErrorMessage();
+      }
+    }
+  </script>
+
+  <!-- ERROR MESSAGE -->
+
+  <!-- RG ERROR -->
+  <script>
+    function showRGErrorMessage(message) {
+      const errorDiv = document.getElementById('rg-error');
+      errorDiv.innerText = message;
+    }
+  </script>
+
+  <script>
+    function hideRGErrorMessage() {
+      const errorDiv = document.getElementById('rg-error');
+      errorDiv.innerText = '';
+    }
+  </script>
+
+  <!-- CPF ERROR -->
+  <script>
+    function showErrorMessage(message) {
+      const errorDiv = document.getElementById('cpf-error');
+      errorDiv.innerText = message;
+    }
+  </script>
+
+  <script>
+    function hideErrorMessage() {
+      const errorDiv = document.getElementById('cpf-error');
+      errorDiv.innerText = '';
+    }
+  </script>
+
 
 {% endblock %}

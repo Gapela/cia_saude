@@ -7,8 +7,12 @@ from functions import tratamento_format, tratamentos_tabela, tratamento_edit
 from functions import tratamento_paciente_format
 from functions import profissional_format
 
+from bd import bd_pacientes, bd_tratamentos, bd_profissional, bd_usuarios
+
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from flask import Flask, render_template, request, redirect, session, flash, url_for
-from bd import bd_pacientes, bd_tratamentos, bd_profissional
+
+import bcrypt
 
 
 ##################
@@ -18,38 +22,69 @@ from bd import bd_pacientes, bd_tratamentos, bd_profissional
 app = Flask(__name__)
 app.secret_key = "sua_chave_secreta"
 
+###################
+### FLASK LOGIN ###
+###################
+
+# LOGIN MANAGER
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+# USER MIXIN
+# Classe do Usuário
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+
+# USER LOADER
+@login_manager.user_loader
+def load_user(user_id):
+    return User(user_id)
+
+
 
 #############
 ### ROTAS ###
 #############
 
-# LOGIN
-@app.route('/login', methods=['GET','POST'])
-def login():
-    return login_func()
-
 # ROTA INDEX/LOGIN
 @app.route('/')
 def index():
+    return redirect(url_for('login'))
+
+# LOGIN
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user_data = bd_usuarios.find_one({'username': username})
+
+        if user_data and bcrypt.checkpw(password.encode('utf-8'), user_data['password']):
+            user = User(user_data['username'])
+            login_user(user)
+            return redirect(url_for('home'))
+
     return render_template('login.html')
+
+# LOGOUT
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 # HOME
 @app.route('/home')
+@login_required
 def home():
     return render_template('home.html')
-
-# LOGOUT
-@app.route('/logout', methods=['POST'])
-def logout():
-    session.pop('username', None)
-    return render_template('landing_page.html')
-
-
 
 
 ############################################## PACIENTE ################################################
 
 @app.route('/paciente-consulta')
+@login_required
 def paciente_consulta():
     pacientes_dados = bd_pacientes.find() # dados do banco de dados
     dados = pacientes_tabela(pacientes_dados)
@@ -60,6 +95,7 @@ def paciente_consulta():
     return render_template('paciente_consulta.html', headings=headings, pacientes=pacientes)
 
 @app.route('/paciente-novo', methods = ['GET', 'POST'])
+@login_required
 def paciente_novo():
 
     if request.method == 'POST':
@@ -84,6 +120,7 @@ def paciente_novo():
     return render_template('paciente_novo.html')
 
 @app.route('/paciente-editar', methods=['POST', 'GET'])
+@login_required
 def paciente_editar():
 
     if request.method == 'POST':
@@ -115,12 +152,15 @@ def paciente_editar():
 
 
 
+
+
 ############################################## PACIENTE/TRATAMENTO ################################################
 
 ###########################################
 ########### TRATAMENTO-PACIENTE ###########
 ###########################################
 @app.route('/paciente-tratamento', methods = ['GET','POST'])
+@login_required
 def paciente_tratamento():
     '''
     este é o tratamento que é carregado logo após o cadastro de um novo paciente.
@@ -151,6 +191,7 @@ def paciente_tratamento():
 ############################################## TRATAMENTO ################################################
 
 @app.route('/tratamento-consulta')
+@login_required
 def tratamento_consulta():
     tratamentos_dados = bd_tratamentos.find() # dados do banco de dados
     dados = tratamentos_tabela(tratamentos_dados)
@@ -161,6 +202,7 @@ def tratamento_consulta():
     return render_template('tratamento_consulta.html', headings=headings, tratamentos=tratamentos)
 
 @app.route('/tratamento-novo', methods = ['GET', 'POST'])
+@login_required
 def tratamento_novo():
 
     if request.method == 'POST':
@@ -174,6 +216,7 @@ def tratamento_novo():
     return render_template('tratamento_novo.html')
 
 @app.route('/tratamento-editar', methods=['POST', 'GET'])
+@login_required
 def tratamento_editar():
 
     if request.method == 'POST':
@@ -206,9 +249,10 @@ def tratamento_editar():
 
 
 
-############################################## TRATAMENTO ################################################
+############################################## PROFISSIONAL ################################################
 
 @app.route('/profissional-consulta', methods=['POST', 'GET'])
+@login_required
 def profissional_consulta():
     profissional_dados = bd_profissional.find() # dados do banco de dados
     dados = pacientes_tabela(profissional_dados)
@@ -219,6 +263,7 @@ def profissional_consulta():
     return render_template('profissional_consulta.html', headings=headings, profissional=profissional)
 
 @app.route('/profissional-novo', methods=['POST', 'GET'])
+@login_required
 def profissional_novo():
 
     if request.method == 'POST':
@@ -233,10 +278,35 @@ def profissional_novo():
     return render_template('profissional_novo.html')
 
 @app.route('/profissional-editar', methods=['POST', 'GET'])
+@login_required
 def profissional_editar():
+
+    if request.method == 'POST':
+
+        # novos dados do form para update do usuário
+        form = request.form
+        dados_form = profissional_format(form)
+
+        # criação de variaveis para o find_one_and_update do pymongo
+        dados_url = request.args # argumento 'cpf' passa na url
+        cpf_url = dados_url['cpf']
+
+        # dados para serem passados no find_one_and_update
+        filtro = {'cpf': cpf_url}
+        novos_dados = {'$set': dados_form}
+
+        # update dos dados no mongodb
+        update = bd_profissional.find_one_and_update(filtro, novos_dados)
+
+        if update:
+            flash('Profissional editado com sucesso.', category='success') # exibe msg no front de sucesso de cadastro
+            update
+        else:
+            flash('Profissional não editado.', category='error') # exibe msg no front de sucesso de cadastro
+        
+        return redirect(url_for('profissional_consulta'))
+    
     return render_template('profissional_editar.html')
-
-
 
 
 
