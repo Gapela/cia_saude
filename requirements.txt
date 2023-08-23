@@ -13,6 +13,6 @@ six==1.16.0
 Werkzeug==1.0.1
 pandas==2.0.3
 bcrypt==4.0.1
-numpy==1.25.2
+numpy==1.24.4
 pytz==2023.3
 tzdata==2023.3
