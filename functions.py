@@ -147,11 +147,19 @@ def tratamento_format(tratamento_form):
     formato_entrada = "%Y-%m-%d"
     formato_saida = "%d/%m/%Y"
 
-    data_inicio = datetime.strptime(data_inicio_str, formato_entrada)
-    data_fim = datetime.strptime(data_fim_str, formato_entrada)
+    if (data_inicio_str):
+        data_inicio = datetime.strptime(data_inicio_str, formato_entrada)
+        data_inicio_formatada = data_inicio.strftime(formato_saida)
+    else:
+        data_inicio_formatada = ""
+        
+    if (data_fim_str):
+        data_fim = datetime.strptime(data_fim_str, formato_entrada)
+        data_fim_formatada = data_fim.strftime(formato_saida)
+    else:
+        data_fim_formatada = ""
+    
 
-    data_inicio_formatada = data_inicio.strftime(formato_saida)
-    data_fim_formatada = data_fim.strftime(formato_saida)
 
     response = {
         'nome': nome,
@@ -164,17 +172,22 @@ def tratamento_format(tratamento_form):
 
     return response
 
-# tratamento novo (muda todos os dados)
+# tratamento novo (muda somente "Data_fim")
 def tratamento_edit(tratamento_form):
 
     # variaveis do form
     data_fim_str = tratamento_form.get('data_fim')
 
-    # formata a data
+    # formata as datas
     formato_entrada = "%Y-%m-%d"
     formato_saida = "%d/%m/%Y"
-    data_fim = datetime.strptime(data_fim_str, formato_entrada)
-    data_fim_formatada = datetime.strftime(data_fim, formato_saida)
+
+    # formata a data_fim        
+    if (data_fim_str):
+        data_fim = datetime.strptime(data_fim_str, formato_entrada)
+        data_fim_formatada = data_fim.strftime(formato_saida)
+    else:
+        data_fim_formatada = ""
 
     response = {
         'data_fim': data_fim_formatada
@@ -197,11 +210,17 @@ def tratamento_paciente_format(nome, cpf, form):
     formato_entrada = "%Y-%m-%d"
     formato_saida = "%d/%m/%Y"
 
-    data_inicio = datetime.strptime(data_inicio_str, formato_entrada)
-    data_fim = datetime.strptime(data_fim_str, formato_entrada)
+    if(data_inicio_str):
+        data_inicio = datetime.strptime(data_inicio_str, formato_entrada)
+        data_inicio_formatada = data_inicio.strftime(formato_saida)
+    else:
+        data_inicio_formatada = ""
 
-    data_inicio_formatada = data_inicio.strftime(formato_saida)
-    data_fim_formatada = data_fim.strftime(formato_saida)
+    if(data_fim_str):
+        data_fim = datetime.strptime(data_fim_str, formato_entrada)
+        data_fim_formatada = data_fim.strftime(formato_saida)
+    else:
+        data_fim_formatada = ""
 
     response = {
         'nome': nome,

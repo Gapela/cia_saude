@@ -139,7 +139,14 @@
   <!-- CAMPO: NOME -->
   <div class="form-group">
     <label for="nome">Nome</label>
-    <input type="text" class="form-control" id="nome" name="nome" placeholder="Insira o nome completo" required />
+    <input
+    type="text"
+    class="form-control"
+    id="nome"
+    name="nome"
+    placeholder="Insira o nome completo"
+    required
+    />
   </div>
 
   <!-- ROW: ENDEREÇO E CEP -->
@@ -148,14 +155,30 @@
     <!-- CAMPO: ENDEREÇO -->
     <div class="col-sm">
       <label for="endereco">Endereço</label>
-      <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Insira o endereço" required />
+      <input
+      type="text"
+      class="form-control"
+      id="endereco"
+      name="endereco"
+      placeholder="Insira o endereço"
+      required
+      />
     </div>
 
     <!-- CAMPO: CEP -->
     <div class="col-sm-3">
       <label for="cep">CEP</label>
-      <input type="text" class="form-control" id="cep" name="cep" placeholder="Insira o CEP" maxlength="8" oninput="formatCEP(this)"
-        pattern="\d{5}\-\d{3}"required />
+      <input
+      type="text"
+      class="form-control"
+      id="cep"
+      name="cep"
+      placeholder="Insira o CEP"
+      maxlength="8"
+      oninput="formatCEP(this)"
+      pattern="\d{5}\-\d{3}"
+      required
+      />
     </div>
   </div>
 
@@ -168,28 +191,60 @@
 
     <div class="col-sm-3">
       <label for="rg">RG</label>
-      <input type="text" class="form-control" id="rg" name="rg" placeholder="Insira o RG" required
-        oninput="formatAndValidateRG(this)" maxlength="14" pattern="^\d{2}\.\d{3}\.\d{3}-\d$" />
+      <input
+      type="text"
+      class="form-control"
+      id="rg"
+      name="rg"
+      placeholder="Insira o RG"
+      required
+      oninput="formatAndValidateRG(this)"
+      maxlength="14"
+      pattern="^\d{2}\.\d{3}\.\d{3}-\d$"
+      />
       <div id="rg-error" style="color: red;"></div>
     </div>
 
     <div class="col-sm-3">
       <label for="cpf">CPF/CPF do responsável</label>
-      <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Insira o CPF" required
-        oninput="formatCPF(this)" maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" />
+      <input
+      type="text"
+      class="form-control" 
+      id="cpf"
+      name="cpf"
+      placeholder="Insira o CPF"
+      required
+      oninput="formatCPF(this)"
+      maxlength="14"
+      pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+      />
       <div id="cpf-error" style="color: red;"></div> <!-- Error message will be displayed here -->
     </div>
 
     <div class="col-sm-3">
       <label for="telefone">Telefone</label>
-      <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(xx) xxxxx-xxxx" required
-        oninput="formatarTelefone(this)" onblur="validarTelefone(this)" />
+      <input 
+      type="text"
+      class="form-control"
+      id="telefone"
+      name="telefone"
+      placeholder="(xx) xxxxx-xxxx"
+      required
+      oninput="formatarTelefone(this)"
+      onblur="validarTelefone(this)"
+      />
       <div id="telefoneErro" style="color: red; display: none;">Número de telefone inválido.</div>
     </div>
 
     <div class="col-sm-3">
       <label for="email">Email</label>
-      <input type="text" class="form-control" id="email" name="email" placeholder="Insira um e-mail" />
+      <input
+      type="text"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Insira um e-mail"
+      />
       <div id="emailError" style="color: red;"></div>
     </div>
 
@@ -205,24 +260,42 @@
     <div class="col-sm">
       <div class="form-group">
         <label for="data_nascimento">Data de nascimento</label>
-        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" oninput="calcularIdade()"
-          required />
+        <input
+        type="date"
+        class="form-control"
+        id="data_nascimento"
+        name="data_nascimento"
+        oninput="calcularIdade()"
+        required
+        />
       </div>
     </div>
 
     <div class="col-sm">
       <div class="form-group">
         <label for="idade">Idade</label>
-        <input type="number" class="form-control" id="idade" name="idade" placeholder="Cálculo Idade" required
-          disabled />
+        <input
+        type="number"
+        class="form-control"
+        id="idade"
+        name="idade"
+        placeholder="Cálculo Idade"
+        required
+        disabled
+        />
       </div>
     </div>
 
     <div class="col-sm">
       <div class="form-group">
         <label for="responsavel">Responsável</label>
-        <input type="text" class="form-control" id="responsavel" name="responsavel"
-          placeholder="Insira o nome do responsável" />
+        <input
+        type="text"
+        class="form-control"
+        id="responsavel"
+        name="responsavel"
+        placeholder="Insira o nome do responsável"
+        />
         <div id="responsavel-error" style="color: red;"></div> <!-- Div para exibir o erro -->
       </div>
     </div>
@@ -238,22 +311,41 @@
 
       <div class="form-group">
         <label for="medico_solicitante">Médico solicitante</label>
-        <input type="text" class="form-control" id="medico_solicitante" name="medico_solicitante"
-          placeholder="Nome do médico" required />
+        <input
+        type="text"
+        class="form-control"
+        id="medico_solicitante"
+        name="medico_solicitante"
+        placeholder="Nome do médico"
+        required
+        />
       </div>
     </div>
 
     <div class="form-group">
       <label for="crm">CRM</label>
-      <input type="text" class="form-control" id="crm" name="crm" required maxlength="6" pattern="[0-9]*"
-        oninput="validateCRM(this)" />
+      <input
+      type="text"
+      class="form-control"
+      id="crm"
+      name="crm"
+      required
+      maxlength="6"
+      pattern="[0-9]*"
+      oninput="validateCRM(this)"
+      />
       <div id="crm-error" style="color: red;"></div>
     </div>
 
     <div class="col-sm">
       <div class="form-group">
         <label for="ocupacao">Ocupação/CBO</label>
-        <input type="text" class="form-control" id="ocupacao" name="ocupacao" />
+        <input
+        type="text"
+        class="form-control"
+        id="ocupacao"
+        name="ocupacao"
+        />
       </div>
     </div>
 
@@ -262,7 +354,13 @@
   <!-- CAMPO: CID -->
   <div class="form-group">
     <label for="cid">CID</label>
-    <textarea type="text" class="form-control" id="cid" name="cid" required style="height: 100px;"></textarea>
+    <textarea
+    type="text"
+    class="form-control"
+    id="cid"
+    name="cid"
+    required
+    style="height: 100px;"></textarea>
   </div>
 
   <hr> <!-- horizontal line -->
@@ -274,11 +372,18 @@
       <div class="form-group">
         <label for="pagamento">Forma de pagamento:</label>
         <br>
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="pagamento"
-          id="pagamento" onchange="regras_pagamento()">
+        <select
+        class="form-select form-select-lg mb-3"
+        aria-label=".form-select-lg example"
+        name="pagamento"
+        id="pagamento"
+        onchange="regras_pagamento()"
+        >
+
           <option disabled selected>Selecione uma opção</option>
           <option value="plano">Plano</option>
           <option value="particular">Particular</option>
+
         </select>
       </div>
     </div>
@@ -304,14 +409,25 @@
     <div class="col-sm">
       <div class="form-group">
         <label for="numero_carteirinha">N. carteirinha</label>
-        <input type="text" class="form-control" id="numero_carteirinha" name="numero_carteirinha" disabled />
+        <input
+        type="text"
+        class="form-control"
+        id="numero_carteirinha"
+        name="numero_carteirinha"
+        disabled />
       </div>
     </div>
 
     <div class="col-sm">
       <div class="form-group">
         <label for="plano">Plano</label>
-        <input type="text" class="form-control" id="plano" name="plano" disabled />
+        <input
+        type="text"
+        class="form-control"
+        id="plano"
+        name="plano"
+        disabled
+        />
       </div>
     </div>
   </div>
@@ -577,50 +693,50 @@
   </script>
 
   <!-- validar campo pagamento para o submit -->
-  <script>
+    <script>
 
-    function validar_pagamento() {
-      const select_pagamento = document.getElementById("pagamento").value;
+      function validar_pagamento() {
+        const select_pagamento = document.getElementById("pagamento").value;
 
-      if (select_pagamento === 'Selecione uma opção') {
-        // Mostrar mensagem de erro ou realizar ação apropriada
-        alert("Selecione uma forma de pagamento");
-        // Impede o envio do formulário (submit)
-        return false;
-      }
+        if (select_pagamento === 'Selecione uma opção') {
+          // Mostrar mensagem de erro ou realizar ação apropriada
+          alert("Selecione uma forma de pagamento");
+          // Impede o envio do formulário (submit)
+          return false;
+        }
 
-      // O envio do formulário é permitido caso a opção seja válida
-      return true;
-    }
-
-  </script>
-
-  <!-- validar formulario -->
-  <script>
-
-    // Função para validar o formulário antes do envio
-    function validar_formulario() {
-
-      // variaveis para validação
-      var select_pagamento = document.getElementById("pagamento").value;
-      var idade = parseInt(document.getElementById('idade').value);
-      var responsavel = document.getElementById('responsavel').value;
-
-      if (isNaN(idade) || idade < 18) {
-        alert('Menores de 18 anos precisam ter um responsável');
-        return false; // Impede o envio do formulário
-
-      } else if (select_pagamento === 'Selecione uma opção') {
-        alert("Selecione uma opção de pagamento");
-        return false;// Impede o envio do formulário (submit)
-      }
-
-      else {
         // O envio do formulário é permitido caso a opção seja válida
         return true;
       }
-    }
 
-  </script>
+    </script>
+
+  <!-- validar formulario -->
+    <script>
+
+      // Função para validar o formulário antes do envio
+      function validar_formulario() {
+
+        // variaveis para validação
+        var select_pagamento = document.getElementById("pagamento").value;
+        var idade = parseInt(document.getElementById('idade').value);
+        var responsavel = document.getElementById('responsavel').value;
+
+        if (isNaN(idade) || idade < 18) {
+          alert('Menores de 18 anos precisam ter um responsável');
+          return false; // Impede o envio do formulário
+
+        } else if (select_pagamento === 'Selecione uma opção') {
+          alert("Selecione uma opção de pagamento");
+          return false;// Impede o envio do formulário (submit)
+        }
+
+        else {
+          // O envio do formulário é permitido caso a opção seja válida
+          return true;
+        }
+      }
+
+    </script>
 
 {% endblock %}

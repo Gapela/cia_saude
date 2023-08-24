@@ -89,10 +89,9 @@ def paciente_consulta():
     pacientes_dados = bd_pacientes.find() # dados do banco de dados
     dados = pacientes_tabela(pacientes_dados)
     
-    headings = dados[0]
     pacientes = dados[1]
 
-    return render_template('paciente_consulta.html', headings=headings, pacientes=pacientes)
+    return render_template('paciente_consulta.html', pacientes=pacientes)
 
 @app.route('/paciente-novo', methods = ['GET', 'POST'])
 @login_required
@@ -195,11 +194,10 @@ def paciente_tratamento():
 def tratamento_consulta():
     tratamentos_dados = bd_tratamentos.find() # dados do banco de dados
     dados = tratamentos_tabela(tratamentos_dados)
-    
-    headings = dados[0]
+
     tratamentos = dados[1]
 
-    return render_template('tratamento_consulta.html', headings=headings, tratamentos=tratamentos)
+    return render_template('tratamento_consulta.html', tratamentos=tratamentos)
 
 @app.route('/tratamento-novo', methods = ['GET', 'POST'])
 @login_required
@@ -251,16 +249,15 @@ def tratamento_editar():
 
 ############################################## PROFISSIONAL ################################################
 
-@app.route('/profissional-consulta', methods=['POST', 'GET'])
+@app.route('/profissional-consulta')
 @login_required
 def profissional_consulta():
     profissional_dados = bd_profissional.find() # dados do banco de dados
     dados = pacientes_tabela(profissional_dados)
     
-    headings = dados[0]
     profissional = dados[1]
 
-    return render_template('profissional_consulta.html', headings=headings, profissional=profissional)
+    return render_template('profissional_consulta.html', profissional=profissional)
 
 @app.route('/profissional-novo', methods=['POST', 'GET'])
 @login_required
@@ -283,7 +280,7 @@ def profissional_editar():
 
     if request.method == 'POST':
 
-        # novos dados do form para update do usuário
+        # novos dados do form para update do profissional
         form = request.form
         dados_form = profissional_format(form)
 
