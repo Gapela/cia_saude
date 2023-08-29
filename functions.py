@@ -119,6 +119,7 @@ def pacientes_tabela(bd_pacientes):
     pacientes_df = pd.DataFrame([x for x in bd_pacientes]) # tranforma o dados em uma lista
     
 
+
     if len(pacientes_df) > 0:
         # df = pacientes_df.drop(columns=["_id", "endereco", "rg", "email", "responsavel", "medico_solicitante", "crm", "ocupacao", "cid"])
         df = pacientes_df.drop(columns=["_id"])
