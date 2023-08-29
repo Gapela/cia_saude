@@ -132,6 +132,48 @@ def pacientes_tabela(bd_pacientes):
 
 
 
+########################################### PACIENTE / TRATAMENTO ##############################
+
+# tratamento novo (muda todos os dados)
+def tratamento_paciente_format(nome, cpf, form):
+
+    # variaveis do form
+    nome = nome
+    cpf = cpf
+    especialidade = form.get('especialidade')
+    profissional_responsavel = form.get('profissional_responsavel')
+    observacao = form.get('observacao')
+    data_inicio_str = form.get('data_inicio')
+    data_fim_str = form.get('data_fim')
+
+    # formata as datas
+    formato_entrada = "%Y-%m-%d"
+    formato_saida = "%d/%m/%Y"
+
+    if(data_inicio_str):
+        data_inicio = datetime.strptime(data_inicio_str, formato_entrada)
+        data_inicio_formatada = data_inicio.strftime(formato_saida)
+    else:
+        data_inicio_formatada = ""
+
+    if(data_fim_str):
+        data_fim = datetime.strptime(data_fim_str, formato_entrada)
+        data_fim_formatada = data_fim.strftime(formato_saida)
+    else:
+        data_fim_formatada = ""
+
+    response = {
+        'nome': nome,
+        'cpf': cpf, 
+        'especialidade': especialidade,
+        'profissional_responsavel': profissional_responsavel,
+        'observacao': observacao,
+        'data_inicio': data_inicio_formatada,
+        'data_fim': data_fim_formatada
+    }
+
+    return response
+
 
 ########################################### TRATAMENTO ##############################
 
@@ -195,46 +237,6 @@ def tratamento_edit(tratamento_form):
         data_fim_formatada = ""
 
     response = {
-        'data_fim': data_fim_formatada
-    }
-
-    return response
-
-# tratamento novo (muda todos os dados)
-def tratamento_paciente_format(nome, cpf, form):
-
-    # variaveis do form
-    nome = nome
-    cpf = cpf
-    especialidade = form.get('especialidade')
-    profissional_responsavel = form.get('profissional_responsavel')
-    observacao = form.get('observacao')
-    data_inicio_str = form.get('data_inicio')
-    data_fim_str = form.get('data_fim')
-
-    # formata as datas
-    formato_entrada = "%Y-%m-%d"
-    formato_saida = "%d/%m/%Y"
-
-    if(data_inicio_str):
-        data_inicio = datetime.strptime(data_inicio_str, formato_entrada)
-        data_inicio_formatada = data_inicio.strftime(formato_saida)
-    else:
-        data_inicio_formatada = ""
-
-    if(data_fim_str):
-        data_fim = datetime.strptime(data_fim_str, formato_entrada)
-        data_fim_formatada = data_fim.strftime(formato_saida)
-    else:
-        data_fim_formatada = ""
-
-    response = {
-        'nome': nome,
-        'cpf': cpf, 
-        'especialidade': especialidade,
-        'profissional_responsavel': profissional_responsavel,
-        'observacao': observacao,
-        'data_inicio': data_inicio_formatada,
         'data_fim': data_fim_formatada
     }
 
