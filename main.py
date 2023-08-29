@@ -6,11 +6,12 @@ from functions import paciente_format, pacientes_tabela, duplicidade_cpf_e_nome
 from functions import tratamento_format, tratamentos_tabela, tratamento_edit
 from functions import tratamento_paciente_format
 from functions import profissional_format
+from functions import replace_none_with_empty
 
 from bd import bd_pacientes, bd_tratamentos, bd_profissional, bd_usuarios
 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-from flask import Flask, render_template, request, redirect, session, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for
 
 import bcrypt
 
@@ -81,6 +82,8 @@ def home():
     return render_template('home.html')
 
 
+
+
 ############################################## PACIENTE ################################################
 
 @app.route('/paciente-consulta')
@@ -90,6 +93,9 @@ def paciente_consulta():
     dados = pacientes_tabela(pacientes_dados)
     
     pacientes = dados[1]
+
+    # Substituir valores "None" por " "
+    pacientes = replace_none_with_empty(pacientes)
 
     return render_template('paciente_consulta.html', pacientes=pacientes)
 
@@ -126,7 +132,7 @@ def paciente_editar():
 
         # novos dados do form para update do usuário
         form = request.form
-        dados_form = paciente_novo(form)
+        dados_form = paciente_format(form)
 
         # criação de variaveis para o find_one_and_update do pymongo
         dados_url = request.args # argumento 'cpf' passa na url
@@ -147,7 +153,6 @@ def paciente_editar():
         return redirect(url_for('paciente_consulta'))
     
     return render_template('paciente_editar.html')
-
 
 
 
@@ -197,6 +202,9 @@ def tratamento_consulta():
 
     tratamentos = dados[1]
 
+    # Substituir valores "None" por " "
+    tratamentos = replace_none_with_empty(tratamentos)
+
     return render_template('tratamento_consulta.html', tratamentos=tratamentos)
 
 @app.route('/tratamento-novo', methods = ['GET', 'POST'])
@@ -206,7 +214,8 @@ def tratamento_novo():
     if request.method == 'POST':
         form = request.form
         response = tratamento_format(form)
-        bd_tratamentos.insert_one(response)    
+        print(response)
+        bd_tratamentos.insert_one(response)
 
         flash('Tratamento cadastrado com sucesso!', category='success')
         return redirect(url_for('tratamento_consulta'))
@@ -253,9 +262,11 @@ def tratamento_editar():
 @login_required
 def profissional_consulta():
     profissional_dados = bd_profissional.find() # dados do banco de dados
-    dados = pacientes_tabela(profissional_dados)
-    
-    profissional = dados[1]
+
+    profissional = pacientes_tabela(profissional_dados)[1]
+
+    # Substituir valores "None" por " "
+    profissional = replace_none_with_empty(profissional)
 
     return render_template('profissional_consulta.html', profissional=profissional)
 

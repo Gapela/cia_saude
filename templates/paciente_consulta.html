@@ -208,6 +208,7 @@
         <th>CRM</th>
         <th>Ocupação</th>
         <th>CID</th>
+        <th>Observação</th>
         <th>Pagamento</th>
         <th>Empresa</th>
         <th>Nº Carteirinha</th>
@@ -266,10 +267,11 @@
       const crm = cells[11].textContent;
       const ocupacao = cells[12].textContent;
       const cid = cells[13].textContent;
-      const pagamento = cells[14].textContent;
-      const empresa = cells[15].textContent;
-      const numero_carteirinha = cells[16].textContent;
-      const plano = cells[17].textContent;
+      const observacao = cells[14].textContent;
+      const pagamento = cells[15].textContent;
+      const empresa = cells[16].textContent;
+      const numero_carteirinha = cells[17].textContent;
+      const plano = cells[18].textContent;
 
       // Construir os parâmetros da URL
       const params = new URLSearchParams();
@@ -287,6 +289,7 @@
       params.append("crm", crm);
       params.append("ocupacao", ocupacao);
       params.append("cid", cid);
+      params.append("observacao", observacao);
       params.append("pagamento", pagamento);
       params.append("empresa", empresa);
       params.append("numero_carteirinha", numero_carteirinha);

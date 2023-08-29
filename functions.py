@@ -2,7 +2,7 @@
 ############################################ IMPORTS ############################################
 #################################################################################################
 from flask import request, redirect, session, flash
-from bd import bd_tratamentos, bd_pacientes, bd_usuarios, bd_profissional
+from bd import bd_pacientes, bd_usuarios
 from datetime import datetime
 from time import sleep
 import pandas as pd
@@ -45,7 +45,8 @@ def duplicidade_cpf_e_nome(cpf, nome):
     # return cpf_status
     return status
 
-
+def replace_none_with_empty(data):
+    return [['' if value is None else value for value in row] for row in data]
 
 
 
@@ -68,6 +69,7 @@ def paciente_format(paciente_form):
     crm = paciente_form.get('crm')
     ocupacao = paciente_form.get('ocupacao')
     cid = paciente_form.get('cid')
+    observacao = paciente_form.get('observacao')
     numero_carteirinha = paciente_form.get('numero_carteirinha')
     plano = paciente_form.get('plano')
 
@@ -103,6 +105,7 @@ def paciente_format(paciente_form):
         'crm': crm,
         'ocupacao': ocupacao,
         'cid': cid,
+        'observacao': observacao,
         'pagamento': pagamento,
         'empresa': empresa,
         'numero_carteirinha': numero_carteirinha,
@@ -140,6 +143,7 @@ def tratamento_format(tratamento_form):
     cpf = tratamento_form.get('cpf')
     especialidade = tratamento_form.get('especialidade')
     profissional_responsavel = tratamento_form.get('profissional_responsavel')
+    observacao = tratamento_form.get('observacao')
     data_inicio_str = tratamento_form.get('data_inicio')
     data_fim_str = tratamento_form.get('data_fim')
 
@@ -166,6 +170,7 @@ def tratamento_format(tratamento_form):
         'cpf': cpf, 
         'especialidade': especialidade,
         'profissional_responsavel': profissional_responsavel,
+        'observacao': observacao,
         'data_inicio': data_inicio_formatada,
         'data_fim': data_fim_formatada
     }
@@ -203,6 +208,7 @@ def tratamento_paciente_format(nome, cpf, form):
     cpf = cpf
     especialidade = form.get('especialidade')
     profissional_responsavel = form.get('profissional_responsavel')
+    observacao = form.get('observacao')
     data_inicio_str = form.get('data_inicio')
     data_fim_str = form.get('data_fim')
 
@@ -227,6 +233,7 @@ def tratamento_paciente_format(nome, cpf, form):
         'cpf': cpf, 
         'especialidade': especialidade,
         'profissional_responsavel': profissional_responsavel,
+        'observacao': observacao,
         'data_inicio': data_inicio_formatada,
         'data_fim': data_fim_formatada
     }
@@ -263,7 +270,6 @@ def profissional_format(profissional_form):
     crm = profissional_form.get('crm')
     pagamento = profissional_form.get('pagamento')
     empresa = profissional_form.get('empresa')
-    numero_carteirinha = profissional_form.get('numero_carteirinha')
     plano = profissional_form.get('plano')
     pix = profissional_form.get('pix')
     banco = profissional_form.get('banco')
@@ -281,7 +287,6 @@ def profissional_format(profissional_form):
         'crm': crm,
         'pagamento': pagamento,
         'empresa': empresa,
-        'numero_carteirinha': numero_carteirinha,
         'plano': plano,
         'pix': pix,
         'banco': banco,
@@ -293,10 +298,13 @@ def profissional_format(profissional_form):
 
 def profissional_tabela(bd_profissional):
     profissional_df = pd.DataFrame([x for x in bd_profissional]) # tranforma o dados em uma lista
+
     if len(profissional_df) > 0:
         df = profissional_df.drop(columns=["_id"])
     else:
         df = profissional_df
+    
 
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (pacientes)
+    # print (pacientes)

@@ -186,8 +186,9 @@
           const cpf = cells[2].textContent;
           const especialidade = cells[3].textContent;
           const profissional_responsavel = cells[4].textContent;
-          const data_inicio = cells[5].textContent;
-          const data_fim = cells[6].textContent;
+          const observacao = cells[5].textContent;
+          const data_inicio = cells[6].textContent;
+          const data_fim = cells[7].textContent;
           
           // Construir os parâmetros da URL
           const params = new URLSearchParams();
@@ -195,6 +196,7 @@
           params.append("cpf", cpf);
           params.append("especialidade", especialidade);
           params.append("profissional_responsavel", profissional_responsavel);
+          params.append("observacao", observacao);
           params.append("data_inicio", data_inicio);
           params.append("data_fim", data_fim);
           
@@ -322,6 +324,7 @@
         <th>CPF</th>
         <th>Especialidade</th>
         <th>Profissional Responsável</th>
+        <th>Observação</th>
         <th>Data Início</th>
         <th>Data Fim</th>
         <th>Editar</th>

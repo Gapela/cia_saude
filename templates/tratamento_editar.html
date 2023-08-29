@@ -111,6 +111,18 @@
       />
     </div>
 
+  <!-- CAMPO: Observação -->
+  <div class="form-group">
+    <label for="observacao">Observação</label>
+    <textarea
+    type="text"
+    class="form-control"
+    id="observacao"
+    name="observacao"
+    disabled
+    style="height: 100px;"></textarea>
+  </div>
+
     <!-- LINHA: DATA INICIO, DATA FIM -->
     <div class="row">
 
@@ -147,10 +159,12 @@
     
     <!-- BOTOES: CANCELAR, CADASTRAR -->
     <div class="col-sm custom-button-container">
-      <a href="/consulta-tratamentos" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
+      <a href="/tratamento-consulta" class="btn btn-primary custom-button cancelar-button">Cancelar</a>
       <button type="submit" class="btn btn-primary custom-button cadastrar-button">Cadastrar</button>
     </div>      
   </form>
+
+  <br>
 
   <!-- SCRIPTS -->
     <!-- Função para converter a data do formato "dd/mm/yyyy" para "yyyy-mm-dd" -->
@@ -174,6 +188,7 @@
           const cpf = queryParams.get("cpf");
           const especialidade = queryParams.get("especialidade");
           const profissional_responsavel = queryParams.get("profissional_responsavel");
+          const observacao = queryParams.get("observacao");
           const data_inicio = queryParams.get("data_inicio");
           const data_fim = queryParams.get("data_fim");
 
@@ -181,6 +196,8 @@
           document.getElementById("cpf").value = cpf;
           document.getElementById("especialidade").value = especialidade;
           document.getElementById("profissional_responsavel").value = profissional_responsavel;
+          document.getElementById("observacao").value = observacao;
+          
           if (data_inicio){
             document.getElementById("data_inicio").value = convertDateFormat(data_inicio);
           }

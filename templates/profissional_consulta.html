@@ -206,7 +206,6 @@
         <th>CRM</th>
         <th>Pagamento</th>
         <th>Empresa</th>
-        <th>Nº Carteirinha</th>
         <th>Plano</th>
         <th>Pix</th>
         <th>Banco</th>
@@ -263,12 +262,11 @@
     const crm = cells[8].textContent;
     const pagamento = cells[9].textContent;
     const empresa = cells[10].textContent;
-    const numero_carteirinha = cells[11].textContent;
-    const plano = cells[12].textContent;
-    const pix = cells[13].textContent;
-    const banco = cells[14].textContent;
-    const agencia = cells[15].textContent;
-    const conta = cells[16].textContent;
+    const plano = cells[11].textContent;
+    const pix = cells[12].textContent;
+    const banco = cells[13].textContent;
+    const agencia = cells[14].textContent;
+    const conta = cells[15].textContent;
 
     // Construir os parâmetros da URL
     const params = new URLSearchParams();
@@ -283,7 +281,6 @@
     params.append("crm", crm);
     params.append("pagamento", pagamento);
     params.append("empresa", empresa);
-    params.append("numero_carteirinha", numero_carteirinha);
     params.append("plano", plano);
     params.append("pix", pix);
     params.append("banco", banco);

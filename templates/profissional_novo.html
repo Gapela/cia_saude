@@ -226,7 +226,7 @@
       <!-- campo de observação especialidade -->
       <div class="col-sm">
         <div class="form-group">
-          <label for="obs_especializacao">Obs. Especioalização</label>
+          <label for="obs_especializacao">Obs. Especialização</label>
           <input type="text" class="form-control" id="obs_especializacao" name="obs_especializacao" placeholder="Insira uma observação sobre a especialização caso necessário" />
           <div id="responsavel-error" style="color: red;"></div> <!-- Div para exibir o erro -->
         </div>
@@ -270,49 +270,36 @@
   </div>
 
 
-<!-- LINHA: EMPRESA, N.CARTEIRINHA, PLANO -->
-<div class="row">
-  <div class="col-sm">
-    <div class="form-group">
-      <label for="empresa">Empresa:</label>
-      <br>
-      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa" disabled>
-        <option disabled selected>Selecione uma opção</option>
-        <option value="amil">Amil</option>
-        <option value="bradesco">Bradesco</option>
-        <option value="unimed">Unimed</option>
-        <option value="gamaSaude">Gama Saúde</option>
-        <option value="outro">Outro</option>
-      </select>
+  <!-- LINHA: EMPRESA, PLANO -->
+  <div class="row justify-content-center">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="empresa">Empresa:</label>
+        <br>
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="empresa" id="empresa" disabled>
+          <option disabled selected>Selecione uma opção</option>
+          <option value="amil">Amil</option>
+          <option value="bradesco">Bradesco</option>
+          <option value="unimed">Unimed</option>
+          <option value="gamaSaude">Gama Saúde</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label for="plano">Plano</label>
+        <input
+          type="text"
+          class="form-control"
+          id="plano"
+          name="plano"
+          disabled
+        />
+      </div>
     </div>
   </div>
-  
-  <div class="col-sm">
-    <div class="form-group">
-      <label for="numero_carteirinha">N. carteirinha</label>
-      <input
-        type="text"
-        class="form-control"
-        id="numero_carteirinha"
-        name="numero_carteirinha"
-        disabled
-      />
-    </div>
-  </div>
-  
-  <div class="col-sm">
-    <div class="form-group">
-      <label for="plano">Plano</label>
-      <input
-        type="text"
-        class="form-control"
-        id="plano"
-        name="plano"
-        disabled
-      />
-    </div>
-  </div>
-</div>
 
 <div class="row">
   
@@ -529,7 +516,6 @@
       const pagamento_select = document.getElementById('pagamento');
       
       const empresa_select = document.getElementById('empresa');
-      const numero_carteirinha = document.getElementById('numero_carteirinha');
       const plano = document.getElementById('plano');
 
       const pix = document.getElementById('pix');
@@ -548,11 +534,9 @@
       if (pagamentoValue === 'plano') {            
 
         empresa_select.disabled = false;
-        numero_carteirinha.disabled = false;
         plano.disabled = false;
 
         empresa_select.required = true;
-        numero_carteirinha.required = true;
         plano.required = true;
 
 
@@ -589,15 +573,12 @@
 
 
         empresa_select.disabled = true;
-        numero_carteirinha.disabled = true;
         plano.disabled = true;
 
         empresa_select.required = false;
-        numero_carteirinha.required = false;
         plano.required = false;
          
         empresa_select.value = '';
-        numero_carteirinha.value = '';
         plano.value = '';
       }
     }

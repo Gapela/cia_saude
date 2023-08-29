@@ -235,7 +235,7 @@
   </div>
 
 
-  <!-- LINHA: EMPRESA, N.CARTEIRINHA, PLANO -->
+  <!-- LINHA: EMPRESA, PLANO -->
   <div class="row">
     <div class="col-sm">
       <div class="form-group">
@@ -250,13 +250,6 @@
           <option value="gamaSaude">Gama Saúde</option>
           <option value="outro">Outro</option>
         </select>
-      </div>
-    </div>
-
-    <div class="col-sm">
-      <div class="form-group">
-        <label for="numero_carteirinha">N. carteirinha</label>
-        <input type="text" class="form-control" id="numero_carteirinha" name="numero_carteirinha" disabled />
       </div>
     </div>
 
@@ -336,7 +329,6 @@
       const crm = queryParams.get("crm");
       const pagamento = queryParams.get("pagamento");
       const empresa = queryParams.get("empresa");
-      const numero_carteirinha = queryParams.get("numero_carteirinha");
       const plano = queryParams.get("plano");
       const pix = queryParams.get("pix");
       const banco = queryParams.get("banco");
@@ -353,7 +345,6 @@
       document.getElementById("crm").value = crm;
       document.getElementById("pagamento").value = pagamento;
       document.getElementById("empresa").value = empresa;
-      document.getElementById("numero_carteirinha").value = numero_carteirinha;
       document.getElementById("plano").value = plano;
       document.getElementById("pix").value = pix;
       document.getElementById("banco").value = banco;
@@ -370,7 +361,6 @@
     function regras_pagamento() {
       const pagamento_select = document.getElementById('pagamento');
       const empresa_select = document.getElementById('empresa');
-      const numero_carteirinha = document.getElementById('numero_carteirinha');
       const plano = document.getElementById('plano');
 
       // Get the selected value from the select field
@@ -383,17 +373,14 @@
       // Depending on the selected value, enable specific fields and set their values
       if (pagamentoValue === 'plano') {
 
-        //EMPRESA, N.CARTEIRINHA, PLANO
+        //EMPRESA, PLANO
         empresa_select.value = 'Selecione uma opção';
-        numero_carteirinha.value = '';
         plano.value = '';
 
         empresa_select.disabled = false;
-        numero_carteirinha.disabled = false;
         plano.disabled = false;
 
         empresa_select.required = true;
-        numero_carteirinha.required = true;
         plano.required = true;
 
         //PIX, BANCO, AGENCIA, CONTA
@@ -414,17 +401,14 @@
 
       } else if (pagamentoValue === 'particular') {
 
-        //EMPRESA, N.CARTEIRINHA, PLANO
+        //EMPRESA, PLANO
         empresa_select.value = '';
-        numero_carteirinha.value = '';
         plano.value = '';
 
         empresa_select.disabled = true;
-        numero_carteirinha.disabled = true;
         plano.disabled = true;
 
         empresa_select.required = false;
-        numero_carteirinha.required = false;
         plano.required = false;
 
         //PIX, BANCO, AGENCIA, CONTA

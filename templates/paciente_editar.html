@@ -254,6 +254,18 @@
     <textarea type="text" class="form-control" id="cid" name="cid" style="height: 100px;"></textarea>
   </div>
 
+  <!-- CAMPO: Observação -->
+  <div class="form-group">
+    <label for="observacao">Observação</label>
+    <textarea
+    type="text"
+    class="form-control"
+    id="observacao"
+    name="observacao"
+    required
+    style="height: 100px;"></textarea>
+  </div>
+
   <br> <!-- break row -->
   <hr> <!-- horizontal line -->
 
@@ -327,6 +339,17 @@
 
   <!-- SCRIPTS -->
 
+      <!-- Função para converter a data do formato "dd/mm/yyyy" para "yyyy-mm-dd" -->
+      <script>
+        function convertDateFormat(date) {
+          const parts = date.split("/");
+          if (parts.length === 3) {
+            return parts[2] + "-" + parts[1] + "-" + parts[0];
+          }
+          return "";
+      }
+      </script>
+
     <!-- RESGATAR OS PARAMETROS NA URL -->
     <script>
       // Função para carregar os dados da URL e preencher os campos do formulário
@@ -345,6 +368,7 @@
         const crm = queryParams.get("crm");
         const ocupacao = queryParams.get("ocupacao");
         const cid = queryParams.get("cid");
+        const observacao = queryParams.get("observacao");
         const pagamento = queryParams.get("pagamento");
         const empresa = queryParams.get("empresa");
         const numero_carteirinha = queryParams.get("numero_carteirinha");
@@ -357,12 +381,13 @@
         document.getElementById("cpf").value = cpf;
         document.getElementById("telefone").value = telefone;
         document.getElementById("email").value = email;
-        document.getElementById("data_nascimento").value = data_nascimento;
+        document.getElementById("data_nascimento").value = convertDateFormat(data_nascimento);
         document.getElementById("responsavel").value = responsavel;
         document.getElementById("medico_solicitante").value = medico_solicitante;
         document.getElementById("crm").value = crm;
         document.getElementById("ocupacao").value = ocupacao;
         document.getElementById("cid").value = cid;
+        document.getElementById("observacao").value = observacao;
         document.getElementById("pagamento").value = pagamento;
         document.getElementById("empresa").value = empresa;
         document.getElementById("numero_carteirinha").value = numero_carteirinha;
@@ -528,7 +553,6 @@
 
         // Depending on the selected value, enable specific fields and set their values
         if (pagamentoValue === 'plano') {
-          empresa_select.value = 'Selecione uma opção';
 
           empresa_select.disabled = false;
           numero_carteirinha.disabled = false;
@@ -539,10 +563,6 @@
           plano.required = true;
 
         } else if (pagamentoValue === 'particular') {
-
-          empresa_select.value = '';
-          numero_carteirinha.value = '';
-          plano.value = '';
 
           empresa_select.disabled = true;
           numero_carteirinha.disabled = true;
