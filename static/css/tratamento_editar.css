@@ -1,0 +1,43 @@
+.imagem-esquerda {
+  float: left;
+  margin-right: 150px;
+  width: 250px; /* Defina o tamanho desejado para a imagem */
+ }
+ 
+.btn.btn-primary {
+ background-color: #a9cf3c;
+ border: 2px solid #a9cf3c;
+}
+/* Estilos para o botão "Cadastrar" */
+.cadastrar-button {
+background-color: #a9cf3c;
+border-color: #a9cf3c;
+color: #fff;
+transition: background-color 0.3s;
+}
+
+.cadastrar-button:hover {
+background-color: #92b633;
+border-color: #92b633;
+color: #fff;
+}
+
+/* Estilos para o botão "Cancelar" */
+.cancelar-button {
+background-color: #a9cf3c;
+border-color: #a9cf3c;
+color: #fff;
+transition: background-color 0.3s;
+}
+
+.cancelar-button:hover {
+background-color: #92b633;
+border-color: #92b633;
+color: #fff;
+}
+
+/* Posicionamento dos botões */
+.custom-button-container {
+display: flex;
+justify-content: space-between;
+} 

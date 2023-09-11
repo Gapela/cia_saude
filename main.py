@@ -95,7 +95,7 @@ def paciente_consulta():
     pacientes = dados[1]
 
     # Substituir valores "None" por " "
-    pacientes = replace_none_with_empty(pacientes)
+    pacientes = replace_none_with_empty(pacientes)  
 
     return render_template('paciente_consulta.html', pacientes=pacientes)
 
