@@ -16,7 +16,7 @@ gnupg==2.3.1
 greenlet==2.0.2
 idna==3.4
 ipykernel==6.25.2
-ipython==8.15.0
+ipython==8.13.0
 jedi==0.19.0
 jmespath==1.0.1
 jupyter_client==8.3.1
