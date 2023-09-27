@@ -1,18 +1,66 @@
 #################################################################################################
 ############################################ IMPORTS ############################################
 #################################################################################################
-from flask import request, redirect, session, flash
+from flask import request, redirect, session, flash, jsonify
 from bd import bd_pacientes, bd_usuarios
 from datetime import datetime
 from time import sleep
 import pandas as pd
 import bcrypt
+import boto3
 
 #################################################################################################
 ############################################ FUNÇÕES ############################################
 #################################################################################################
 
-# login
+############# UPLOAD S3 ####################
+def paciente_upload_s3(app):
+
+    file = request.files['anexo']
+    
+    if file:
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
+            aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'],
+            region_name=app.config['AWS_REGION']
+        )
+
+        # Obtenha o nome do arquivo a partir do objeto de arquivo (file)
+        file_key = f"paciente/{file.filename}"
+        s3.upload_fileobj(file, app.config['S3_BUCKET'], file_key)
+
+        # Você pode armazenar a URL do arquivo no banco de dados ou retorná-la como resposta
+        file_url = f'https://{app.config["S3_BUCKET"]}.s3.amazonaws.com/{file_key}'
+
+        return jsonify({'file_url': file_url})
+
+    return jsonify({'error': 'Erro no upload do arquivo'}), 400
+
+def profissional_upload_s3(app):
+
+    file = request.files['anexo']
+    
+    if file:
+        s3 = boto3.client(
+            's3',
+            aws_access_key_id=app.config['AWS_ACCESS_KEY_ID'],
+            aws_secret_access_key=app.config['AWS_SECRET_ACCESS_KEY'],
+            region_name=app.config['AWS_REGION']
+        )
+
+        # Obtenha o nome do arquivo a partir do objeto de arquivo (file)
+        file_key = f"profissional/{file.filename}"
+        s3.upload_fileobj(file, app.config['S3_BUCKET'], file_key)
+
+        # Você pode armazenar a URL do arquivo no banco de dados ou retorná-la como resposta
+        file_url = f'https://{app.config["S3_BUCKET"]}.s3.amazonaws.com/{file_key}'
+
+        return jsonify({'file_url': file_url})
+
+    return jsonify({'error': 'Erro no upload do arquivo'}), 400
+
+################ login ####################
 def login_func():
     username = request.form['username']
     password = request.form['password']
@@ -31,9 +79,6 @@ def login_func():
         return redirect("/")
 
 def duplicidade_cpf_e_nome(cpf, nome):
-    '''
-    Procura o CPF e NOME no banco de dados mongodb e retorna o valor boleano para o resultado.
-    '''
 
     user = bd_pacientes.find_one({'$and': [{'cpf': cpf}, {'nome': nome}]})
 
@@ -49,9 +94,7 @@ def replace_none_with_empty(data):
     return [['' if value is None else value for value in row] for row in data]
 
 
-
 ########################################### PACIENTE ##############################
-
 # paciente novo
 def paciente_format(paciente_form):
 
@@ -131,10 +174,7 @@ def pacientes_tabela(bd_pacientes):
     return (headings, pacientes)
 
 
-
-
 ########################################### PACIENTE / TRATAMENTO ##############################
-
 # tratamento novo (muda todos os dados)
 def tratamento_paciente_format(nome, cpf, form):
 
@@ -254,8 +294,6 @@ def tratamentos_tabela(bd_tratamentos):
     headings = list(df.columns.values) # pega a prieira linha para fazer uma lista Headings
     pacientes = list(df.values) # faz uma lista dos dados puxados do banco de dados
     return (headings, pacientes)
-
-
 
 
 ########################################### PROFISSISONAL ##############################

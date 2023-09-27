@@ -7,6 +7,7 @@ from functions import tratamento_format, tratamentos_tabela, tratamento_edit
 from functions import tratamento_paciente_format
 from functions import profissional_format
 from functions import replace_none_with_empty
+from functions import paciente_upload_s3, profissional_upload_s3
 
 from bd import bd_pacientes, bd_tratamentos, bd_profissional, bd_usuarios
 
@@ -14,6 +15,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask import Flask, render_template, request, redirect, flash, url_for
 
 import bcrypt
+import os
 
 
 ##################
@@ -22,6 +24,15 @@ import bcrypt
 
 app = Flask(__name__)
 app.secret_key = "sua_chave_secreta"
+
+# Configurar o diretório 'static' para servir arquivos estáticos
+app.static_folder = 'static'
+
+# configuração da AWS S3
+app.config['AWS_ACCESS_KEY_ID'] = os.environ.get('AKIAVCIOU2LHPI4NYVV3')
+app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('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')
+app.config['AWS_REGION'] = 'sa-east-1'
+app.config['S3_BUCKET'] = 'ciasaude'
 
 ###################
 ### FLASK LOGIN ###
@@ -41,7 +52,6 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
-
 
 
 #############
@@ -82,8 +92,6 @@ def home():
     return render_template('home.html')
 
 
-
-
 ############################################## PACIENTE ################################################
 
 @app.route('/paciente-consulta')
@@ -107,7 +115,8 @@ def paciente_novo():
 
         form = request.form # pega dos dados do formulario
         response = paciente_format(form) # tranforma os dados em um dict
-        cpf = response['cpf'] # cpf do form
+
+        cpf = response['cpf']
         nome = response['nome']
 
         duplicidade = duplicidade_cpf_e_nome(cpf, nome)
@@ -118,6 +127,7 @@ def paciente_novo():
 
         else:
             bd_pacientes.insert_one(response)
+            paciente_upload_s3(app)
             flash("Paciente cadastrado", category="succsses")
 
         return redirect(url_for('paciente_tratamento', cpf=cpf, nome=nome))  # faz o redirect para a pagina tratamento-paciente junto com o dado do cpf (para fazer um tratamento obrigatorio atrelado ao paciente recem criado)
@@ -156,8 +166,6 @@ def paciente_editar():
 
 
 
-
-
 ############################################## PACIENTE/TRATAMENTO ################################################
 
 ###########################################
@@ -187,8 +195,6 @@ def paciente_tratamento():
         return redirect(url_for('tratamento_consulta'))
 
     return render_template('paciente_tratamento.html')
-
-
 
 
 
@@ -254,8 +260,6 @@ def tratamento_editar():
 
 
 
-
-
 ############################################## PROFISSIONAL ################################################
 
 @app.route('/profissional-consulta')
@@ -280,6 +284,7 @@ def profissional_novo():
 
         # print(response)
         bd_profissional.insert_one(response)
+        profissional_upload_s3(app)
         flash('Profissional cadastrado com sucesso', 'success')
         return redirect(url_for('profissional_consulta'))
 

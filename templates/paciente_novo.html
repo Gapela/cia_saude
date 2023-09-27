@@ -18,7 +18,7 @@
 <br> <!-- breakrow -->
 
 <!-- FOMULARIO -->
-<form id="form" onsubmit="return validar_responsavel() && validar_pagamento();" method="post">
+<form action="paciente-novo" id="form" onsubmit="return validar_responsavel() && validar_pagamento();" enctype="multipart/form-data" method="post">
 
   <!-- CAMPO: NOME -->
   <div class="form-group">
@@ -332,13 +332,13 @@
   <hr> <!-- horizontal line -->
   <br> <!-- break row -->
 
-  <!-- CAMPO: DOCUMENTO DE ENCAMINHAMENTO
+  <!-- CAMPO: DOCUMENTO DE ENCAMINHAMENTO -->
     <div class="col-sm custom-div">
       <div class="form-group">
         <label for="anexo">Documento de encaminhamento</label>
-        <input type="file" class="form-control-file" id="anexo">
+        <input type="file" class="form-control-file" id="anexo" name="anexo">
       </div>
-    </div>   -->
+    </div>  
 
   <br> <!-- break row -->
   <br> <!-- break row -->
